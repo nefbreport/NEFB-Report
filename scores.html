@@ -4,697 +4,645 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="description"
-    content="New England high school football scores from NEFB Report."
-  >
-
   <title>Scores | NEFB Report</title>
 
   <style>
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
       font-family: Arial, Helvetica, sans-serif;
-      background: #f3f3f3;
+      background: #f4f4f4;
       color: #111;
     }
 
     /* HEADER */
 
     header {
-      background: #050505;
+      background: #111;
       color: white;
-      border-bottom: 1px solid #333;
+      padding: 20px;
     }
 
-    .topbar {
-      max-width: 1250px;
-      min-height: 92px;
+    .header-inner {
+      max-width: 1100px;
       margin: auto;
-      padding: 8px 24px;
-
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 30px;
-    }
-
-    .brand {
-      display: flex;
       align-items: center;
-      flex-shrink: 0;
     }
 
-    .brand img {
-      height: 76px;
-      width: 150px;
-      object-fit: contain;
-      object-position: left center;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .4px;
+      margin-left: 22px;
+      font-weight: 700;
+      font-size: 14px;
     }
 
-    nav a:hover,
-    nav a.active {
-      color: #aeb3b8;
+    nav a:hover {
+      opacity: 0.7;
     }
 
-    /* PAGE HEADER */
-
-    .page-header {
-      background: #080808;
-      color: white;
-      padding: 65px 24px;
-    }
-
-    .page-header-inner {
-      max-width: 1250px;
-      margin: auto;
-    }
-
-    .eyebrow {
-      color: #aeb3b8;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    .page-header h1 {
-      font-size: 52px;
-      letter-spacing: -2px;
-      margin-bottom: 12px;
-    }
-
-    .page-header p {
-      color: #aaa;
-      max-width: 650px;
-      line-height: 1.6;
-    }
-
-    /* CONTENT */
+    /* PAGE */
 
     .container {
       max-width: 1100px;
-      margin: auto;
-      padding: 42px 24px 70px;
+      margin: 35px auto;
+      padding: 0 20px 60px;
     }
 
-    /* WEEK SELECTOR */
-
-    .week-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
+    h1 {
+      font-size: 36px;
+      margin-bottom: 5px;
     }
 
-    .week-button {
-      background: white;
-      border: 1px solid #d7d7d7;
-      padding: 11px 18px;
-      border-radius: 3px;
-      font-weight: 800;
-      font-size: 12px;
-      cursor: pointer;
+    .subtitle {
+      color: #666;
+      margin-bottom: 25px;
     }
 
-    .week-button:hover,
-    .week-button.active {
-      background: #111;
-      color: white;
-      border-color: #111;
-    }
-
-    /* STATE FILTER */
+    /* FILTERS */
 
     .filters {
       display: flex;
-      gap: 7px;
+      gap: 12px;
       flex-wrap: wrap;
-
-      padding-bottom: 24px;
       margin-bottom: 30px;
-
-      border-bottom: 1px solid #ddd;
     }
 
-    .filter-button {
-      background: transparent;
-      border: none;
-
-      color: #777;
-
-      font-size: 11px;
-      font-weight: 900;
-
-      padding: 7px 11px;
-
+    select {
+      padding: 11px 15px;
+      border-radius: 7px;
+      border: 1px solid #ccc;
+      background: white;
+      font-size: 15px;
       cursor: pointer;
-    }
-
-    .filter-button:hover,
-    .filter-button.active {
-      color: #111;
-      background: #dedede;
-      border-radius: 3px;
     }
 
     /* DATE */
 
-    .date-heading {
-      margin: 32px 0 12px;
-
-      font-size: 20px;
-      font-weight: 900;
-
-      text-transform: uppercase;
-
-      border-left: 4px solid #999fa4;
-      padding-left: 11px;
+    .date-section {
+      margin-bottom: 35px;
     }
 
-    /* SCORE */
+    .date-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #111;
+      padding-bottom: 8px;
+    }
+
+    /* GAME */
 
     .game {
       background: white;
-
-      border: 1px solid #e1e1e1;
-      border-radius: 4px;
-
+      border-radius: 8px;
       margin-bottom: 10px;
-
-      overflow: hidden;
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
 
-    .game-top {
-      padding: 10px 18px;
-
-      background: #fafafa;
-
-      border-bottom: 1px solid #eeeeee;
-
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .status {
-      font-size: 9px;
-      font-weight: 900;
-
-      letter-spacing: 1px;
-      text-transform: uppercase;
-
-      color: #777;
-    }
-
-    .game-state {
-      font-size: 9px;
-      font-weight: 900;
-
-      color: #999;
-
-      letter-spacing: .7px;
-    }
-
-    .game-body {
-      padding: 13px 18px;
-    }
-
-    .team-row {
-      min-height: 35px;
-
+    .team {
       display: grid;
-      grid-template-columns: 1fr 45px;
-
+      grid-template-columns: 45px 1fr 50px;
       align-items: center;
+      padding: 6px 0;
+    }
 
-      font-size: 14px;
-      font-weight: 800;
+    .state {
+      color: #888;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .team-name {
+      font-size: 16px;
+      font-weight: 700;
     }
 
     .score {
-      text-align: right;
-
       font-size: 18px;
       font-weight: 900;
+      text-align: right;
     }
 
-    .winner {
-      font-weight: 900;
+    .game-footer {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #eee;
+      font-size: 11px;
+      font-weight: 800;
+      color: #777;
+      text-transform: uppercase;
     }
 
-    /* FOOTER */
+    /* LOADING / ERROR */
 
-    footer {
-      background: #050505;
-      color: #858585;
-
-      padding: 45px 24px;
+    #loading {
+      text-align: center;
+      padding: 50px;
+      color: #666;
     }
 
-    .footer-inner {
-      max-width: 1250px;
-      margin: auto;
+    #error {
+      display: none;
+      background: #ffe7e7;
+      padding: 18px;
+      border-radius: 8px;
+      margin-top: 20px;
     }
 
-    .footer-brand {
-      color: white;
-
-      font-size: 23px;
-      font-weight: 900;
-
-      margin-bottom: 9px;
-    }
-
-    footer p {
-      font-size: 12px;
-      line-height: 1.6;
+    .no-games {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      color: #666;
     }
 
     /* MOBILE */
 
-    @media (max-width: 850px) {
+    @media (max-width: 700px) {
 
-      .topbar {
-        min-height: auto;
-
-        padding-top: 12px;
-        padding-bottom: 15px;
-
+      .header-inner {
         flex-direction: column;
         align-items: flex-start;
-
-        gap: 10px;
-      }
-
-      .brand img {
-        height: 65px;
-        width: 130px;
-      }
-
-      nav {
-        width: 100%;
-        gap: 14px;
-        flex-wrap: wrap;
+        gap: 15px;
       }
 
       nav a {
-        font-size: 11px;
+        margin-left: 0;
+        margin-right: 15px;
       }
 
-      .page-header {
-        padding: 45px 20px;
+      h1 {
+        font-size: 30px;
       }
 
-      .page-header h1 {
-        font-size: 42px;
+      .filters {
+        flex-direction: column;
       }
 
-      .container {
-        padding: 30px 15px 55px;
+      select {
+        width: 100%;
       }
 
     }
-
   </style>
 </head>
-
 
 <body>
 
 <header>
+  <div class="header-inner">
 
-  <div class="topbar">
-
-    <a class="brand" href="index.html">
-      <img src="nefb-logo.jpg" alt="NEFB Report">
-    </a>
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a class="active" href="scores.html">Scores</a>
-      <a href="#">Rankings</a>
-      <a href="#">Recruiting</a>
-      <a href="#">News</a>
-      <a href="#">About</a>
-    </nav>
-
-  </div>
-
-</header>
-
-
-<section class="page-header">
-
-  <div class="page-header-inner">
-
-    <div class="eyebrow">
+    <div class="logo">
       NEFB REPORT
     </div>
 
-    <h1>
-      Scores
-    </h1>
-
-    <p>
-      High school football scores from across Massachusetts,
-      Connecticut, Rhode Island, New Hampshire, Maine, Vermont
-      and New England prep football.
-    </p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/scores.html">Scores</a>
+    </nav>
 
   </div>
-
-</section>
+</header>
 
 
 <main class="container">
 
+  <h1>New England Football Scores</h1>
 
-  <!-- WEEK FILTER -->
-
-  <div class="week-tabs">
-
-    <button class="week-button">
-      Week 1
-    </button>
-
-    <button class="week-button">
-      Week 2
-    </button>
-
-    <button class="week-button active">
-      Week 3
-    </button>
-
+  <div class="subtitle">
+    High school football scores from across New England.
   </div>
 
-
-  <!-- STATE FILTER -->
 
   <div class="filters">
 
-    <button
-      class="filter-button active"
-      data-filter="all">
-      ALL
-    </button>
+    <select id="weekFilter">
+      <option value="all">All Weeks</option>
+      <option value="1">Week 1</option>
+      <option value="2">Week 2</option>
+      <option value="3">Week 3</option>
+    </select>
 
-    <button
-      class="filter-button"
-      data-filter="MA">
-      MA
-    </button>
 
-    <button
-      class="filter-button"
-      data-filter="CT">
-      CT
-    </button>
-
-    <button
-      class="filter-button"
-      data-filter="RI">
-      RI
-    </button>
-
-    <button
-      class="filter-button"
-      data-filter="NH">
-      NH
-    </button>
-
-    <button
-      class="filter-button"
-      data-filter="ME">
-      ME
-    </button>
-
-    <button
-      class="filter-button"
-      data-filter="VT">
-      VT
-    </button>
-
-    <button
-      class="filter-button"
-      data-filter="PREP">
-      PREP
-    </button>
+    <select id="stateFilter">
+      <option value="all">All States</option>
+      <option value="MA">Massachusetts</option>
+      <option value="CT">Connecticut</option>
+      <option value="RI">Rhode Island</option>
+      <option value="NH">New Hampshire</option>
+      <option value="ME">Maine</option>
+      <option value="VT">Vermont</option>
+    </select>
 
   </div>
 
 
-  <!-- EXAMPLE DATE -->
-
-  <div class="date-heading">
-    Friday, September 18
+  <div id="loading">
+    Loading scores...
   </div>
 
-
-  <!-- EXAMPLE GAME -->
-
-  <div class="game" data-state="MA">
-
-    <div class="game-top">
-
-      <span class="status">
-        Final
-      </span>
-
-      <span class="game-state">
-        MA
-      </span>
-
-    </div>
-
-
-    <div class="game-body">
-
-      <div class="team-row winner">
-
-        <span>
-          Catholic Memorial
-        </span>
-
-        <span class="score">
-          50
-        </span>
-
-      </div>
-
-
-      <div class="team-row">
-
-        <span>
-          CBA (NY)
-        </span>
-
-        <span class="score">
-          48
-        </span>
-
-      </div>
-
-    </div>
-
+  <div id="error">
+    Scores could not be loaded.
   </div>
 
-
-  <!-- EXAMPLE GAME -->
-
-  <div class="game" data-state="MA">
-
-    <div class="game-top">
-
-      <span class="status">
-        Final
-      </span>
-
-      <span class="game-state">
-        MA
-      </span>
-
-    </div>
-
-
-    <div class="game-body">
-
-      <div class="team-row winner">
-
-        <span>
-          St. John's Prep
-        </span>
-
-        <span class="score">
-          21
-        </span>
-
-      </div>
-
-
-      <div class="team-row">
-
-        <span>
-          Central Catholic
-        </span>
-
-        <span class="score">
-          14
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- EXAMPLE CT GAME -->
-
-  <div class="game" data-state="CT">
-
-    <div class="game-top">
-
-      <span class="status">
-        Final
-      </span>
-
-      <span class="game-state">
-        CT
-      </span>
-
-    </div>
-
-
-    <div class="game-body">
-
-      <div class="team-row">
-
-        <span>
-          Example Connecticut Team
-        </span>
-
-        <span class="score">
-          21
-        </span>
-
-      </div>
-
-
-      <div class="team-row winner">
-
-        <span>
-          Example Opponent
-        </span>
-
-        <span class="score">
-          28
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
+  <div id="scores"></div>
 
 </main>
 
 
-<footer>
-
-  <div class="footer-inner">
-
-    <div class="footer-brand">
-      NEFB REPORT
-    </div>
-
-    <p>
-      Independent coverage of New England high school football.
-    </p>
-
-    <br>
-
-    <p>
-      © 2026 NEFB Report. All rights reserved.
-    </p>
-
-  </div>
-
-</footer>
-
-
 <script>
 
-  const filterButtons =
-    document.querySelectorAll(".filter-button");
-
-  const games =
-    document.querySelectorAll(".game");
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
 
 
-  filterButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      const filter =
-        button.dataset.filter;
+let allGames = [];
 
 
-      filterButtons.forEach(btn => {
-        btn.classList.remove("active");
+/* LOAD GOOGLE SHEET */
+
+async function loadScores() {
+
+  try {
+
+    const response = await fetch(SHEET_URL);
+
+    if (!response.ok) {
+      throw new Error("Could not load spreadsheet");
+    }
+
+    const csv = await response.text();
+
+    const rows = parseCSV(csv);
+
+    if (rows.length < 2) {
+      throw new Error("Spreadsheet is empty");
+    }
+
+    const headers = rows[0].map(header => header.trim());
+
+    allGames = rows.slice(1)
+      .filter(row => row.some(cell => cell.trim() !== ""))
+      .map(row => {
+
+        const game = {};
+
+        headers.forEach((header, index) => {
+          game[header] = row[index]
+            ? row[index].trim()
+            : "";
+        });
+
+        return game;
+
       });
 
 
-      button.classList.add("active");
+    document.getElementById("loading").style.display = "none";
+
+    renderScores();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("error").style.display = "block";
+
+  }
+
+}
 
 
-      games.forEach(game => {
+/* CSV PARSER */
 
-        if (
-          filter === "all" ||
-          game.dataset.state === filter
-        ) {
+function parseCSV(text) {
 
-          game.style.display = "block";
+  const rows = [];
 
-        } else {
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
 
-          game.style.display = "none";
 
-        }
+  for (let i = 0; i < text.length; i++) {
 
-      });
+    const character = text[i];
 
-    });
+    const nextCharacter = text[i + 1];
+
+
+    if (character === '"') {
+
+      if (insideQuotes && nextCharacter === '"') {
+
+        cell += '"';
+
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes = !insideQuotes;
+
+      }
+
+    }
+
+    else if (character === "," && !insideQuotes) {
+
+      row.push(cell);
+
+      cell = "";
+
+    }
+
+    else if (
+      (character === "\n" || character === "\r")
+      && !insideQuotes
+    ) {
+
+      if (character === "\r" && nextCharacter === "\n") {
+        i++;
+      }
+
+      row.push(cell);
+
+      rows.push(row);
+
+      row = [];
+      cell = "";
+
+    }
+
+    else {
+
+      cell += character;
+
+    }
+
+  }
+
+
+  if (cell.length || row.length) {
+
+    row.push(cell);
+
+    rows.push(row);
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* DATE FORMAT */
+
+function formatDate(dateString) {
+
+  if (!dateString) return "";
+
+
+  const parts = dateString.split("/");
+
+
+  if (parts.length === 3) {
+
+    const month = Number(parts[0]);
+    const day = Number(parts[1]);
+    const year = Number(parts[2]);
+
+    const date = new Date(
+      year,
+      month - 1,
+      day
+    );
+
+
+    return date.toLocaleDateString(
+      "en-US",
+      {
+        weekday: "long",
+        month: "long",
+        day: "numeric"
+      }
+    );
+
+  }
+
+
+  return dateString;
+
+}
+
+
+/* SAFE HTML */
+
+function escapeHTML(value) {
+
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* DISPLAY SCORES */
+
+function renderScores() {
+
+  const scoresContainer =
+    document.getElementById("scores");
+
+
+  const selectedWeek =
+    document.getElementById("weekFilter").value;
+
+
+  const selectedState =
+    document.getElementById("stateFilter").value;
+
+
+  let games = allGames.filter(game => {
+
+    const weekMatches =
+      selectedWeek === "all" ||
+      game["Week"] === selectedWeek;
+
+
+    const stateMatches =
+      selectedState === "all" ||
+      game["Away State"] === selectedState ||
+      game["Home State"] === selectedState;
+
+
+    return weekMatches && stateMatches;
 
   });
 
-</script>
 
+  /* SORT BY DATE */
+
+  games.sort((a, b) => {
+
+    return new Date(a["Date"]) -
+           new Date(b["Date"]);
+
+  });
+
+
+  if (!games.length) {
+
+    scoresContainer.innerHTML =
+      '<div class="no-games">No games found.</div>';
+
+    return;
+
+  }
+
+
+  /* GROUP BY DATE */
+
+  const groupedGames = {};
+
+
+  games.forEach(game => {
+
+    const date = game["Date"] || "Unknown Date";
+
+    if (!groupedGames[date]) {
+      groupedGames[date] = [];
+    }
+
+    groupedGames[date].push(game);
+
+  });
+
+
+  let html = "";
+
+
+  Object.keys(groupedGames).forEach(date => {
+
+    html += `
+      <section class="date-section">
+
+        <div class="date-title">
+          ${escapeHTML(formatDate(date))}
+        </div>
+    `;
+
+
+    groupedGames[date].forEach(game => {
+
+      html += `
+
+        <div class="game">
+
+          <div class="team">
+
+            <div class="state">
+              ${escapeHTML(game["Away State"])}
+            </div>
+
+            <div class="team-name">
+              ${escapeHTML(game["Away Team"])}
+            </div>
+
+            <div class="score">
+              ${escapeHTML(game["Away Score"])}
+            </div>
+
+          </div>
+
+
+          <div class="team">
+
+            <div class="state">
+              ${escapeHTML(game["Home State"])}
+            </div>
+
+            <div class="team-name">
+              ${escapeHTML(game["Home Team"])}
+            </div>
+
+            <div class="score">
+              ${escapeHTML(game["Home Score"])}
+            </div>
+
+          </div>
+
+
+          <div class="game-footer">
+
+            ${escapeHTML(game["Status"] || "Final")}
+            &nbsp; • &nbsp;
+            Week ${escapeHTML(game["Week"])}
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+
+    html += `</section>`;
+
+  });
+
+
+  scoresContainer.innerHTML = html;
+
+}
+
+
+/* FILTER EVENTS */
+
+document
+  .getElementById("weekFilter")
+  .addEventListener(
+    "change",
+    renderScores
+  );
+
+
+document
+  .getElementById("stateFilter")
+  .addEventListener(
+    "change",
+    renderScores
+  );
+
+
+/* START */
+
+loadScores();
+
+</script>
 
 </body>
 </html>
