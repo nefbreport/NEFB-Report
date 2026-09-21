@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Teams | NEFB Report</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f4f4;
+      color: #111;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 22px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      opacity: .7;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px 60px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    input,
+    select {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      padding: 12px 15px;
+      font-size: 15px;
+    }
+
+    #teamSearch {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    .team-count {
+      color: #777;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .teams-grid {
+      display: grid;
+      grid-template-columns:
+        repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .team-card {
+      background: white;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    }
+
+    .team-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .team-name {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .record {
+      font-size: 16px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .association {
+      margin-top: 6px;
+      color: #888;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .view-team {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #777;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+    }
+
+    #error {
+      display: none;
+      background: #ffe7e7;
+      padding: 18px;
+      border-radius: 8px;
+    }
+
+    .no-teams {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      color: #666;
+    }
+
+
+    /* TEAM DETAIL */
+
+    #teamDetail {
+      display: none;
+    }
+
+    .back-button {
+      border: 0;
+      background: none;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 25px;
+      padding: 0;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    .team-header {
+      background: #111;
+      color: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .team-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .team-detail-name {
+      font-size: 30px;
+      font-weight: 900;
+    }
+
+    .team-detail-association {
+      color: #bbb;
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 5px;
+    }
+
+    .team-detail-record {
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .results-title {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+
+    .result-main {
+      display: grid;
+      grid-template-columns: 45px 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .result-outcome {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .win {
+      color: #111;
+    }
+
+    .loss {
+      color: #777;
+    }
+
+    .result-opponent {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .result-score {
+      font-size: 16px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .result-footer {
+      border-top: 1px solid #eee;
+      margin-top: 10px;
+      padding-top: 8px;
+      font-size: 10px;
+      color: #888;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 700px) {
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      nav a {
+        margin-left: 0;
+        margin-right: 15px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+
+      input,
+      select {
+        width: 100%;
+      }
+
+      .teams-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .team-header-top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+<header>
+
+  <div class="header-inner">
+
+    <div class="logo">
+      NEFB REPORT
+    </div>
+
+    <nav>
+      <a href="/">Home</a>
+      <a href="/scores.html">Scores</a>
+      <a href="/teams.html">Teams</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <!-- TEAM DIRECTORY -->
+
+  <div id="teamDirectory">
+
+    <h1>Teams</h1>
+
+    <div class="subtitle">
+      New England high school and prep football teams.
+    </div>
+
+
+    <div class="filters">
+
+      <input
+        type="text"
+        id="teamSearch"
+        placeholder="Search teams..."
+      >
+
+
+      <select id="associationFilter">
+
+        <option value="all">
+          All Associations
+        </option>
+
+        <option value="MIAA">
+          MIAA
+        </option>
+
+        <option value="CIAC">
+          CIAC
+        </option>
+
+        <option value="RIIL">
+          RIIL
+        </option>
+
+        <option value="NHIAA">
+          NHIAA
+        </option>
+
+        <option value="MPA">
+          MPA
+        </option>
+
+        <option value="VPA">
+          VPA
+        </option>
+
+        <option value="NEPSAC">
+          NEPSAC
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div id="loading">
+      Loading teams...
+    </div>
+
+    <div id="error">
+      Teams could not be loaded.
+    </div>
+
+    <div
+      id="teamCount"
+      class="team-count"
+    ></div>
+
+    <div
+      id="teams"
+      class="teams-grid"
+    ></div>
+
+  </div>
+
+
+  <!-- INDIVIDUAL TEAM -->
+
+  <div id="teamDetail">
+
+    <button
+      class="back-button"
+      onclick="closeTeam()"
+    >
+      ← All Teams
+    </button>
+
+
+    <div class="team-header">
+
+      <div class="team-header-top">
+
+        <div>
+
+          <div
+            id="detailName"
+            class="team-detail-name"
+          ></div>
+
+          <div
+            id="detailAssociation"
+            class="team-detail-association"
+          ></div>
+
+        </div>
+
+
+        <div
+          id="detailRecord"
+          class="team-detail-record"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="results-title">
+      Results
+    </div>
+
+
+    <div id="teamResults"></div>
+
+  </div>
+
+</main>
+
+
+<script>
+
+
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
+
+
+const CORE_ASSOCIATIONS = [
+  "MIAA",
+  "CIAC",
+  "RIIL",
+  "NHIAA",
+  "MPA",
+  "VPA",
+  "NEPSAC"
+];
+
+
+let allGames = [];
+
+let teams = [];
+
+
+/*
+=========================================
+LOAD DATA
+=========================================
+*/
+
+async function loadTeams() {
+
+  try {
+
+    const response =
+      await fetch(SHEET_URL);
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Could not load spreadsheet"
+      );
+
+    }
+
+
+    const csv =
+      await response.text();
+
+
+    const rows =
+      parseCSV(csv);
+
+
+    const headers =
+      rows[0].map(
+        header => header.trim()
+      );
+
+
+    allGames =
+      rows
+        .slice(1)
+
+        .filter(
+          row =>
+            row.some(
+              cell =>
+                cell.trim() !== ""
+            )
+        )
+
+        .map(
+          (row, index) => {
+
+            const game = {};
+
+
+            headers.forEach(
+              (header, columnIndex) => {
+
+                game[header] =
+                  row[columnIndex]
+                    ? row[columnIndex].trim()
+                    : "";
+
+              }
+            );
+
+
+            game._originalIndex =
+              index;
+
+
+            return game;
+
+          }
+        );
+
+
+    buildTeams();
+
+
+    document
+      .getElementById("loading")
+      .style.display = "none";
+
+
+    renderTeams();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+
+    document
+      .getElementById("loading")
+      .style.display = "none";
+
+
+    document
+      .getElementById("error")
+      .style.display = "block";
+
+  }
+
+}
+
+
+/*
+=========================================
+CSV PARSER
+=========================================
+*/
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+
+  let cell = "";
+
+  let insideQuotes = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const character =
+      text[i];
+
+    const nextCharacter =
+      text[i + 1];
+
+
+    if (
+      character === '"'
+    ) {
+
+      if (
+        insideQuotes &&
+        nextCharacter === '"'
+      ) {
+
+        cell += '"';
+
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+    }
+
+
+    else if (
+      character === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(cell);
+
+      cell = "";
+
+    }
+
+
+    else if (
+      (
+        character === "\n" ||
+        character === "\r"
+      ) &&
+      !insideQuotes
+    ) {
+
+      if (
+        character === "\r" &&
+        nextCharacter === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(cell);
+
+      rows.push(row);
+
+      row = [];
+
+      cell = "";
+
+    }
+
+
+    else {
+
+      cell += character;
+
+    }
+
+  }
+
+
+  if (
+    cell.length ||
+    row.length
+  ) {
+
+    row.push(cell);
+
+    rows.push(row);
+
+  }
+
+
+  return rows;
+
+}
+
+
+/*
+=========================================
+HELPERS
+=========================================
+*/
+
+function normalizeTeam(name) {
+
+  return String(
+    name || ""
+  )
+    .toLowerCase()
+    .replace(/[.’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+
+function teamKey(
+  teamName,
+  association
+) {
+
+  return (
+    String(association || "")
+      .toUpperCase()
+      .trim()
+
+    +
+
+    "|"
+
+    +
+
+    normalizeTeam(teamName)
+  );
+
+}
+
+
+function isFinal(game) {
+
+  return String(
+    game["Status"] || ""
+  )
+    .toLowerCase()
+    .includes("final");
+
+}
+
+
+function getDateValue(dateString) {
+
+  if (!dateString) {
+
+    return 0;
+
+  }
+
+
+  const parts =
+    dateString.split("/");
+
+
+  if (
+    parts.length === 3
+  ) {
+
+    return new Date(
+      Number(parts[2]),
+      Number(parts[0]) - 1,
+      Number(parts[1])
+    ).getTime();
+
+  }
+
+
+  return (
+    new Date(
+      dateString
+    ).getTime() || 0
+  );
+
+}
+
+
+function formatDate(dateString) {
+
+  if (!dateString) {
+
+    return "";
+
+  }
+
+
+  const parts =
+    dateString.split("/");
+
+
+  if (
+    parts.length === 3
+  ) {
+
+    const date =
+      new Date(
+        Number(parts[2]),
+        Number(parts[0]) - 1,
+        Number(parts[1])
+      );
+
+
+    return date.toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+        day: "numeric"
+      }
+    );
+
+  }
+
+
+  return dateString;
+
+}
+
+
+function escapeHTML(value) {
+
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/*
+=========================================
+BUILD TEAM DATABASE
+=========================================
+*/
+
+function buildTeams() {
+
+  const teamMap = {};
+
+
+  allGames.forEach(
+    game => {
+
+
+      addTeamToMap(
+        teamMap,
+        game["Away Team"],
+        game["Away Association"]
+      );
+
+
+      addTeamToMap(
+        teamMap,
+        game["Home Team"],
+        game["Home Association"]
+      );
+
+
+    }
+  );
+
+
+  teams =
+    Object.values(teamMap);
+
+
+  calculateRecords();
+
+
+  teams.sort(
+    (a, b) =>
+      a.name.localeCompare(
+        b.name
+      )
+  );
+
+}
+
+
+/*
+=========================================
+ADD TEAM
+=========================================
+*/
+
+function addTeamToMap(
+  teamMap,
+  name,
+  association
+) {
+
+  if (
+    !name ||
+    !association
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+  Do not create team-directory
+  entries for outside associations
+  such as NY, NJ, PA, NCAA.
+  */
+
+  if (
+    !CORE_ASSOCIATIONS.includes(
+      association
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const key =
+    teamKey(
+      name,
+      association
+    );
+
+
+  if (
+    !teamMap[key]
+  ) {
+
+    teamMap[key] = {
+
+      key: key,
+
+      name: name,
+
+      association: association,
+
+      wins: 0,
+
+      losses: 0,
+
+      ties: 0
+
+    };
+
+  }
+
+}
+
+
+/*
+=========================================
+CALCULATE CURRENT RECORDS
+=========================================
+*/
+
+function calculateRecords() {
+
+
+  const teamMap = {};
+
+
+  teams.forEach(
+    team => {
+
+      teamMap[
+        team.key
+      ] = team;
+
+    }
+  );
+
+
+  allGames.forEach(
+    game => {
+
+
+      if (
+        !isFinal(game)
+      ) {
+
+        return;
+
+      }
+
+
+      const awayScore =
+        Number(
+          game["Away Score"]
+        );
+
+
+      const homeScore =
+        Number(
+          game["Home Score"]
+        );
+
+
+      if (
+        !Number.isFinite(
+          awayScore
+        )
+
+        ||
+
+        !Number.isFinite(
+          homeScore
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const awayKey =
+        teamKey(
+          game["Away Team"],
+          game["Away Association"]
+        );
+
+
+      const homeKey =
+        teamKey(
+          game["Home Team"],
+          game["Home Association"]
+        );
+
+
+      const awayTeam =
+        teamMap[
+          awayKey
+        ];
+
+
+      const homeTeam =
+        teamMap[
+          homeKey
+        ];
+
+
+
+      if (
+        awayScore >
+        homeScore
+      ) {
+
+        if (awayTeam) {
+
+          awayTeam.wins++;
+
+        }
+
+        if (homeTeam) {
+
+          homeTeam.losses++;
+
+        }
+
+      }
+
+
+      else if (
+        homeScore >
+        awayScore
+      ) {
+
+        if (homeTeam) {
+
+          homeTeam.wins++;
+
+        }
+
+        if (awayTeam) {
+
+          awayTeam.losses++;
+
+        }
+
+      }
+
+
+      else {
+
+        if (awayTeam) {
+
+          awayTeam.ties++;
+
+        }
+
+        if (homeTeam) {
+
+          homeTeam.ties++;
+
+        }
+
+      }
+
+
+    }
+  );
+
+}
+
+
+/*
+=========================================
+FORMAT RECORD
+=========================================
+*/
+
+function recordText(team) {
+
+  if (
+    team.ties > 0
+  ) {
+
+    return (
+      team.wins +
+      "-" +
+      team.losses +
+      "-" +
+      team.ties
+    );
+
+  }
+
+
+  return (
+    team.wins +
+    "-" +
+    team.losses
+  );
+
+}
+
+
+/*
+=========================================
+RENDER TEAM DIRECTORY
+=========================================
+*/
+
+function renderTeams() {
+
+
+  const search =
+    document
+      .getElementById(
+        "teamSearch"
+      )
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const association =
+    document
+      .getElementById(
+        "associationFilter"
+      )
+      .value;
+
+
+  const filteredTeams =
+    teams.filter(
+      team => {
+
+
+        const searchMatches =
+
+          !search
+
+          ||
+
+          team.name
+            .toLowerCase()
+            .includes(search);
+
+
+        const associationMatches =
+
+          association === "all"
+
+          ||
+
+          team.association ===
+            association;
+
+
+        return (
+          searchMatches &&
+          associationMatches
+        );
+
+      }
+    );
+
+
+  document
+    .getElementById(
+      "teamCount"
+    )
+    .textContent =
+
+      filteredTeams.length +
+      (
+        filteredTeams.length === 1
+          ? " team"
+          : " teams"
+      );
+
+
+  const container =
+    document.getElementById(
+      "teams"
+    );
+
+
+  if (
+    !filteredTeams.length
+  ) {
+
+    container.innerHTML =
+      '<div class="no-teams">No teams found.</div>';
+
+    return;
+
+  }
+
+
+  let html = "";
+
+
+  filteredTeams.forEach(
+    team => {
+
+
+      html += `
+
+        <div
+          class="team-card"
+          data-team-key="${escapeHTML(team.key)}"
+        >
+
+          <div class="team-card-top">
+
+            <div class="team-name">
+              ${escapeHTML(
+                team.name
+              )}
+            </div>
+
+            <div class="record">
+              ${escapeHTML(
+                recordText(team)
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="association">
+
+            ${escapeHTML(
+              team.association
+            )}
+
+          </div>
+
+
+          <div class="view-team">
+            View Results →
+          </div>
+
+        </div>
+
+      `;
+
+
+    }
+  );
+
+
+  container.innerHTML =
+    html;
+
+
+  document
+    .querySelectorAll(
+      ".team-card"
+    )
+    .forEach(
+      card => {
+
+
+        card.addEventListener(
+          "click",
+          () => {
+
+            openTeam(
+              card.dataset.teamKey
+            );
+
+          }
+        );
+
+
+      }
+    );
+
+}
+
+
+/*
+=========================================
+OPEN TEAM
+=========================================
+*/
+
+function openTeam(key) {
+
+
+  const team =
+    teams.find(
+      team =>
+        team.key === key
+    );
+
+
+  if (!team) {
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      "teamDirectory"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "teamDetail"
+    )
+    .style.display =
+      "block";
+
+
+  document
+    .getElementById(
+      "detailName"
+    )
+    .textContent =
+      team.name;
+
+
+  document
+    .getElementById(
+      "detailAssociation"
+    )
+    .textContent =
+      team.association;
+
+
+  document
+    .getElementById(
+      "detailRecord"
+    )
+    .textContent =
+      recordText(team);
+
+
+  renderTeamResults(
+    team
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/*
+=========================================
+CLOSE TEAM
+=========================================
+*/
+
+function closeTeam() {
+
+
+  document
+    .getElementById(
+      "teamDetail"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "teamDirectory"
+    )
+    .style.display =
+      "block";
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/*
+=========================================
+TEAM RESULTS
+=========================================
+*/
+
+function renderTeamResults(team) {
+
+
+  const games =
+    allGames
+
+      .filter(
+        game => {
+
+
+          const awayKey =
+            teamKey(
+              game["Away Team"],
+              game["Away Association"]
+            );
+
+
+          const homeKey =
+            teamKey(
+              game["Home Team"],
+              game["Home Association"]
+            );
+
+
+          return (
+            awayKey ===
+              team.key
+
+            ||
+
+            homeKey ===
+              team.key
+          );
+
+        }
+      )
+
+      .sort(
+        (a, b) =>
+
+          getDateValue(
+            b["Date"]
+          )
+
+          -
+
+          getDateValue(
+            a["Date"]
+          )
+
+      );
+
+
+  const container =
+    document.getElementById(
+      "teamResults"
+    );
+
+
+  let html = "";
+
+
+  games.forEach(
+    game => {
+
+
+      const isAway =
+
+        teamKey(
+          game["Away Team"],
+          game["Away Association"]
+        )
+
+        ===
+
+        team.key;
+
+
+      const opponent =
+        isAway
+          ? game["Home Team"]
+          : game["Away Team"];
+
+
+      const opponentAssociation =
+        isAway
+          ? game["Home Association"]
+          : game["Away Association"];
+
+
+      const teamScore =
+        Number(
+          isAway
+            ? game["Away Score"]
+            : game["Home Score"]
+        );
+
+
+      const opponentScore =
+        Number(
+          isAway
+            ? game["Home Score"]
+            : game["Away Score"]
+        );
+
+
+      let outcome = "—";
+
+
+      if (
+        isFinal(game) &&
+        Number.isFinite(
+          teamScore
+        ) &&
+        Number.isFinite(
+          opponentScore
+        )
+      ) {
+
+
+        if (
+          teamScore >
+          opponentScore
+        ) {
+
+          outcome = "W";
+
+        }
+
+
+        else if (
+          teamScore <
+          opponentScore
+        ) {
+
+          outcome = "L";
+
+        }
+
+
+        else {
+
+          outcome = "T";
+
+        }
+
+
+      }
+
+
+      html += `
+
+        <div class="result-card">
+
+          <div class="result-main">
+
+            <div
+              class="result-outcome ${
+                outcome === "W"
+                  ? "win"
+                  : "loss"
+              }"
+            >
+              ${escapeHTML(
+                outcome
+              )}
+            </div>
+
+
+            <div class="result-opponent">
+
+              ${
+                isAway
+                  ? "@ "
+                  : "vs. "
+              }
+
+              ${escapeHTML(
+                opponent
+              )}
+
+            </div>
+
+
+            <div class="result-score">
+
+              ${
+                Number.isFinite(
+                  teamScore
+                )
+
+                &&
+
+                Number.isFinite(
+                  opponentScore
+                )
+
+                  ? escapeHTML(
+                      teamScore +
+                      "–" +
+                      opponentScore
+                    )
+
+                  : ""
+              }
+
+            </div>
+
+          </div>
+
+
+          <div class="result-footer">
+
+            ${escapeHTML(
+              formatDate(
+                game["Date"]
+              )
+            )}
+
+            &nbsp; • &nbsp;
+
+            ${escapeHTML(
+              opponentAssociation
+            )}
+
+            &nbsp; • &nbsp;
+
+            ${escapeHTML(
+              game["Status"] ||
+              "Final"
+            )}
+
+          </div>
+
+        </div>
+
+      `;
+
+
+    }
+  );
+
+
+  container.innerHTML =
+
+    html ||
+
+    '<div class="no-teams">No results available.</div>';
+
+}
+
+
+/*
+=========================================
+FILTER EVENTS
+=========================================
+*/
+
+document
+  .getElementById(
+    "teamSearch"
+  )
+  .addEventListener(
+    "input",
+    renderTeams
+  );
+
+
+document
+  .getElementById(
+    "associationFilter"
+  )
+  .addEventListener(
+    "change",
+    renderTeams
+  );
+
+
+/*
+=========================================
+START
+=========================================
+*/
+
+loadTeams();
+
+
+</script>
+
+</body>
+
+</html>
