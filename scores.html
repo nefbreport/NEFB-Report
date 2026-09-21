@@ -8,6 +8,7 @@
   <title>Scores | NEFB Report</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,37 +21,68 @@
       color: #111;
     }
 
+
+    /* =========================
+       HEADER
+    ========================= */
+
     header {
-      background: #111;
+      background: #050505;
       color: white;
-      padding: 20px;
+      border-bottom: 1px solid #333;
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1250px;
+      min-height: 92px;
       margin: auto;
+      padding: 8px 24px;
+
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 30px;
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 76px;
+      width: 150px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin-left: 22px;
-      font-weight: 700;
-      font-size: 14px;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
     }
 
     nav a:hover {
-      opacity: 0.7;
+      color: #aeb3b8;
     }
+
+
+    /* =========================
+       PAGE
+    ========================= */
 
     .container {
       max-width: 1100px;
@@ -68,6 +100,11 @@
       margin-bottom: 25px;
     }
 
+
+    /* =========================
+       FILTERS
+    ========================= */
+
     .filters {
       display: flex;
       gap: 12px;
@@ -83,6 +120,11 @@
       font-size: 15px;
       cursor: pointer;
     }
+
+
+    /* =========================
+       SCORE SECTIONS
+    ========================= */
 
     .date-section {
       margin-bottom: 35px;
@@ -147,22 +189,32 @@
       margin-top: 8px;
       padding-top: 8px;
       border-top: 1px solid #eee;
+
       font-size: 11px;
       font-weight: 800;
+
       color: #777;
       text-transform: uppercase;
     }
 
     .association-label {
       display: inline-block;
+
       background: #111;
       color: #fff;
+
       padding: 3px 6px;
       border-radius: 4px;
       margin-left: 6px;
+
       font-size: 9px;
       letter-spacing: .5px;
     }
+
+
+    /* =========================
+       MESSAGES
+    ========================= */
 
     #loading {
       text-align: center;
@@ -185,17 +237,37 @@
       color: #666;
     }
 
+
+    /* =========================
+       MOBILE
+    ========================= */
+
     @media (max-width: 700px) {
 
       .header-inner {
+        min-height: auto;
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+      }
+
+      .logo img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+        gap: 14px;
+        flex-wrap: wrap;
       }
 
       nav a {
-        margin-left: 0;
-        margin-right: 15px;
+        font-size: 11px;
       }
 
       h1 {
@@ -230,9 +302,11 @@
       .score {
         font-size: 17px;
       }
+
     }
 
   </style>
+
 </head>
 
 
@@ -243,13 +317,18 @@
 
   <div class="header-inner">
 
-    <div class="logo">
-      NEFB REPORT
-    </div>
+    <a class="logo" href="index.html">
+      <img src="nefb-logo.jpg" alt="NEFB Report">
+    </a>
 
     <nav>
-      <a href="/">Home</a>
-      <a href="/scores.html">Scores</a>
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
     </nav>
 
   </div>
@@ -260,18 +339,16 @@
 
 <main class="container">
 
-
-  <h1>New England Football Scores</h1>
-
+  <h1>
+    New England Football Scores
+  </h1>
 
   <div class="subtitle">
     High school and prep football scores from across New England.
   </div>
 
 
-
   <div class="filters">
-
 
     <select id="weekFilter">
 
@@ -282,7 +359,6 @@
     </select>
 
 
-
     <select id="associationFilter">
 
       <option value="all">
@@ -291,9 +367,7 @@
 
     </select>
 
-
   </div>
-
 
 
   <div id="loading">
@@ -307,7 +381,6 @@
 
 
   <div id="scores"></div>
-
 
 </main>
 
@@ -376,7 +449,6 @@ async function loadScores() {
       );
 
 
-
     allGames =
       rows
         .slice(1)
@@ -417,23 +489,11 @@ async function loadScores() {
         );
 
 
-
-    /*
-    Prepare records
-    */
-
     prepareGames();
-
-
-
-    /*
-    Build filters
-    */
 
     buildWeekFilter();
 
     buildAssociationFilter();
-
 
 
     document
@@ -450,7 +510,6 @@ async function loadScores() {
 
 
   catch (error) {
-
 
     console.error(error);
 
@@ -484,9 +543,7 @@ CSV PARSER
 
 function parseCSV(text) {
 
-
   const rows = [];
-
 
   let row = [];
 
@@ -495,54 +552,42 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-
   for (
     let i = 0;
     i < text.length;
     i++
   ) {
 
-
     const character =
       text[i];
 
-
     const nextCharacter =
       text[i + 1];
-
 
 
     if (
       character === '"'
     ) {
 
-
       if (
         insideQuotes &&
         nextCharacter === '"'
       ) {
 
-
         cell += '"';
 
         i++;
 
-
       }
 
-
       else {
-
 
         insideQuotes =
           !insideQuotes;
 
-
       }
 
-
     }
-
 
 
     else if (
@@ -550,14 +595,11 @@ function parseCSV(text) {
       !insideQuotes
     ) {
 
-
       row.push(cell);
 
       cell = "";
 
-
     }
-
 
 
     else if (
@@ -567,7 +609,6 @@ function parseCSV(text) {
       ) &&
       !insideQuotes
     ) {
-
 
       if (
         character === "\r" &&
@@ -581,7 +622,6 @@ function parseCSV(text) {
 
       row.push(cell);
 
-
       rows.push(row);
 
 
@@ -589,21 +629,16 @@ function parseCSV(text) {
 
       cell = "";
 
-
     }
-
 
 
     else {
 
-
       cell += character;
-
 
     }
 
   }
-
 
 
   if (
@@ -611,14 +646,11 @@ function parseCSV(text) {
     row.length
   ) {
 
-
     row.push(cell);
 
     rows.push(row);
 
-
   }
-
 
 
   return rows;
@@ -634,7 +666,6 @@ NORMALIZE WEEK
 */
 
 function normalizeWeek(week) {
-
 
   return String(
     week || ""
@@ -659,7 +690,6 @@ DATE VALUE
 
 function getDateValue(dateString) {
 
-
   if (!dateString) {
 
     return 0;
@@ -675,14 +705,11 @@ function getDateValue(dateString) {
     parts.length === 3
   ) {
 
-
     const month =
       Number(parts[0]);
 
-
     const day =
       Number(parts[1]);
-
 
     const year =
       Number(parts[2]);
@@ -715,7 +742,6 @@ DATE FORMAT
 
 function formatDate(dateString) {
 
-
   if (!dateString) {
 
     return "";
@@ -731,14 +757,11 @@ function formatDate(dateString) {
     parts.length === 3
   ) {
 
-
     const month =
       Number(parts[0]);
 
-
     const day =
       Number(parts[1]);
-
 
     const year =
       Number(parts[2]);
@@ -787,7 +810,6 @@ function getShortMonth(
   monthNumber
 ) {
 
-
   const months = [
 
     "Jan.",
@@ -827,7 +849,6 @@ function createDateRange(
   endDateString
 ) {
 
-
   const startParts =
     startDateString.split("/");
 
@@ -836,12 +857,10 @@ function createDateRange(
     endDateString.split("/");
 
 
-
   if (
     startParts.length !== 3 ||
     endParts.length !== 3
   ) {
-
 
     return (
       startDateString +
@@ -850,7 +869,6 @@ function createDateRange(
     );
 
   }
-
 
 
   const startMonth =
@@ -869,17 +887,10 @@ function createDateRange(
     Number(endParts[1]);
 
 
-
-  /*
-  Same month:
-  Sept. 3–5
-  */
-
   if (
     startMonth ===
     endMonth
   ) {
-
 
     return (
       getShortMonth(
@@ -893,12 +904,6 @@ function createDateRange(
 
   }
 
-
-
-  /*
-  Different months:
-  Sept. 30 – Oct. 3
-  */
 
   return (
 
@@ -933,7 +938,6 @@ SAFE HTML
 */
 
 function escapeHTML(value) {
-
 
   return String(
     value || ""
@@ -976,7 +980,6 @@ NORMALIZE TEAM NAME
 
 function normalizeTeamName(name) {
 
-
   return String(
     name || ""
   )
@@ -1017,7 +1020,6 @@ CHECK IF GAME IS FINAL
 
 function isFinalGame(game) {
 
-
   return String(
     game["Status"] || ""
   )
@@ -1045,13 +1047,11 @@ record AFTER that game.
 
 function prepareGames() {
 
-
   const chronologicalGames =
     [...allGames]
 
       .sort(
         (a, b) => {
-
 
           const dateDifference =
 
@@ -1084,14 +1084,11 @@ function prepareGames() {
       );
 
 
-
   const records = {};
-
 
 
   chronologicalGames.forEach(
     game => {
-
 
       const awayTeam =
         normalizeTeamName(
@@ -1105,11 +1102,9 @@ function prepareGames() {
         );
 
 
-
       if (
         !records[awayTeam]
       ) {
-
 
         records[awayTeam] = {
 
@@ -1119,15 +1114,12 @@ function prepareGames() {
 
         };
 
-
       }
-
 
 
       if (
         !records[homeTeam]
       ) {
-
 
         records[homeTeam] = {
 
@@ -1137,15 +1129,12 @@ function prepareGames() {
 
         };
 
-
       }
-
 
 
       if (
         isFinalGame(game)
       ) {
-
 
         const awayScore =
           Number(
@@ -1159,7 +1148,6 @@ function prepareGames() {
           );
 
 
-
         if (
           Number.isFinite(
             awayScore
@@ -1170,12 +1158,10 @@ function prepareGames() {
         ) {
 
 
-
           if (
             awayScore >
             homeScore
           ) {
-
 
             records[
               awayTeam
@@ -1186,9 +1172,7 @@ function prepareGames() {
               homeTeam
             ].losses++;
 
-
           }
-
 
 
           else if (
@@ -1196,7 +1180,6 @@ function prepareGames() {
             awayScore
           ) {
 
-
             records[
               homeTeam
             ].wins++;
@@ -1206,13 +1189,10 @@ function prepareGames() {
               awayTeam
             ].losses++;
 
-
           }
 
 
-
           else {
-
 
             records[
               awayTeam
@@ -1223,15 +1203,11 @@ function prepareGames() {
               homeTeam
             ].ties++;
 
-
           }
-
 
         }
 
-
       }
-
 
 
       game._awayRecord =
@@ -1249,7 +1225,6 @@ function prepareGames() {
           ]
         );
 
-
     }
   );
 
@@ -1265,7 +1240,6 @@ FORMAT RECORD
 
 function formatRecord(record) {
 
-
   if (!record) {
 
     return "0-0";
@@ -1276,7 +1250,6 @@ function formatRecord(record) {
   if (
     record.ties > 0
   ) {
-
 
     return (
 
@@ -1313,22 +1286,9 @@ function formatRecord(record) {
 =========================================
 AUTOMATIC DATE RANGE FILTER
 =========================================
-
-Uses Week internally.
-
-Visitor sees:
-
-Sept. 3–5
-Sept. 9–12
-Sept. 16–19
-
-New weeks automatically appear.
-
-=========================================
 */
 
 function buildWeekFilter() {
-
 
   const weekFilter =
     document.getElementById(
@@ -1336,13 +1296,11 @@ function buildWeekFilter() {
     );
 
 
-
   const weeks = {};
 
 
   allGames.forEach(
     game => {
-
 
       const week =
         normalizeWeek(
@@ -1364,14 +1322,11 @@ function buildWeekFilter() {
       }
 
 
-
       if (
         !weeks[week]
       ) {
 
-
         weeks[week] = [];
-
 
       }
 
@@ -1380,10 +1335,8 @@ function buildWeekFilter() {
         date
       );
 
-
     }
   );
-
 
 
   const weekNumbers =
@@ -1410,12 +1363,10 @@ function buildWeekFilter() {
             )
           ) {
 
-
             return (
               numberA -
               numberB
             );
-
 
           }
 
@@ -1428,10 +1379,8 @@ function buildWeekFilter() {
       );
 
 
-
   weekNumbers.forEach(
     week => {
-
 
       const dates =
         weeks[week]
@@ -1445,7 +1394,6 @@ function buildWeekFilter() {
           );
 
 
-
       const firstDate =
         dates[0];
 
@@ -1456,13 +1404,11 @@ function buildWeekFilter() {
         ];
 
 
-
       const label =
         createDateRange(
           firstDate,
           lastDate
         );
-
 
 
       const option =
@@ -1483,7 +1429,6 @@ function buildWeekFilter() {
         option
       );
 
-
     }
   );
 
@@ -1495,19 +1440,9 @@ function buildWeekFilter() {
 =========================================
 ASSOCIATION FILTER
 =========================================
-
-ONLY these associations receive
-dropdown options.
-
-NJ / NY / PA / NCAA / etc.
-can still appear in games but
-do NOT get filter options.
-
-=========================================
 */
 
 function buildAssociationFilter() {
-
 
   const associationFilter =
     document.getElementById(
@@ -1528,10 +1463,8 @@ function buildAssociationFilter() {
   ];
 
 
-
   associations.forEach(
     association => {
-
 
       const option =
         document.createElement(
@@ -1552,7 +1485,6 @@ function buildAssociationFilter() {
           option
         );
 
-
     }
   );
 
@@ -1568,12 +1500,10 @@ DISPLAY SCORES
 
 function renderScores() {
 
-
   const scoresContainer =
     document.getElementById(
       "scores"
     );
-
 
 
   const selectedWeek =
@@ -1582,19 +1512,15 @@ function renderScores() {
     ).value;
 
 
-
   const selectedAssociation =
     document.getElementById(
       "associationFilter"
     ).value;
 
 
-
   let games =
     allGames.filter(
       game => {
-
-
 
         const weekMatches =
 
@@ -1607,7 +1533,6 @@ function renderScores() {
             game["Week"]
           ) ===
             selectedWeek;
-
 
 
         const associationMatches =
@@ -1630,7 +1555,6 @@ function renderScores() {
             selectedAssociation;
 
 
-
         return (
 
           weekMatches &&
@@ -1639,19 +1563,12 @@ function renderScores() {
 
         );
 
-
       }
     );
 
 
-
-  /*
-  Sort games by date
-  */
-
   games.sort(
     (a, b) => {
-
 
       const dateDifference =
 
@@ -1680,16 +1597,13 @@ function renderScores() {
         b._originalIndex
       );
 
-
     }
   );
-
 
 
   if (
     !games.length
   ) {
-
 
     scoresContainer.innerHTML =
 
@@ -1701,18 +1615,11 @@ function renderScores() {
   }
 
 
-
-  /*
-  Group games by date
-  */
-
   const groupedGames = {};
-
 
 
   games.forEach(
     game => {
-
 
       const date =
 
@@ -1721,21 +1628,17 @@ function renderScores() {
         "Unknown Date";
 
 
-
       if (
         !groupedGames[
           date
         ]
       ) {
 
-
         groupedGames[
           date
         ] = [];
 
-
       }
-
 
 
       groupedGames[
@@ -1744,14 +1647,11 @@ function renderScores() {
         game
       );
 
-
     }
   );
 
 
-
   let html = "";
-
 
 
   Object
@@ -1761,8 +1661,6 @@ function renderScores() {
 
     .forEach(
       date => {
-
-
 
         html += `
 
@@ -1781,15 +1679,12 @@ function renderScores() {
         `;
 
 
-
         groupedGames[
           date
         ]
 
           .forEach(
             game => {
-
-
 
               const awayScore =
                 Number(
@@ -1799,14 +1694,12 @@ function renderScores() {
                 );
 
 
-
               const homeScore =
                 Number(
                   game[
                     "Home Score"
                   ]
                 );
-
 
 
               const awayWinner =
@@ -1833,7 +1726,6 @@ function renderScores() {
                   homeScore;
 
 
-
               const homeWinner =
 
                 isFinalGame(
@@ -1858,7 +1750,6 @@ function renderScores() {
                   awayScore;
 
 
-
               const awayAssociation =
 
                 game[
@@ -1866,7 +1757,6 @@ function renderScores() {
                 ]
 
                 || "";
-
 
 
               const homeAssociation =
@@ -1878,10 +1768,8 @@ function renderScores() {
                 || "";
 
 
-
               let associationLabel =
                 "";
-
 
 
               if (
@@ -1893,20 +1781,16 @@ function renderScores() {
                 awayAssociation
               ) {
 
-
                 associationLabel =
                   awayAssociation;
 
-
               }
-
 
 
               else if (
                 awayAssociation ||
                 homeAssociation
               ) {
-
 
                 associationLabel =
 
@@ -1923,9 +1807,7 @@ function renderScores() {
                       " vs "
                     );
 
-
               }
-
 
 
               html += `
@@ -1988,7 +1870,6 @@ function renderScores() {
 
 
 
-
                   <div
                     class="team ${
                       homeWinner
@@ -2040,7 +1921,6 @@ function renderScores() {
 
 
                   </div>
-
 
 
 
@@ -2101,20 +1981,15 @@ function renderScores() {
 
               `;
 
-
             }
           );
 
 
-
         html +=
-
           `</section>`;
-
 
       }
     );
-
 
 
   scoresContainer.innerHTML =
@@ -2138,7 +2013,6 @@ document
     "change",
     renderScores
   );
-
 
 
 document
