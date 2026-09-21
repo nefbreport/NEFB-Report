@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="Latest New England high school football news, recruiting, rankings and game coverage from NEFB Report."
+  >
+
+  <title>News | NEFB Report</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f3f3;
+      color: #111;
+    }
+
+    header {
+      background: #050505;
+      color: white;
+      border-bottom: 1px solid #333;
+    }
+
+    .topbar {
+      max-width: 1250px;
+      min-height: 92px;
+      margin: auto;
+      padding: 8px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand img {
+      height: 76px;
+      width: 150px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    nav a:hover {
+      color: #aeb3b8;
+    }
+
+
+    /* HERO */
+
+    .hero {
+      background:
+        radial-gradient(
+          circle at 80% 40%,
+          #1d1d1d 0%,
+          #0c0c0c 35%,
+          #050505 70%
+        );
+
+      color: white;
+      padding: 65px 24px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      color: #aeb3b8;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 2px;
+
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(45px, 7vw, 70px);
+      letter-spacing: -2px;
+      line-height: 1;
+
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      color: #b9b9b9;
+      font-size: 16px;
+      line-height: 1.6;
+
+      max-width: 650px;
+    }
+
+
+    /* MAIN */
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 45px 20px 70px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+
+      margin-bottom: 30px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 240px;
+
+      padding: 13px 15px;
+
+      border: 1px solid #ccc;
+      border-radius: 4px;
+
+      font-size: 14px;
+      background: white;
+    }
+
+    select {
+      padding: 13px 15px;
+
+      border: 1px solid #ccc;
+      border-radius: 4px;
+
+      background: white;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+
+    /* FEATURED */
+
+    .featured {
+      background: #111;
+      color: white;
+
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+
+      border-radius: 6px;
+      overflow: hidden;
+
+      margin-bottom: 38px;
+    }
+
+    .featured-image {
+      width: 100%;
+      min-height: 350px;
+      height: 100%;
+
+      object-fit: cover;
+
+      background: #222;
+    }
+
+    .featured-content {
+      padding: 42px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .category {
+      color: #8f969c;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+
+      margin-bottom: 10px;
+    }
+
+    .featured h2 {
+      font-size: 35px;
+      line-height: 1.08;
+      letter-spacing: -1px;
+
+      margin-bottom: 14px;
+    }
+
+    .featured p {
+      color: #bbb;
+      line-height: 1.6;
+      font-size: 14px;
+
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      color: #888;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .read-button {
+      display: inline-block;
+      align-self: flex-start;
+
+      background: white;
+      color: #111;
+
+      text-decoration: none;
+
+      padding: 11px 16px;
+      margin-top: 20px;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      border-radius: 3px;
+    }
+
+
+    /* NEWS GRID */
+
+    .section-title {
+      font-size: 23px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      border-left: 4px solid #9da3a8;
+
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .story {
+      background: white;
+
+      border: 1px solid #ddd;
+      border-radius: 5px;
+
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+
+      min-height: 100%;
+    }
+
+    .story-image {
+      width: 100%;
+      height: 185px;
+
+      object-fit: cover;
+
+      background: #ddd;
+    }
+
+    .image-placeholder {
+      height: 185px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #111;
+      color: #777;
+
+      font-size: 12px;
+      font-weight: 900;
+
+      letter-spacing: 1px;
+    }
+
+    .story-content {
+      padding: 20px;
+
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .story h3 {
+      font-size: 19px;
+      line-height: 1.2;
+
+      margin-bottom: 10px;
+    }
+
+    .story-summary {
+      color: #666;
+
+      font-size: 13px;
+      line-height: 1.55;
+
+      margin-bottom: 18px;
+
+      flex: 1;
+    }
+
+    .story-link {
+      color: #111;
+
+      text-decoration: none;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+    }
+
+    .story-link:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      background: white;
+
+      border: 1px solid #ddd;
+      border-radius: 5px;
+
+      padding: 30px;
+
+      color: #777;
+
+      font-size: 14px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+      background: #050505;
+      color: #858585;
+
+      padding: 45px 24px;
+
+      border-top: 1px solid #222;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .footer-brand {
+      color: white;
+
+      font-size: 23px;
+      font-weight: 900;
+
+      margin-bottom: 9px;
+    }
+
+    footer p {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .topbar {
+        min-height: auto;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+      }
+
+      .brand img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      .featured {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-image {
+        min-height: 240px;
+        height: 240px;
+      }
+
+      .featured-content {
+        padding: 28px 22px;
+      }
+
+      .featured h2 {
+        font-size: 28px;
+      }
+
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="topbar">
+
+    <a class="brand" href="index.html">
+      <img src="nefb-logo.jpg" alt="NEFB Report">
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="news.html">News</a>
+      <a href="#">About</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div class="eyebrow">
+      NEFB Report
+    </div>
+
+    <h1>
+      Latest News
+    </h1>
+
+    <p>
+      News, recruiting, rankings and coverage from across
+      New England high school football.
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<main class="container">
+
+
+  <div class="toolbar">
+
+    <input
+      type="text"
+      id="searchInput"
+      class="search"
+      placeholder="Search news..."
+    >
+
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+    </select>
+
+  </div>
+
+
+
+  <div id="featuredStory"></div>
+
+
+
+  <div class="section-title">
+    Latest Stories
+  </div>
+
+
+  <div
+    class="news-grid"
+    id="newsGrid"
+  >
+
+    <div class="message">
+      Loading news...
+    </div>
+
+  </div>
+
+
+</main>
+
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      NEFB REPORT
+    </div>
+
+    <p>
+      Independent coverage of New England high school football.
+    </p>
+
+    <br>
+
+    <p>
+      © 2026 NEFB Report. All rights reserved.
+    </p>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+
+const NEWS_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=454604081&single=true&output=csv";
+
+
+let allStories = [];
+
+
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
+
+
+  for (let i = 0; i < text.length; i++) {
+
+    const char = text[i];
+
+
+    if (char === '"') {
+
+      if (
+        insideQuotes &&
+        text[i + 1] === '"'
+      ) {
+
+        cell += '"';
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes = !insideQuotes;
+
+      }
+
+    }
+
+    else if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(cell);
+      cell = "";
+
+    }
+
+    else if (
+      (char === "\n" || char === "\r") &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        text[i + 1] === "\n"
+      ) {
+        i++;
+      }
+
+      row.push(cell);
+
+      if (
+        row.some(
+          value =>
+            String(value).trim() !== ""
+        )
+      ) {
+        rows.push(row);
+      }
+
+      row = [];
+      cell = "";
+
+    }
+
+    else {
+
+      cell += char;
+
+    }
+
+  }
+
+
+  if (
+    cell.length > 0 ||
+    row.length > 0
+  ) {
+
+    row.push(cell);
+
+    if (
+      row.some(
+        value =>
+          String(value).trim() !== ""
+      )
+    ) {
+      rows.push(row);
+    }
+
+  }
+
+
+  return rows;
+
+}
+
+
+
+function csvToObjects(text) {
+
+  const rows = parseCSV(text);
+
+  if (rows.length < 2) {
+    return [];
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        String(header).trim()
+    );
+
+
+  return rows
+    .slice(1)
+    .map(row => {
+
+      const story = {};
+
+      headers.forEach(
+        (header, index) => {
+
+          story[header] =
+            String(
+              row[index] ?? ""
+            ).trim();
+
+        }
+      );
+
+      return story;
+
+    })
+    .filter(
+      story =>
+        story["Headline"] &&
+        story["Slug"]
+    );
+
+}
+
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+
+function parseDate(value) {
+
+  if (!value) {
+    return new Date(0);
+  }
+
+
+  const match =
+    String(value)
+      .trim()
+      .match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+      );
+
+
+  if (match) {
+
+    return new Date(
+      Number(match[3]),
+      Number(match[1]) - 1,
+      Number(match[2])
+    );
+
+  }
+
+
+  const parsed =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      parsed.getTime()
+    )
+  ) {
+    return new Date(0);
+  }
+
+
+  return parsed;
+
+}
+
+
+
+function formatDate(value) {
+
+  const date =
+    parseDate(value);
+
+
+  if (
+    date.getTime() === 0
+  ) {
+    return value || "";
+  }
+
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }
+  );
+
+}
+
+
+
+function articleURL(story) {
+
+  return (
+    "article.html?story=" +
+    encodeURIComponent(
+      story["Slug"]
+    )
+  );
+
+}
+
+
+
+function renderFeatured() {
+
+  const container =
+    document.getElementById(
+      "featuredStory"
+    );
+
+
+  let featured =
+    allStories.find(
+      story =>
+        String(
+          story["Featured"]
+        )
+          .trim()
+          .toLowerCase() === "yes"
+    );
+
+
+  if (!featured) {
+    featured = allStories[0];
+  }
+
+
+  if (!featured) {
+
+    container.innerHTML = "";
+    return;
+
+  }
+
+
+  const image =
+    featured["Image"]
+
+      ? `
+        <img
+          class="featured-image"
+          src="${escapeHTML(featured["Image"])}"
+          alt="${escapeHTML(featured["Headline"])}"
+        >
+      `
+
+      : `
+        <div class="featured-image"></div>
+      `;
+
+
+  container.innerHTML = `
+
+    <article class="featured">
+
+      ${image}
+
+      <div class="featured-content">
+
+        <div class="category">
+          ${escapeHTML(
+            featured["Category"] || "News"
+          )}
+        </div>
+
+        <h2>
+          ${escapeHTML(
+            featured["Headline"]
+          )}
+        </h2>
+
+        <p>
+          ${escapeHTML(
+            featured["Summary"]
+          )}
+        </p>
+
+        <div class="meta">
+
+          ${escapeHTML(
+            formatDate(
+              featured["Date"]
+            )
+          )}
+
+          ${featured["Author"]
+            ? " · " +
+              escapeHTML(
+                featured["Author"]
+              )
+            : ""
+          }
+
+        </div>
+
+        <a
+          class="read-button"
+          href="${articleURL(featured)}"
+        >
+          Read Story
+        </a>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+
+function renderStories() {
+
+  const grid =
+    document.getElementById(
+      "newsGrid"
+    );
+
+
+  const search =
+    document.getElementById(
+      "searchInput"
+    )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  const category =
+    document.getElementById(
+      "categoryFilter"
+    ).value;
+
+
+  const stories =
+    allStories.filter(
+      story => {
+
+
+        const searchText =
+          (
+            story["Headline"] +
+            " " +
+            story["Summary"] +
+            " " +
+            story["Category"] +
+            " " +
+            story["Author"]
+          )
+            .toLowerCase();
+
+
+        const matchesSearch =
+          !search ||
+          searchText.includes(search);
+
+
+        const matchesCategory =
+          category === "all" ||
+          story["Category"] === category;
+
+
+        return (
+          matchesSearch &&
+          matchesCategory
+        );
+
+      }
+    );
+
+
+  if (stories.length === 0) {
+
+    grid.innerHTML = `
+
+      <div class="message">
+        No stories found.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  grid.innerHTML =
+    stories
+      .map(
+        story => {
+
+
+          const image =
+            story["Image"]
+
+              ? `
+                <img
+                  class="story-image"
+                  src="${escapeHTML(story["Image"])}"
+                  alt="${escapeHTML(story["Headline"])}"
+                >
+              `
+
+              : `
+                <div class="image-placeholder">
+                  NEFB REPORT
+                </div>
+              `;
+
+
+          return `
+
+            <article class="story">
+
+              ${image}
+
+              <div class="story-content">
+
+                <div class="category">
+                  ${escapeHTML(
+                    story["Category"] || "News"
+                  )}
+                </div>
+
+                <h3>
+                  ${escapeHTML(
+                    story["Headline"]
+                  )}
+                </h3>
+
+                <div class="meta">
+
+                  ${escapeHTML(
+                    formatDate(
+                      story["Date"]
+                    )
+                  )}
+
+                </div>
+
+                <p class="story-summary">
+                  ${escapeHTML(
+                    story["Summary"]
+                  )}
+                </p>
+
+                <a
+                  class="story-link"
+                  href="${articleURL(story)}"
+                >
+                  Read More →
+                </a>
+
+              </div>
+
+            </article>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+
+function buildCategoryFilter() {
+
+  const select =
+    document.getElementById(
+      "categoryFilter"
+    );
+
+
+  const categories =
+    [
+      ...new Set(
+        allStories
+          .map(
+            story =>
+              story["Category"]
+          )
+          .filter(Boolean)
+      )
+    ]
+      .sort();
+
+
+  categories.forEach(
+    category => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        category;
+
+
+      option.textContent =
+        category;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+
+async function loadNews() {
+
+  try {
+
+    const response =
+      await fetch(
+        NEWS_SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+      throw new Error(
+        "Could not load news."
+      );
+    }
+
+
+    const csv =
+      await response.text();
+
+
+    allStories =
+      csvToObjects(csv);
+
+
+    allStories.sort(
+      (a, b) =>
+        parseDate(
+          b["Date"]
+        ) -
+        parseDate(
+          a["Date"]
+        )
+    );
+
+
+    buildCategoryFilter();
+    renderFeatured();
+    renderStories();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+
+    document.getElementById(
+      "newsGrid"
+    ).innerHTML = `
+
+      <div class="message">
+        News could not be loaded right now.
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+
+document
+  .getElementById(
+    "searchInput"
+  )
+  .addEventListener(
+    "input",
+    renderStories
+  );
+
+
+document
+  .getElementById(
+    "categoryFilter"
+  )
+  .addEventListener(
+    "change",
+    renderStories
+  );
+
+
+loadNews();
+
+
+</script>
+
+
+</body>
+</html>
