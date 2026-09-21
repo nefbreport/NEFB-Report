@@ -13,7 +13,6 @@
   <title>NEFB Report | New England High School Football</title>
 
   <style>
-
     * {
       margin: 0;
       padding: 0;
@@ -29,6 +28,8 @@
     a {
       color: inherit;
     }
+
+    /* HEADER */
 
     header {
       background: #050505;
@@ -79,7 +80,6 @@
     nav a:hover {
       color: #aeb3b8;
     }
-
 
     /* HERO */
 
@@ -150,7 +150,6 @@
       border: 1px solid #555;
     }
 
-
     /* MAIN */
 
     .container {
@@ -175,7 +174,6 @@
       align-items: center;
       justify-content: space-between;
       gap: 15px;
-
       border-bottom: 2px solid #111;
       padding-bottom: 10px;
       margin-bottom: 18px;
@@ -200,7 +198,6 @@
       color: #000;
     }
 
-
     /* FEATURE CARDS */
 
     .feature-grid {
@@ -222,7 +219,6 @@
         );
 
       color: white;
-
       border-radius: 5px;
 
       display: flex;
@@ -263,7 +259,6 @@
       font-weight: 900;
       text-transform: uppercase;
     }
-
 
     /* NEWS */
 
@@ -355,7 +350,6 @@
       text-decoration: underline;
     }
 
-
     /* SCORES */
 
     .scores-list {
@@ -391,7 +385,6 @@
       align-items: center;
 
       padding: 5px 0;
-
       font-size: 14px;
     }
 
@@ -415,7 +408,6 @@
       font-size: 17px;
       font-weight: 900;
     }
-
 
     /* SIDEBAR */
 
@@ -516,7 +508,6 @@
       line-height: 1.6;
     }
 
-
     /* MESSAGES */
 
     .message {
@@ -528,7 +519,6 @@
       font-size: 13px;
       line-height: 1.5;
     }
-
 
     /* FOOTER */
 
@@ -555,7 +545,6 @@
       font-size: 12px;
       line-height: 1.6;
     }
-
 
     /* MOBILE */
 
@@ -600,7 +589,6 @@
       .scores-list {
         grid-template-columns: 1fr;
       }
-
     }
 
   </style>
@@ -625,7 +613,7 @@
       <a href="rankings.html">Rankings</a>
       <a href="recruiting.html">Recruiting</a>
       <a href="news.html">News</a>
-      <a href="#">About</a>
+      <a href="about.html">About</a>
     </nav>
 
   </div>
@@ -672,7 +660,6 @@
 
 <main class="container">
 
-
   <div class="main-grid">
 
 
@@ -709,7 +696,6 @@
           </a>
 
         </article>
-
 
 
         <article class="feature-card">
@@ -756,16 +742,13 @@
 
         </div>
 
-
         <div
           class="news-grid"
           id="latestNews"
         >
-
           <div class="message">
             Loading latest news...
           </div>
-
         </div>
 
       </section>
@@ -788,16 +771,13 @@
 
         </div>
 
-
         <div
           class="scores-list"
           id="latestScores"
         >
-
           <div class="message">
             Loading latest scores...
           </div>
-
         </div>
 
       </section>
@@ -807,7 +787,7 @@
 
 
 
-    <!-- RIGHT SIDEBAR -->
+    <!-- SIDEBAR -->
 
     <aside>
 
@@ -960,31 +940,24 @@
           <strong>All Six States + Prep</strong>
 
           <br>
-
           Massachusetts
 
           <br>
-
           Connecticut
 
           <br>
-
           Rhode Island
 
           <br>
-
           New Hampshire
 
           <br>
-
           Maine
 
           <br>
-
           Vermont
 
           <br>
-
           NEPSAC
 
         </div>
@@ -1002,10 +975,8 @@
         </div>
 
         <div class="coming-soon">
-
           NEFB recruiting coverage, commitments,
           prospects and player profiles are coming soon.
-
         </div>
 
         <a
@@ -1018,11 +989,34 @@
       </div>
 
 
+
+      <!-- ABOUT -->
+
+      <div class="sidebar-card">
+
+        <div class="sidebar-title">
+          About NEFB
+        </div>
+
+        <div class="coming-soon">
+          Independent coverage of high school football
+          across all six New England states and prep football.
+        </div>
+
+        <a
+          class="sidebar-button"
+          href="about.html"
+        >
+          About NEFB
+        </a>
+
+      </div>
+
+
     </aside>
 
 
   </div>
-
 
 </main>
 
@@ -1083,14 +1077,9 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
+  for (let i = 0; i < text.length; i++) {
 
-    const char =
-      text[i];
+    const char = text[i];
 
 
     if (char === '"') {
@@ -1103,17 +1092,13 @@ function parseCSV(text) {
         cell += '"';
         i++;
 
-      }
+      } else {
 
-      else {
-
-        insideQuotes =
-          !insideQuotes;
+        insideQuotes = !insideQuotes;
 
       }
 
     }
-
 
     else if (
       char === "," &&
@@ -1125,12 +1110,8 @@ function parseCSV(text) {
 
     }
 
-
     else if (
-      (
-        char === "\n" ||
-        char === "\r"
-      ) &&
+      (char === "\n" || char === "\r") &&
       !insideQuotes
     ) {
 
@@ -1141,9 +1122,7 @@ function parseCSV(text) {
         i++;
       }
 
-
       row.push(cell);
-
 
       if (
         row.some(
@@ -1154,12 +1133,10 @@ function parseCSV(text) {
         rows.push(row);
       }
 
-
       row = [];
       cell = "";
 
     }
-
 
     else {
 
@@ -1176,7 +1153,6 @@ function parseCSV(text) {
   ) {
 
     row.push(cell);
-
 
     if (
       row.some(
@@ -1198,13 +1174,10 @@ function parseCSV(text) {
 
 function csvToObjects(text) {
 
-  const rows =
-    parseCSV(text);
+  const rows = parseCSV(text);
 
 
-  if (
-    rows.length < 2
-  ) {
+  if (rows.length < 2) {
     return [];
   }
 
@@ -1249,34 +1222,12 @@ function csvToObjects(text) {
 
 function escapeHTML(value) {
 
-  return String(
-    value ?? ""
-  )
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -1334,8 +1285,7 @@ function parseDate(value) {
 
 function formatShortDate(value) {
 
-  const date =
-    parseDate(value);
+  const date = parseDate(value);
 
 
   if (
@@ -1443,10 +1393,7 @@ async function loadLatestNews() {
           }
         )
 
-        .slice(
-          0,
-          3
-        );
+        .slice(0, 3);
 
 
     if (
@@ -1580,9 +1527,7 @@ async function loadLatestNews() {
 
   catch (error) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     container.innerHTML = `
@@ -1702,10 +1647,7 @@ async function loadLatestScores() {
           }
         )
 
-        .slice(
-          0,
-          4
-        );
+        .slice(0, 4);
 
 
     if (
@@ -1752,25 +1694,18 @@ async function loadLatestScores() {
               homeScore
             ) {
 
-              awayClass =
-                "winner";
-
-              homeClass =
-                "loser";
+              awayClass = "winner";
+              homeClass = "loser";
 
             }
-
 
             else if (
               homeScore >
               awayScore
             ) {
 
-              homeClass =
-                "winner";
-
-              awayClass =
-                "loser";
+              homeClass = "winner";
+              awayClass = "loser";
 
             }
 
@@ -1782,13 +1717,11 @@ async function loadLatestScores() {
                 <div class="score-top">
 
                   <span>
-
                     ${escapeHTML(
                       formatShortDate(
                         game["Date"]
                       )
                     )}
-
                   </span>
 
                   <span>
@@ -1879,9 +1812,7 @@ async function loadLatestScores() {
 
   catch (error) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     container.innerHTML = `
