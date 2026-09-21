@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="NEFB Report - New England high school football news."
+  >
+
+  <title>Article | NEFB Report</title>
+
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+
+      background: #f3f3f3;
+      color: #111;
+    }
+
+
+    /* HEADER */
+
+    header {
+      background: #050505;
+      color: white;
+
+      border-bottom: 1px solid #333;
+    }
+
+    .topbar {
+      max-width: 1250px;
+      min-height: 92px;
+
+      margin: auto;
+      padding: 8px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand img {
+      height: 76px;
+      width: 150px;
+
+      object-fit: contain;
+      object-position: left center;
+
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+
+      gap: 28px;
+    }
+
+    nav a {
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    nav a:hover {
+      color: #aeb3b8;
+    }
+
+
+    /* ARTICLE */
+
+    .article-container {
+      max-width: 850px;
+
+      margin: auto;
+
+      padding: 65px 24px 90px;
+    }
+
+    .back-link {
+      display: inline-block;
+
+      color: #666;
+
+      text-decoration: none;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      margin-bottom: 30px;
+    }
+
+    .back-link:hover {
+      color: #111;
+    }
+
+    .category {
+      color: #777d82;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(
+        38px,
+        6vw,
+        62px
+      );
+
+      line-height: 1.03;
+      letter-spacing: -2px;
+
+      margin-bottom: 20px;
+    }
+
+    .summary {
+      color: #666;
+
+      font-size: 19px;
+      line-height: 1.55;
+
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      color: #888;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
+
+      padding-bottom: 25px;
+
+      border-bottom: 1px solid #ddd;
+    }
+
+    .hero-image {
+      width: 100%;
+
+      max-height: 520px;
+
+      object-fit: cover;
+
+      margin: 35px 0;
+
+      border-radius: 4px;
+    }
+
+    .article-body {
+      background: white;
+
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+
+      padding: 38px;
+
+      font-family: Georgia, "Times New Roman", serif;
+
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .article-body p {
+      margin-bottom: 22px;
+    }
+
+    .article-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .error {
+      background: white;
+
+      border: 1px solid #ddd;
+
+      padding: 35px;
+
+      border-radius: 5px;
+
+      color: #666;
+
+      line-height: 1.6;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+      background: #050505;
+      color: #858585;
+
+      border-top: 1px solid #222;
+
+      padding: 45px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .footer-brand {
+      color: white;
+
+      font-size: 23px;
+      font-weight: 900;
+
+      margin-bottom: 9px;
+    }
+
+    footer p {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .topbar {
+        min-height: auto;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+      }
+
+      .brand img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      .article-container {
+        padding: 45px 18px 70px;
+      }
+
+      .article-body {
+        padding: 25px 20px;
+
+        font-size: 17px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="topbar">
+
+    <a
+      class="brand"
+      href="index.html"
+    >
+
+      <img
+        src="nefb-logo.jpg"
+        alt="NEFB Report"
+      >
+
+    </a>
+
+
+    <nav>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="scores.html">
+        Scores
+      </a>
+
+      <a href="teams.html">
+        Teams
+      </a>
+
+      <a href="rankings.html">
+        Rankings
+      </a>
+
+      <a href="recruiting.html">
+        Recruiting
+      </a>
+
+      <a href="news.html">
+        News
+      </a>
+
+      <a href="#">
+        About
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<main
+  class="article-container"
+  id="articleContainer"
+>
+
+  <div class="error">
+    Loading story...
+  </div>
+
+</main>
+
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      NEFB REPORT
+    </div>
+
+    <p>
+      Independent coverage of New England high school football.
+    </p>
+
+    <br>
+
+    <p>
+      © 2026 NEFB Report. All rights reserved.
+    </p>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+
+const NEWS_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=454604081&single=true&output=csv";
+
+
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+
+    if (char === '"') {
+
+      if (
+        insideQuotes &&
+        text[i + 1] === '"'
+      ) {
+
+        cell += '"';
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+    }
+
+
+    else if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(cell);
+
+      cell = "";
+
+    }
+
+
+    else if (
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        text[i + 1] === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(cell);
+
+
+      if (
+        row.some(
+          value =>
+            String(value).trim() !== ""
+        )
+      ) {
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+      cell = "";
+
+    }
+
+
+    else {
+
+      cell += char;
+
+    }
+
+  }
+
+
+  if (
+    cell.length > 0 ||
+    row.length > 0
+  ) {
+
+    row.push(cell);
+
+
+    if (
+      row.some(
+        value =>
+          String(value).trim() !== ""
+      )
+    ) {
+
+      rows.push(row);
+
+    }
+
+  }
+
+
+  return rows;
+
+}
+
+
+
+function csvToObjects(text) {
+
+  const rows =
+    parseCSV(text);
+
+
+  if (
+    rows.length < 2
+  ) {
+
+    return [];
+
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        String(header).trim()
+    );
+
+
+  return rows
+
+    .slice(1)
+
+    .map(
+      row => {
+
+        const story = {};
+
+
+        headers.forEach(
+          (header, index) => {
+
+            story[header] =
+              String(
+                row[index] ?? ""
+              ).trim();
+
+          }
+        );
+
+
+        return story;
+
+      }
+    );
+
+}
+
+
+
+function escapeHTML(value) {
+
+  return String(
+    value ?? ""
+  )
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function parseDate(value) {
+
+  if (!value) {
+    return new Date(0);
+  }
+
+
+  const match =
+    String(value)
+      .trim()
+      .match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+      );
+
+
+  if (match) {
+
+    return new Date(
+      Number(match[3]),
+      Number(match[1]) - 1,
+      Number(match[2])
+    );
+
+  }
+
+
+  const parsed =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      parsed.getTime()
+    )
+  ) {
+
+    return new Date(0);
+
+  }
+
+
+  return parsed;
+
+}
+
+
+
+function formatDate(value) {
+
+  const date =
+    parseDate(value);
+
+
+  if (
+    date.getTime() === 0
+  ) {
+
+    return value || "";
+
+  }
+
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }
+  );
+
+}
+
+
+
+/*
+Turn the Article cell into paragraphs.
+
+Put a blank line between paragraphs
+when writing the story in Google Sheets.
+*/
+
+function formatArticleBody(text) {
+
+  const clean =
+    String(text || "")
+      .replace(
+        /\r\n/g,
+        "\n"
+      )
+      .replace(
+        /\r/g,
+        "\n"
+      );
+
+
+  const paragraphs =
+    clean
+      .split(
+        /\n\s*\n/
+      )
+      .map(
+        paragraph =>
+          paragraph.trim()
+      )
+      .filter(Boolean);
+
+
+  if (
+    paragraphs.length === 0
+  ) {
+
+    return `
+      <p>
+        Article text coming soon.
+      </p>
+    `;
+
+  }
+
+
+  return paragraphs
+    .map(
+      paragraph => {
+
+        const safe =
+          escapeHTML(
+            paragraph
+          )
+            .replaceAll(
+              "\n",
+              "<br>"
+            );
+
+
+        return `
+          <p>
+            ${safe}
+          </p>
+        `;
+
+      }
+    )
+    .join("");
+
+}
+
+
+
+async function loadArticle() {
+
+  const container =
+    document.getElementById(
+      "articleContainer"
+    );
+
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const requestedSlug =
+    params.get(
+      "story"
+    );
+
+
+  if (!requestedSlug) {
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        Story not found.
+
+        <br><br>
+
+        <a href="news.html">
+          Return to News
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        NEWS_SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Could not load news."
+      );
+
+    }
+
+
+    const csv =
+      await response.text();
+
+
+    const stories =
+      csvToObjects(csv);
+
+
+    const story =
+      stories.find(
+        item =>
+          String(
+            item["Slug"] || ""
+          ).trim() ===
+          requestedSlug
+      );
+
+
+    if (!story) {
+
+      container.innerHTML = `
+
+        <div class="error">
+
+          This story could not be found.
+
+          <br><br>
+
+          <a href="news.html">
+            Return to News
+          </a>
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    document.title =
+      story["Headline"] +
+      " | NEFB Report";
+
+
+    const image =
+      story["Image"]
+
+        ? `
+
+          <img
+            class="hero-image"
+            src="${escapeHTML(
+              story["Image"]
+            )}"
+            alt="${escapeHTML(
+              story["Headline"]
+            )}"
+          >
+
+        `
+
+        : "";
+
+
+    container.innerHTML = `
+
+
+      <a
+        class="back-link"
+        href="news.html"
+      >
+        ← Back to News
+      </a>
+
+
+      <div class="category">
+
+        ${escapeHTML(
+          story["Category"] ||
+          "News"
+        )}
+
+      </div>
+
+
+      <h1>
+
+        ${escapeHTML(
+          story["Headline"]
+        )}
+
+      </h1>
+
+
+      ${
+        story["Summary"]
+
+          ? `
+
+            <div class="summary">
+
+              ${escapeHTML(
+                story["Summary"]
+              )}
+
+            </div>
+
+          `
+
+          : ""
+      }
+
+
+      <div class="meta">
+
+        ${escapeHTML(
+          formatDate(
+            story["Date"]
+          )
+        )}
+
+        ${
+          story["Author"]
+
+            ? " · By " +
+              escapeHTML(
+                story["Author"]
+              )
+
+            : ""
+        }
+
+      </div>
+
+
+      ${image}
+
+
+      <article class="article-body">
+
+        ${formatArticleBody(
+          story["Article"]
+        )}
+
+      </article>
+
+
+    `;
+
+
+  }
+
+
+  catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="error">
+
+        This story could not be loaded right now.
+
+        <br><br>
+
+        <a href="news.html">
+          Return to News
+        </a>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+
+loadArticle();
+
+
+</script>
+
+
+</body>
+
+</html>
