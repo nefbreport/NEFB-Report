@@ -2,13 +2,8 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta
     name="description"
@@ -16,7 +11,6 @@
   >
 
   <title>NEFB Report | New England High School Football</title>
-
 
   <style>
 
@@ -26,29 +20,20 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #f3f3f3;
-      color: #111111;
+      color: #111;
     }
 
     a {
       color: inherit;
     }
 
-
-    /* =========================
-       HEADER
-    ========================== */
-
     header {
       background: #050505;
-      color: #ffffff;
-      border-bottom: 1px solid #333333;
+      color: white;
+      border-bottom: 1px solid #333;
     }
 
     .topbar {
@@ -66,16 +51,13 @@
     .brand {
       display: flex;
       align-items: center;
-      flex-shrink: 0;
     }
 
     .brand img {
       height: 76px;
       width: 150px;
-
       object-fit: contain;
       object-position: left center;
-
       display: block;
     }
 
@@ -86,16 +68,12 @@
     }
 
     nav a {
-      color: #ffffff;
+      color: white;
       text-decoration: none;
-
       font-size: 13px;
       font-weight: 800;
-
       text-transform: uppercase;
-      letter-spacing: 0.4px;
-
-      transition: color 0.2s ease;
+      letter-spacing: .4px;
     }
 
     nav a:hover {
@@ -103,9 +81,7 @@
     }
 
 
-    /* =========================
-       HERO
-    ========================== */
+    /* HERO */
 
     .hero {
       background:
@@ -116,424 +92,462 @@
           #050505 70%
         );
 
-      color: #ffffff;
-
-      padding: 90px 24px 100px;
+      color: white;
+      padding: 82px 24px;
     }
 
     .hero-inner {
-      max-width: 1250px;
+      max-width: 1100px;
       margin: auto;
     }
 
-    .tag {
+    .eyebrow {
       color: #aeb3b8;
-
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 900;
-
-      letter-spacing: 2.6px;
       text-transform: uppercase;
-
-      margin-bottom: 18px;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
     }
 
     .hero h1 {
-      max-width: 800px;
-
-      font-size: clamp(44px, 6vw, 72px);
-      line-height: 0.98;
-      letter-spacing: -2.5px;
-
-      margin-bottom: 24px;
+      max-width: 780px;
+      font-size: clamp(48px, 7vw, 76px);
+      line-height: .98;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
     }
 
     .hero p {
       max-width: 700px;
-
       color: #b9b9b9;
-
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1.65;
     }
 
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
 
-    /* =========================
-       MAIN
-    ========================== */
+    .hero-button {
+      display: inline-block;
+      background: white;
+      color: #111;
+      text-decoration: none;
+      padding: 12px 17px;
+      border-radius: 3px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero-button.secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid #555;
+    }
+
+
+    /* MAIN */
 
     .container {
-      max-width: 1250px;
-      margin: 0 auto;
-      padding: 55px 24px;
+      max-width: 1100px;
+      margin: auto;
+      padding: 45px 20px 70px;
     }
 
-    .grid {
+    .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
-      gap: 34px;
+      grid-template-columns: minmax(0, 2fr) minmax(280px, .8fr);
+      gap: 32px;
+      align-items: start;
     }
 
-    .section-title {
-      font-size: 23px;
+    .section {
+      margin-bottom: 42px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+
+      border-bottom: 2px solid #111;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+    }
+
+    .section-heading h2 {
+      font-size: 22px;
       font-weight: 900;
-
       text-transform: uppercase;
-      letter-spacing: -0.5px;
+    }
 
-      border-left: 4px solid #9da3a8;
+    .section-heading a {
+      color: #555;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
 
-      padding-left: 12px;
+    .section-heading a:hover {
+      color: #000;
+    }
+
+
+    /* FEATURE CARDS */
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 42px;
+    }
+
+    .feature-card {
+      min-height: 240px;
+      padding: 28px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #161616,
+          #050505
+        );
+
+      color: white;
+
+      border-radius: 5px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .feature-label {
+      color: #9da3a8;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      margin-bottom: 10px;
+    }
+
+    .feature-card h2 {
+      font-size: 28px;
+      line-height: 1.05;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.5;
       margin-bottom: 20px;
     }
 
+    .feature-button {
+      align-self: flex-start;
+      background: white;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
 
-    /* =========================
-       CARDS
-    ========================== */
 
-    .card {
-      background: #ffffff;
+    /* NEWS */
 
-      border: 1px solid #e2e2e2;
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .news-card {
+      background: white;
+      border: 1px solid #ddd;
       border-radius: 5px;
-
       overflow: hidden;
 
-      box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.04);
-
-      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
     }
 
-    .card-content {
-      padding: 25px;
+    .news-image {
+      width: 100%;
+      height: 145px;
+      object-fit: cover;
+      background: #ddd;
     }
 
-    .card-label {
-      color: #777d82;
+    .news-placeholder {
+      height: 145px;
+      background: #111;
+      color: #666;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       font-size: 11px;
       font-weight: 900;
-
-      text-transform: uppercase;
       letter-spacing: 1px;
-
-      margin-bottom: 9px;
     }
 
-    .card h2 {
-      font-size: 25px;
-      line-height: 1.15;
+    .news-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .news-category {
+      color: #777;
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 7px;
+    }
+
+    .news-card h3 {
+      font-size: 16px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .news-summary {
+      color: #666;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 13px;
+      flex: 1;
+    }
+
+    .news-meta {
+      color: #999;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .news-link {
+      color: #111;
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .news-link:hover {
+      text-decoration: underline;
+    }
+
+
+    /* SCORES */
+
+    .scores-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .score-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 16px;
+    }
+
+    .score-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      color: #888;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
 
       margin-bottom: 11px;
     }
 
-    .card p {
-      color: #666666;
+    .score-team {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
 
-      line-height: 1.55;
+      padding: 5px 0;
+
       font-size: 14px;
     }
 
-
-    /* =========================
-       BUTTONS
-    ========================== */
-
-    .button {
-      display: inline-block;
-
-      background: #111111;
-      color: #ffffff;
-
-      text-decoration: none;
-
-      padding: 12px 18px;
-      margin-top: 17px;
-
-      font-size: 12px;
+    .score-team.winner {
       font-weight: 900;
-
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-
-      border: 1px solid #111111;
-      border-radius: 3px;
-
-      transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease;
     }
 
-    .button:hover {
-      background: #70757a;
-      border-color: #70757a;
+    .score-team.loser {
+      color: #777;
+    }
+
+    .team-association {
+      display: block;
+      color: #999;
+      font-size: 9px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .score-number {
+      font-size: 17px;
+      font-weight: 900;
     }
 
 
-    /* =========================
-       TOP 5
-    ========================== */
+    /* SIDEBAR */
 
-    .rankings {
-      background: #0b0b0b;
-      color: #ffffff;
-
-      padding: 22px;
-
-      border: 1px solid #242424;
+    .sidebar-card {
+      background: white;
+      border: 1px solid #ddd;
       border-radius: 5px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
 
-      margin-bottom: 32px;
+    .sidebar-title {
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding-bottom: 11px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #111;
     }
 
     .ranking-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 9px;
       align-items: center;
 
-      min-height: 58px;
-
-      border-bottom: 1px solid #292929;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
     }
 
     .ranking-row:last-of-type {
       border-bottom: none;
     }
 
-    .rank {
-      width: 42px;
-
-      color: #aeb3b8;
-
-      font-size: 21px;
+    .rank-number {
+      font-size: 18px;
       font-weight: 900;
-
-      flex-shrink: 0;
     }
 
-    .ranking-info {
-      min-width: 0;
+    .rank-team {
+      font-size: 13px;
+      font-weight: 900;
     }
 
-    .team {
-      font-size: 14px;
-      font-weight: 800;
-
-      line-height: 1.25;
-    }
-
-    .ranking-meta {
-      color: #777777;
-
+    .rank-association {
+      color: #888;
       font-size: 9px;
       font-weight: 700;
-
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     .movement {
-      margin-left: auto;
-      padding-left: 10px;
-
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 900;
-
-      flex-shrink: 0;
     }
 
     .movement.up {
-      color: #28a95b;
+      color: #18864b;
     }
 
     .movement.down {
-      color: #df4444;
+      color: #c73737;
     }
 
-    .movement.same {
-      color: #888888;
-    }
+    .sidebar-button {
+      display: block;
+      width: 100%;
 
-    .rankings .button {
-      background: #ffffff;
-      color: #111111;
-      border-color: #ffffff;
-    }
+      margin-top: 14px;
+      padding: 11px;
 
-    .rankings .button:hover {
-      background: #b7bcc0;
-      border-color: #b7bcc0;
-    }
+      background: #111;
+      color: white;
 
+      text-align: center;
+      text-decoration: none;
 
-    /* =========================
-       SCORES
-    ========================== */
-
-    .score-card {
-      background: #ffffff;
-
-      padding: 19px 22px;
-
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .score-date {
-      color: #888888;
+      border-radius: 3px;
 
       font-size: 10px;
-      font-weight: 800;
-
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-
-      margin-bottom: 9px;
-    }
-
-    .score-team {
-      display: grid;
-
-      grid-template-columns:
-        minmax(0, 1fr)
-        auto;
-
-      gap: 15px;
-
-      align-items: center;
-
-      font-size: 14px;
-
-      padding: 4px 0;
-    }
-
-    .score-team-name {
-      font-weight: 700;
-      min-width: 0;
-    }
-
-    .score-number {
       font-weight: 900;
-      font-size: 15px;
-    }
-
-    .score-team.winner .score-team-name,
-    .score-team.winner .score-number {
-      font-weight: 900;
-    }
-
-    .score-team.loser {
-      color: #777777;
-    }
-
-    .score-association {
-      color: #999999;
-
-      font-size: 9px;
-      font-weight: 800;
-
-      margin-left: 5px;
-
       text-transform: uppercase;
     }
 
-    .scores-loading {
-      padding: 28px 22px;
-
-      color: #777777;
-
+    .coverage-list {
+      color: #555;
       font-size: 13px;
-      font-weight: 700;
+      line-height: 1.8;
     }
 
-    .scores-error {
-      padding: 28px 22px;
+    .coverage-list strong {
+      color: #111;
+    }
 
-      color: #777777;
+    .coming-soon {
+      color: #777;
+      font-size: 13px;
+      line-height: 1.6;
+    }
 
+
+    /* MESSAGES */
+
+    .message {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 22px;
+      color: #777;
       font-size: 13px;
       line-height: 1.5;
     }
 
 
-    /* =========================
-       NEWSLETTER
-    ========================== */
-
-    .newsletter {
-      background: #0b0b0b;
-      color: #ffffff;
-
-      border: 1px solid #262626;
-      border-radius: 5px;
-
-      padding: 38px;
-
-      margin-top: 55px;
-    }
-
-    .newsletter-label {
-      color: #aeb3b8;
-
-      font-size: 11px;
-      font-weight: 900;
-
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-
-      margin-bottom: 8px;
-    }
-
-    .newsletter h2 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-
-    .newsletter p {
-      max-width: 700px;
-
-      color: #b7b7b7;
-
-      font-size: 14px;
-      line-height: 1.6;
-
-      margin-bottom: 12px;
-    }
-
-    .newsletter strong {
-      color: #ffffff;
-      font-size: 13px;
-    }
-
-
-    /* =========================
-       FOOTER
-    ========================== */
+    /* FOOTER */
 
     footer {
       background: #050505;
       color: #858585;
-
-      border-top: 1px solid #222222;
-
-      margin-top: 20px;
+      border-top: 1px solid #222;
       padding: 45px 24px;
     }
 
     .footer-inner {
-      max-width: 1250px;
+      max-width: 1100px;
       margin: auto;
     }
 
     .footer-brand {
-      color: #ffffff;
-
+      color: white;
       font-size: 23px;
       font-weight: 900;
-
       margin-bottom: 9px;
     }
 
@@ -543,21 +557,16 @@
     }
 
 
-    /* =========================
-       MOBILE
-    ========================== */
+    /* MOBILE */
 
-    @media (max-width: 850px) {
+    @media (max-width: 900px) {
 
       .topbar {
         min-height: auto;
-
-        padding-top: 12px;
-        padding-bottom: 15px;
-
         flex-direction: column;
         align-items: flex-start;
-
+        padding-top: 12px;
+        padding-bottom: 15px;
         gap: 10px;
       }
 
@@ -576,90 +585,47 @@
         font-size: 11px;
       }
 
-      .hero {
-        padding: 65px 22px 70px;
-      }
-
-      .hero h1 {
-        font-size: 44px;
-        letter-spacing: -1.5px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .grid {
+      .main-grid {
         grid-template-columns: 1fr;
       }
 
-      .container {
-        padding: 40px 18px;
+      .feature-grid {
+        grid-template-columns: 1fr;
       }
 
-      .newsletter {
-        padding: 28px 22px;
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scores-list {
+        grid-template-columns: 1fr;
       }
 
     }
 
   </style>
-
 </head>
 
 
 <body>
 
 
-<!-- =========================
-     HEADER
-========================== -->
-
 <header>
 
   <div class="topbar">
 
-    <a
-      class="brand"
-      href="index.html"
-    >
-      <img
-        src="nefb-logo.jpg"
-        alt="NEFB Report"
-      >
+    <a class="brand" href="index.html">
+      <img src="nefb-logo.jpg" alt="NEFB Report">
     </a>
 
-
     <nav>
-
-      <a href="index.html">
-        Home
-      </a>
-
-      <a href="scores.html">
-        Scores
-      </a>
-
-      <a href="teams.html">
-        Teams
-      </a>
-
-      <a href="rankings.html">
-        Rankings
-      </a>
-
-      <a href="recruiting.html">
-        Recruiting
-      </a>
-
-      <a href="#">
-        News
-      </a>
-
-      <a href="#">
-        About
-      </a>
-
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="news.html">News</a>
+      <a href="#">About</a>
     </nav>
 
   </div>
@@ -668,15 +634,11 @@
 
 
 
-<!-- =========================
-     HERO
-========================== -->
-
 <section class="hero">
 
   <div class="hero-inner">
 
-    <div class="tag">
+    <div class="eyebrow">
       New England High School Football
     </div>
 
@@ -690,43 +652,43 @@
       Maine, Vermont and New England prep football.
     </p>
 
+    <div class="hero-buttons">
+
+      <a class="hero-button" href="scores.html">
+        View Scores
+      </a>
+
+      <a class="hero-button secondary" href="rankings.html">
+        Top 20 Rankings
+      </a>
+
+    </div>
+
   </div>
 
 </section>
 
 
 
-<!-- =========================
-     MAIN
-========================== -->
-
 <main class="container">
 
 
-  <div class="grid">
+  <div class="main-grid">
 
 
-    <!-- =========================
-         LEFT SIDE
-    ========================== -->
+    <!-- LEFT SIDE -->
 
-    <section>
+    <div>
 
 
-      <div class="section-title">
-        Latest
-      </div>
+      <!-- FEATURE CARDS -->
 
+      <div class="feature-grid">
 
+        <article class="feature-card">
 
-      <!-- RANKINGS CARD -->
-
-      <article class="card">
-
-        <div class="card-content">
-
-          <div class="card-label">
-            NEFB Rankings
+          <div class="feature-label">
+            Rankings
           </div>
 
           <h2>
@@ -734,126 +696,145 @@
           </h2>
 
           <p>
-            The latest NEFB Report rankings featuring the top
-            high school football programs across New England.
+            The latest NEFB Report rankings featuring
+            the top high school football programs
+            across New England.
           </p>
 
           <a
-            class="button"
+            class="feature-button"
             href="rankings.html"
           >
             View Rankings
           </a>
 
-        </div>
-
-      </article>
+        </article>
 
 
 
-      <!-- GAMES OF THE WEEK -->
+        <article class="feature-card">
 
-      <article class="card">
-
-        <div class="card-content">
-
-          <div class="card-label">
-            Games of the Week
+          <div class="feature-label">
+            Weekly Coverage
           </div>
 
           <h2>
-            This Week's Biggest Matchups
+            Games of the Week
           </h2>
 
           <p>
-            The biggest games, storylines and matchups to watch
-            across New England this week.
+            The biggest matchups from around New England
+            every week.
           </p>
 
           <a
-            class="button"
+            class="feature-button"
             href="#"
           >
-            View Games
+            View Matchups
+          </a>
+
+        </article>
+
+      </div>
+
+
+
+      <!-- LATEST NEWS -->
+
+      <section class="section">
+
+        <div class="section-heading">
+
+          <h2>
+            Latest News
+          </h2>
+
+          <a href="news.html">
+            View All News →
           </a>
 
         </div>
 
-      </article>
+
+        <div
+          class="news-grid"
+          id="latestNews"
+        >
+
+          <div class="message">
+            Loading latest news...
+          </div>
+
+        </div>
+
+      </section>
 
 
 
-      <!-- =========================
-           LIVE SCORES
-      ========================== -->
+      <!-- LATEST SCORES -->
 
-      <div class="section-title">
-        Latest Scores
-      </div>
+      <section class="section">
+
+        <div class="section-heading">
+
+          <h2>
+            Latest Scores
+          </h2>
+
+          <a href="scores.html">
+            View All Scores →
+          </a>
+
+        </div>
 
 
-      <div class="card">
+        <div
+          class="scores-list"
+          id="latestScores"
+        >
 
-
-        <div id="latestScores">
-
-          <div class="scores-loading">
+          <div class="message">
             Loading latest scores...
           </div>
 
         </div>
 
-
-        <div class="card-content">
-
-          <a
-            class="button"
-            href="scores.html"
-          >
-            View All Scores
-          </a>
-
-        </div>
-
-      </div>
+      </section>
 
 
-    </section>
+    </div>
 
 
 
-    <!-- =========================
-         RIGHT SIDE
-    ========================== -->
+    <!-- RIGHT SIDEBAR -->
 
     <aside>
 
 
-      <div class="section-title">
-        NEFB Top 5
-      </div>
+      <!-- TOP 5 -->
 
+      <div class="sidebar-card">
 
-
-      <div class="rankings">
+        <div class="sidebar-title">
+          NEFB Top 5
+        </div>
 
 
         <div class="ranking-row">
 
-          <div class="rank">
+          <div class="rank-number">
             1
           </div>
 
-          <div class="ranking-info">
-
-            <div class="team">
+          <div>
+            <div class="rank-team">
               Avon Old Farms
             </div>
 
-            <div class="ranking-meta">
+            <div class="rank-association">
               NEPSAC
             </div>
-
           </div>
 
           <div class="movement up">
@@ -863,23 +844,20 @@
         </div>
 
 
-
         <div class="ranking-row">
 
-          <div class="rank">
+          <div class="rank-number">
             2
           </div>
 
-          <div class="ranking-info">
-
-            <div class="team">
+          <div>
+            <div class="rank-team">
               Choate Rosemary Hall
             </div>
 
-            <div class="ranking-meta">
+            <div class="rank-association">
               NEPSAC
             </div>
-
           </div>
 
           <div class="movement up">
@@ -889,23 +867,20 @@
         </div>
 
 
-
         <div class="ranking-row">
 
-          <div class="rank">
+          <div class="rank-number">
             3
           </div>
 
-          <div class="ranking-info">
-
-            <div class="team">
+          <div>
+            <div class="rank-team">
               Williston Northampton
             </div>
 
-            <div class="ranking-meta">
+            <div class="rank-association">
               NEPSAC
             </div>
-
           </div>
 
           <div class="movement up">
@@ -915,23 +890,20 @@
         </div>
 
 
-
         <div class="ranking-row">
 
-          <div class="rank">
+          <div class="rank-number">
             4
           </div>
 
-          <div class="ranking-info">
-
-            <div class="team">
+          <div>
+            <div class="rank-team">
               St. John's Prep
             </div>
 
-            <div class="ranking-meta">
+            <div class="rank-association">
               MIAA
             </div>
-
           </div>
 
           <div class="movement up">
@@ -939,25 +911,22 @@
           </div>
 
         </div>
-
 
 
         <div class="ranking-row">
 
-          <div class="rank">
+          <div class="rank-number">
             5
           </div>
 
-          <div class="ranking-info">
-
-            <div class="team">
+          <div>
+            <div class="rank-team">
               Catholic Memorial
             </div>
 
-            <div class="ranking-meta">
+            <div class="rank-association">
               MIAA
             </div>
-
           </div>
 
           <div class="movement up">
@@ -967,14 +936,12 @@
         </div>
 
 
-
         <a
-          class="button"
+          class="sidebar-button"
           href="rankings.html"
         >
           Full Top 20
         </a>
-
 
       </div>
 
@@ -982,30 +949,71 @@
 
       <!-- COVERAGE -->
 
-      <div class="section-title">
-        Coverage
+      <div class="sidebar-card">
+
+        <div class="sidebar-title">
+          Coverage
+        </div>
+
+        <div class="coverage-list">
+
+          <strong>All Six States + Prep</strong>
+
+          <br>
+
+          Massachusetts
+
+          <br>
+
+          Connecticut
+
+          <br>
+
+          Rhode Island
+
+          <br>
+
+          New Hampshire
+
+          <br>
+
+          Maine
+
+          <br>
+
+          Vermont
+
+          <br>
+
+          NEPSAC
+
+        </div>
+
       </div>
 
 
-      <div class="card">
 
-        <div class="card-content">
+      <!-- RECRUITING -->
 
-          <div class="card-label">
-            NEFB Report
-          </div>
+      <div class="sidebar-card">
 
-          <h2>
-            All Six States + Prep
-          </h2>
+        <div class="sidebar-title">
+          Recruiting
+        </div>
 
-          <p>
-            Covering high school football throughout Massachusetts,
-            Connecticut, Rhode Island, New Hampshire, Maine,
-            Vermont and the New England prep football landscape.
-          </p>
+        <div class="coming-soon">
+
+          NEFB recruiting coverage, commitments,
+          prospects and player profiles are coming soon.
 
         </div>
+
+        <a
+          class="sidebar-button"
+          href="recruiting.html"
+        >
+          Recruiting
+        </a>
 
       </div>
 
@@ -1016,40 +1024,9 @@
   </div>
 
 
-
-  <!-- =========================
-       NEWSLETTER
-  ========================== -->
-
-  <section class="newsletter">
-
-    <div class="newsletter-label">
-      Stay Connected
-    </div>
-
-    <h2>
-      The NEFB Report
-    </h2>
-
-    <p>
-      Rankings, scores, recruiting news and the biggest stories
-      in New England football delivered directly to you.
-    </p>
-
-    <strong>
-      Newsletter coming soon.
-    </strong>
-
-  </section>
-
-
 </main>
 
 
-
-<!-- =========================
-     FOOTER
-========================== -->
 
 <footer>
 
@@ -1079,12 +1056,16 @@
 
 
 /* =========================================================
-   GOOGLE SHEET
+   GOOGLE SHEET FEEDS
 ========================================================= */
 
 
-const SHEET_URL =
+const SCORES_SHEET_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
+
+
+const NEWS_SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=454604081&single=true&output=csv";
 
 
 
@@ -1102,9 +1083,14 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-  for (let i = 0; i < text.length; i++) {
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
 
-    const char = text[i];
+    const char =
+      text[i];
 
 
     if (char === '"') {
@@ -1117,9 +1103,12 @@ function parseCSV(text) {
         cell += '"';
         i++;
 
-      } else {
+      }
 
-        insideQuotes = !insideQuotes;
+      else {
+
+        insideQuotes =
+          !insideQuotes;
 
       }
 
@@ -1138,7 +1127,10 @@ function parseCSV(text) {
 
 
     else if (
-      (char === "\n" || char === "\r") &&
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
       !insideQuotes
     ) {
 
@@ -1159,9 +1151,7 @@ function parseCSV(text) {
             String(value).trim() !== ""
         )
       ) {
-
         rows.push(row);
-
       }
 
 
@@ -1194,9 +1184,7 @@ function parseCSV(text) {
           String(value).trim() !== ""
       )
     ) {
-
       rows.push(row);
-
     }
 
   }
@@ -1208,36 +1196,15 @@ function parseCSV(text) {
 
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+function csvToObjects(text) {
+
+  const rows =
+    parseCSV(text);
 
 
-function escapeHTML(value) {
-
-  return String(value ?? "")
-
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-
-/* =========================================================
-   CONVERT CSV TO OBJECTS
-========================================================= */
-
-
-function csvToObjects(csvText) {
-
-  const rows = parseCSV(csvText);
-
-
-  if (rows.length < 2) {
+  if (
+    rows.length < 2
+  ) {
     return [];
   }
 
@@ -1250,21 +1217,19 @@ function csvToObjects(csvText) {
 
 
   return rows
-
     .slice(1)
-
     .map(
       (row, index) => {
 
-        const game = {
-          originalIndex: index
+        const item = {
+          __rowIndex: index
         };
 
 
         headers.forEach(
           (header, columnIndex) => {
 
-            game[header] =
+            item[header] =
               String(
                 row[columnIndex] ?? ""
               ).trim();
@@ -1273,7 +1238,7 @@ function csvToObjects(csvText) {
         );
 
 
-        return game;
+        return item;
 
       }
     );
@@ -1282,73 +1247,101 @@ function csvToObjects(csvText) {
 
 
 
-/* =========================================================
-   DATE PARSING
-========================================================= */
+function escapeHTML(value) {
 
+  return String(
+    value ?? ""
+  )
 
-function parseGameDate(value) {
-
-  if (!value) {
-    return null;
-  }
-
-
-  const clean =
-    String(value).trim();
-
-
-  const slashMatch =
-    clean.match(
-      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
-    );
-
-
-  if (slashMatch) {
-
-    return new Date(
-      Number(slashMatch[3]),
-      Number(slashMatch[1]) - 1,
-      Number(slashMatch[2])
-    );
-
-  }
-
-
-  const parsed =
-    new Date(clean);
-
-
-  if (
-    !Number.isNaN(
-      parsed.getTime()
+    .replaceAll(
+      "&",
+      "&amp;"
     )
-  ) {
 
-    return parsed;
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-  }
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-  return null;
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
 
 
 /* =========================================================
-   DATE DISPLAY
+   DATES
 ========================================================= */
 
 
-function formatDate(value) {
+function parseDate(value) {
+
+  if (!value) {
+    return new Date(0);
+  }
+
+
+  const match =
+    String(value)
+      .trim()
+      .match(
+        /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+      );
+
+
+  if (match) {
+
+    return new Date(
+      Number(match[3]),
+      Number(match[1]) - 1,
+      Number(match[2])
+    );
+
+  }
+
+
+  const parsed =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      parsed.getTime()
+    )
+  ) {
+    return new Date(0);
+  }
+
+
+  return parsed;
+
+}
+
+
+
+function formatShortDate(value) {
 
   const date =
-    parseGameDate(value);
+    parseDate(value);
 
 
-  if (!date) {
-    return value || "Final";
+  if (
+    date.getTime() === 0
+  ) {
+    return value || "";
   }
 
 
@@ -1365,170 +1358,249 @@ function formatDate(value) {
 
 
 /* =========================================================
-   SCORE NUMBER
+   LATEST NEWS
 ========================================================= */
 
 
-function getScore(value) {
+function newsArticleURL(story) {
 
-  const number =
-    Number(
-      String(value).trim()
+  return (
+    "article.html?story=" +
+    encodeURIComponent(
+      story["Slug"]
+    )
+  );
+
+}
+
+
+
+async function loadLatestNews() {
+
+  const container =
+    document.getElementById(
+      "latestNews"
     );
 
 
-  if (Number.isNaN(number)) {
-    return null;
+  try {
+
+    const response =
+      await fetch(
+        NEWS_SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Could not load news."
+      );
+
+    }
+
+
+    const csv =
+      await response.text();
+
+
+    const stories =
+      csvToObjects(csv)
+
+        .filter(
+          story =>
+            story["Headline"] &&
+            story["Slug"]
+        )
+
+        .sort(
+          (a, b) => {
+
+            const dateDifference =
+              parseDate(
+                b["Date"]
+              ) -
+              parseDate(
+                a["Date"]
+              );
+
+
+            if (
+              dateDifference !== 0
+            ) {
+              return dateDifference;
+            }
+
+
+            return (
+              b.__rowIndex -
+              a.__rowIndex
+            );
+
+          }
+        )
+
+        .slice(
+          0,
+          3
+        );
+
+
+    if (
+      stories.length === 0
+    ) {
+
+      container.innerHTML = `
+
+        <div class="message">
+          No news stories have been published yet.
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      stories
+        .map(
+          story => {
+
+
+            const image =
+              story["Image"]
+
+                ? `
+
+                  <img
+                    class="news-image"
+                    src="${escapeHTML(
+                      story["Image"]
+                    )}"
+                    alt="${escapeHTML(
+                      story["Headline"]
+                    )}"
+                  >
+
+                `
+
+                : `
+
+                  <div class="news-placeholder">
+                    NEFB REPORT
+                  </div>
+
+                `;
+
+
+            return `
+
+              <article class="news-card">
+
+                ${image}
+
+                <div class="news-content">
+
+                  <div class="news-category">
+
+                    ${escapeHTML(
+                      story["Category"] ||
+                      "News"
+                    )}
+
+                  </div>
+
+
+                  <h3>
+
+                    ${escapeHTML(
+                      story["Headline"]
+                    )}
+
+                  </h3>
+
+
+                  <div class="news-meta">
+
+                    ${escapeHTML(
+                      formatShortDate(
+                        story["Date"]
+                      )
+                    )}
+
+                    ${
+                      story["Author"]
+
+                        ? " · " +
+                          escapeHTML(
+                            story["Author"]
+                          )
+
+                        : ""
+                    }
+
+                  </div>
+
+
+                  <div class="news-summary">
+
+                    ${escapeHTML(
+                      story["Summary"]
+                    )}
+
+                  </div>
+
+
+                  <a
+                    class="news-link"
+                    href="${newsArticleURL(
+                      story
+                    )}"
+                  >
+                    Read Story →
+                  </a>
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        )
+        .join("");
+
+
   }
 
+  catch (error) {
 
-  return number;
+    console.error(
+      error
+    );
+
+
+    container.innerHTML = `
+
+      <div class="message">
+        Latest news could not be loaded right now.
+      </div>
+
+    `;
+
+  }
 
 }
 
 
 
 /* =========================================================
-   RENDER ONE GAME
-========================================================= */
-
-
-function renderGame(game) {
-
-  const awayScore =
-    getScore(
-      game["Away Score"]
-    );
-
-
-  const homeScore =
-    getScore(
-      game["Home Score"]
-    );
-
-
-  let awayClass = "";
-  let homeClass = "";
-
-
-  if (
-    awayScore !== null &&
-    homeScore !== null
-  ) {
-
-    if (awayScore > homeScore) {
-
-      awayClass = "winner";
-      homeClass = "loser";
-
-    }
-
-    else if (homeScore > awayScore) {
-
-      homeClass = "winner";
-      awayClass = "loser";
-
-    }
-
-  }
-
-
-  const awayAssociation =
-    game["Away Association"]
-      ? `
-        <span class="score-association">
-          ${escapeHTML(game["Away Association"])}
-        </span>
-      `
-      : "";
-
-
-  const homeAssociation =
-    game["Home Association"]
-      ? `
-        <span class="score-association">
-          ${escapeHTML(game["Home Association"])}
-        </span>
-      `
-      : "";
-
-
-  return `
-
-    <div class="score-card">
-
-      <div class="score-date">
-
-        ${escapeHTML(
-          formatDate(
-            game["Date"]
-          )
-        )}
-
-        ·
-
-        ${escapeHTML(
-          game["Status"] || "Final"
-        )}
-
-      </div>
-
-
-      <div class="score-team ${awayClass}">
-
-        <div class="score-team-name">
-
-          ${escapeHTML(
-            game["Away Team"]
-          )}
-
-          ${awayAssociation}
-
-        </div>
-
-        <div class="score-number">
-
-          ${escapeHTML(
-            game["Away Score"]
-          )}
-
-        </div>
-
-      </div>
-
-
-      <div class="score-team ${homeClass}">
-
-        <div class="score-team-name">
-
-          ${escapeHTML(
-            game["Home Team"]
-          )}
-
-          ${homeAssociation}
-
-        </div>
-
-        <div class="score-number">
-
-          ${escapeHTML(
-            game["Home Score"]
-          )}
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-
-/* =========================================================
-   LOAD LATEST SCORES
+   LATEST SCORES
 ========================================================= */
 
 
@@ -1544,7 +1616,7 @@ async function loadLatestScores() {
 
     const response =
       await fetch(
-        SHEET_URL,
+        SCORES_SHEET_URL,
         {
           cache: "no-store"
         }
@@ -1560,104 +1632,90 @@ async function loadLatestScores() {
     }
 
 
-    const csvText =
+    const csv =
       await response.text();
 
 
     const games =
-      csvToObjects(
-        csvText
-      );
+      csvToObjects(csv)
+
+        .filter(
+          game => {
+
+            const status =
+              String(
+                game["Status"] || ""
+              ).toLowerCase();
 
 
-    const finals =
-      games.filter(
-        game => {
-
-          const status =
-            String(
-              game["Status"] || ""
-            ).toLowerCase();
+            const awayScore =
+              Number(
+                game["Away Score"]
+              );
 
 
-          const hasTeams =
-            game["Away Team"] &&
-            game["Home Team"];
+            const homeScore =
+              Number(
+                game["Home Score"]
+              );
 
 
-          const hasScores =
-            getScore(
-              game["Away Score"]
-            ) !== null &&
-            getScore(
-              game["Home Score"]
-            ) !== null;
+            return (
+              status.includes("final") &&
+              game["Away Team"] &&
+              game["Home Team"] &&
+              Number.isFinite(
+                awayScore
+              ) &&
+              Number.isFinite(
+                homeScore
+              )
+            );
+
+          }
+        )
+
+        .sort(
+          (a, b) => {
+
+            const dateDifference =
+              parseDate(
+                b["Date"]
+              ) -
+              parseDate(
+                a["Date"]
+              );
 
 
-          return (
-            status.includes("final") &&
-            hasTeams &&
-            hasScores
-          );
-
-        }
-      );
+            if (
+              dateDifference !== 0
+            ) {
+              return dateDifference;
+            }
 
 
-    finals.sort(
-      (a, b) => {
+            return (
+              b.__rowIndex -
+              a.__rowIndex
+            );
 
-        const dateA =
-          parseGameDate(
-            a["Date"]
-          );
+          }
+        )
 
-
-        const dateB =
-          parseGameDate(
-            b["Date"]
-          );
-
-
-        const timeA =
-          dateA
-            ? dateA.getTime()
-            : 0;
-
-
-        const timeB =
-          dateB
-            ? dateB.getTime()
-            : 0;
-
-
-        if (timeB !== timeA) {
-          return timeB - timeA;
-        }
-
-
-        return (
-          b.originalIndex -
-          a.originalIndex
+        .slice(
+          0,
+          4
         );
 
-      }
-    );
 
-
-    const latest =
-      finals.slice(
-        0,
-        4
-      );
-
-
-    if (latest.length === 0) {
+    if (
+      games.length === 0
+    ) {
 
       container.innerHTML = `
 
-        <div class="scores-error">
-          No final scores are currently available.
+        <div class="message">
+          No final scores available yet.
         </div>
 
       `;
@@ -1668,10 +1726,151 @@ async function loadLatestScores() {
 
 
     container.innerHTML =
-      latest
+      games
         .map(
-          game =>
-            renderGame(game)
+          game => {
+
+
+            const awayScore =
+              Number(
+                game["Away Score"]
+              );
+
+
+            const homeScore =
+              Number(
+                game["Home Score"]
+              );
+
+
+            let awayClass = "";
+            let homeClass = "";
+
+
+            if (
+              awayScore >
+              homeScore
+            ) {
+
+              awayClass =
+                "winner";
+
+              homeClass =
+                "loser";
+
+            }
+
+
+            else if (
+              homeScore >
+              awayScore
+            ) {
+
+              homeClass =
+                "winner";
+
+              awayClass =
+                "loser";
+
+            }
+
+
+            return `
+
+              <article class="score-card">
+
+                <div class="score-top">
+
+                  <span>
+
+                    ${escapeHTML(
+                      formatShortDate(
+                        game["Date"]
+                      )
+                    )}
+
+                  </span>
+
+                  <span>
+                    Final
+                  </span>
+
+                </div>
+
+
+                <div class="score-team ${awayClass}">
+
+                  <div>
+
+                    ${escapeHTML(
+                      game["Away Team"]
+                    )}
+
+                    <span class="team-association">
+
+                      ${escapeHTML(
+                        game[
+                          "Away Association"
+                        ]
+                      )}
+
+                    </span>
+
+                  </div>
+
+
+                  <div class="score-number">
+
+                    ${escapeHTML(
+                      game[
+                        "Away Score"
+                      ]
+                    )}
+
+                  </div>
+
+                </div>
+
+
+                <div class="score-team ${homeClass}">
+
+                  <div>
+
+                    ${escapeHTML(
+                      game["Home Team"]
+                    )}
+
+                    <span class="team-association">
+
+                      ${escapeHTML(
+                        game[
+                          "Home Association"
+                        ]
+                      )}
+
+                    </span>
+
+                  </div>
+
+
+                  <div class="score-number">
+
+                    ${escapeHTML(
+                      game[
+                        "Home Score"
+                      ]
+                    )}
+
+                  </div>
+
+                </div>
+
+
+              </article>
+
+            `;
+
+          }
         )
         .join("");
 
@@ -1680,14 +1879,15 @@ async function loadLatestScores() {
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     container.innerHTML = `
 
-      <div class="scores-error">
+      <div class="message">
         Latest scores could not be loaded right now.
-        Use the Scores page to view the full scoreboard.
       </div>
 
     `;
@@ -1699,10 +1899,11 @@ async function loadLatestScores() {
 
 
 /* =========================================================
-   START
+   LOAD HOMEPAGE
 ========================================================= */
 
 
+loadLatestNews();
 loadLatestScores();
 
 
@@ -1710,5 +1911,4 @@ loadLatestScores();
 
 
 </body>
-
 </html>
