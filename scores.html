@@ -19,8 +19,6 @@
       color: #111;
     }
 
-    /* HEADER */
-
     header {
       background: #111;
       color: white;
@@ -53,8 +51,6 @@
       opacity: 0.7;
     }
 
-    /* PAGE */
-
     .container {
       max-width: 1100px;
       margin: 35px auto;
@@ -70,8 +66,6 @@
       color: #666;
       margin-bottom: 25px;
     }
-
-    /* FILTERS */
 
     .filters {
       display: flex;
@@ -89,8 +83,6 @@
       cursor: pointer;
     }
 
-    /* DATE */
-
     .date-section {
       margin-bottom: 35px;
     }
@@ -102,8 +94,6 @@
       border-bottom: 2px solid #111;
       padding-bottom: 8px;
     }
-
-    /* GAME */
 
     .game {
       background: white;
@@ -147,7 +137,16 @@
       text-transform: uppercase;
     }
 
-    /* LOADING / ERROR */
+    .prep-label {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      padding: 3px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+      font-size: 9px;
+      letter-spacing: .5px;
+    }
 
     #loading {
       text-align: center;
@@ -170,10 +169,7 @@
       color: #666;
     }
 
-    /* MOBILE */
-
     @media (max-width: 700px) {
-
       .header-inner {
         flex-direction: column;
         align-items: flex-start;
@@ -196,7 +192,6 @@
       select {
         width: 100%;
       }
-
     }
   </style>
 </head>
@@ -224,7 +219,7 @@
   <h1>New England Football Scores</h1>
 
   <div class="subtitle">
-    High school football scores from across New England.
+    High school and prep football scores from across New England.
   </div>
 
 
@@ -235,17 +230,46 @@
       <option value="1">Week 1</option>
       <option value="2">Week 2</option>
       <option value="3">Week 3</option>
+      <option value="4">Week 4</option>
+      <option value="5">Week 5</option>
+      <option value="6">Week 6</option>
+      <option value="7">Week 7</option>
+      <option value="8">Week 8</option>
+      <option value="9">Week 9</option>
+      <option value="10">Week 10</option>
     </select>
 
 
     <select id="stateFilter">
-      <option value="all">All States</option>
-      <option value="MA">Massachusetts</option>
-      <option value="CT">Connecticut</option>
-      <option value="RI">Rhode Island</option>
-      <option value="NH">New Hampshire</option>
-      <option value="ME">Maine</option>
-      <option value="VT">Vermont</option>
+      <option value="all">All New England</option>
+
+      <option value="NEPSAC">
+        NEPSAC / Prep
+      </option>
+
+      <option value="MA">
+        Massachusetts
+      </option>
+
+      <option value="CT">
+        Connecticut
+      </option>
+
+      <option value="RI">
+        Rhode Island
+      </option>
+
+      <option value="NH">
+        New Hampshire
+      </option>
+
+      <option value="ME">
+        Maine
+      </option>
+
+      <option value="VT">
+        Vermont
+      </option>
     </select>
 
   </div>
@@ -273,46 +297,270 @@ const SHEET_URL =
 let allGames = [];
 
 
-/* LOAD GOOGLE SHEET */
+/*
+-----------------------------------------
+NEPSAC FOOTBALL PROGRAMS
+-----------------------------------------
+*/
+
+const NEPSAC_TEAMS = [
+
+  "Avon Old Farms",
+  "Avon Old Farms School",
+
+  "Belmont Hill",
+  "Belmont Hill School",
+
+  "Berkshire",
+  "Berkshire School",
+
+  "Blair Academy",
+
+  "Brunswick",
+  "Brunswick School",
+
+  "Buckingham Browne & Nichols",
+  "BB&N",
+  "BBN",
+
+  "Canterbury",
+  "Canterbury School",
+
+  "Cheshire Academy",
+
+  "Choate",
+  "Choate Rosemary Hall",
+
+  "Deerfield",
+  "Deerfield Academy",
+
+  "Dexter Southfield",
+  "Dexter Southfield School",
+
+  "Frederick Gunn",
+  "Frederick Gunn School",
+  "The Frederick Gunn School",
+
+  "Greenwich Country Day",
+  "Greenwich Country Day School",
+
+  "Hamden Hall",
+  "Hamden Hall Country Day School",
+
+  "Hotchkiss",
+  "Hotchkiss School",
+  "The Hotchkiss School",
+
+  "Kent",
+  "Kent School",
+
+  "Kingswood Oxford",
+  "Kingswood-Oxford",
+  "Kingswood Oxford School",
+
+  "Lawrence Academy",
+
+  "Loomis Chaffee",
+  "Loomis Chaffee School",
+  "Loomis-Chaffee",
+
+  "Milton Academy",
+
+  "New Hampton",
+  "New Hampton School",
+
+  "Noble & Greenough",
+  "Noble and Greenough",
+  "Nobles",
+
+  "Phillips Andover",
+  "Phillips Academy",
+  "Phillips Academy Andover",
+
+  "Phillips Exeter",
+  "Phillips Exeter Academy",
+  "Exeter",
+
+  "Pomfret",
+  "Pomfret School",
+
+  "Salisbury",
+  "Salisbury School",
+
+  "St. Mark's",
+  "St Mark's",
+  "St. Mark’s School",
+  "St. Mark's School",
+
+  "St. Paul's",
+  "St Paul's",
+  "St. Paul's School",
+  "St. Paul’s School",
+
+  "St. Sebastian's",
+  "St Sebastian's",
+  "St. Sebastian’s School",
+  "St. Sebastian's School",
+  "St. Seb's",
+  "St Sebs",
+
+  "St. Thomas More",
+  "St Thomas More",
+  "St. Thomas More School",
+
+  "Suffield Academy",
+
+  "Tabor",
+  "Tabor Academy",
+
+  "Taft",
+  "Taft School",
+  "The Taft School",
+
+  "Thayer",
+  "Thayer Academy",
+
+  "The Governor's Academy",
+  "Governor's Academy",
+  "Governors Academy",
+
+  "The Rivers School",
+  "Rivers",
+  "Rivers School",
+
+  "Trinity-Pawling",
+  "Trinity Pawling",
+  "Trinity-Pawling School",
+
+  "Westminster",
+  "Westminster School",
+
+  "Williston Northampton",
+  "Williston Northampton School",
+
+  "Worcester Academy"
+
+];
+
+
+/*
+NORMALIZE TEAM NAMES
+*/
+
+function normalizeTeamName(name) {
+
+  return String(name || "")
+    .toLowerCase()
+    .replace(/[.’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+
+const normalizedNEPSACTeams =
+  NEPSAC_TEAMS.map(normalizeTeamName);
+
+
+/*
+CHECK WHETHER TEAM IS NEPSAC
+*/
+
+function isNEPSACTeam(teamName) {
+
+  const team =
+    normalizeTeamName(teamName);
+
+  return normalizedNEPSACTeams.includes(team);
+
+}
+
+
+/*
+CHECK WHETHER GAME IS NEPSAC
+*/
+
+function isNEPSACGame(game) {
+
+  return (
+    isNEPSACTeam(game["Away Team"]) ||
+    isNEPSACTeam(game["Home Team"])
+  );
+
+}
+
+
+/*
+LOAD GOOGLE SHEET
+*/
 
 async function loadScores() {
 
   try {
 
-    const response = await fetch(SHEET_URL);
+    const response =
+      await fetch(SHEET_URL);
 
     if (!response.ok) {
-      throw new Error("Could not load spreadsheet");
+      throw new Error(
+        "Could not load spreadsheet"
+      );
     }
 
-    const csv = await response.text();
+    const csv =
+      await response.text();
 
-    const rows = parseCSV(csv);
+    const rows =
+      parseCSV(csv);
 
     if (rows.length < 2) {
-      throw new Error("Spreadsheet is empty");
+      throw new Error(
+        "Spreadsheet is empty"
+      );
     }
 
-    const headers = rows[0].map(header => header.trim());
+    const headers =
+      rows[0].map(
+        header => header.trim()
+      );
 
-    allGames = rows.slice(1)
-      .filter(row => row.some(cell => cell.trim() !== ""))
-      .map(row => {
 
-        const game = {};
+    allGames =
+      rows
+        .slice(1)
+        .filter(
+          row =>
+            row.some(
+              cell =>
+                cell.trim() !== ""
+            )
+        )
+        .map(row => {
 
-        headers.forEach((header, index) => {
-          game[header] = row[index]
-            ? row[index].trim()
-            : "";
+          const game = {};
+
+          headers.forEach(
+            (header, index) => {
+
+              game[header] =
+                row[index]
+                  ? row[index].trim()
+                  : "";
+
+            }
+          );
+
+          return game;
+
         });
 
-        return game;
 
-      });
+    document
+      .getElementById("loading")
+      .style.display = "none";
 
-
-    document.getElementById("loading").style.display = "none";
 
     renderScores();
 
@@ -322,15 +570,22 @@ async function loadScores() {
 
     console.error(error);
 
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("error").style.display = "block";
+    document
+      .getElementById("loading")
+      .style.display = "none";
+
+    document
+      .getElementById("error")
+      .style.display = "block";
 
   }
 
 }
 
 
-/* CSV PARSER */
+/*
+CSV PARSER
+*/
 
 function parseCSV(text) {
 
@@ -341,16 +596,25 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-  for (let i = 0; i < text.length; i++) {
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
 
-    const character = text[i];
+    const character =
+      text[i];
 
-    const nextCharacter = text[i + 1];
+    const nextCharacter =
+      text[i + 1];
 
 
     if (character === '"') {
 
-      if (insideQuotes && nextCharacter === '"') {
+      if (
+        insideQuotes &&
+        nextCharacter === '"'
+      ) {
 
         cell += '"';
 
@@ -360,13 +624,17 @@ function parseCSV(text) {
 
       else {
 
-        insideQuotes = !insideQuotes;
+        insideQuotes =
+          !insideQuotes;
 
       }
 
     }
 
-    else if (character === "," && !insideQuotes) {
+    else if (
+      character === "," &&
+      !insideQuotes
+    ) {
 
       row.push(cell);
 
@@ -375,11 +643,17 @@ function parseCSV(text) {
     }
 
     else if (
-      (character === "\n" || character === "\r")
-      && !insideQuotes
+      (
+        character === "\n" ||
+        character === "\r"
+      ) &&
+      !insideQuotes
     ) {
 
-      if (character === "\r" && nextCharacter === "\n") {
+      if (
+        character === "\r" &&
+        nextCharacter === "\n"
+      ) {
         i++;
       }
 
@@ -401,7 +675,10 @@ function parseCSV(text) {
   }
 
 
-  if (cell.length || row.length) {
+  if (
+    cell.length ||
+    row.length
+  ) {
 
     row.push(cell);
 
@@ -415,27 +692,38 @@ function parseCSV(text) {
 }
 
 
-/* DATE FORMAT */
+/*
+DATE FORMAT
+*/
 
 function formatDate(dateString) {
 
-  if (!dateString) return "";
+  if (!dateString)
+    return "";
 
 
-  const parts = dateString.split("/");
+  const parts =
+    dateString.split("/");
 
 
   if (parts.length === 3) {
 
-    const month = Number(parts[0]);
-    const day = Number(parts[1]);
-    const year = Number(parts[2]);
+    const month =
+      Number(parts[0]);
 
-    const date = new Date(
-      year,
-      month - 1,
-      day
-    );
+    const day =
+      Number(parts[1]);
+
+    const year =
+      Number(parts[2]);
+
+
+    const date =
+      new Date(
+        year,
+        month - 1,
+        day
+      );
 
 
     return date.toLocaleDateString(
@@ -455,7 +743,9 @@ function formatDate(dateString) {
 }
 
 
-/* SAFE HTML */
+/*
+SAFE HTML
+*/
 
 function escapeHTML(value) {
 
@@ -469,74 +759,156 @@ function escapeHTML(value) {
 }
 
 
-/* DISPLAY SCORES */
+/*
+DISPLAY SCORES
+*/
 
 function renderScores() {
 
   const scoresContainer =
-    document.getElementById("scores");
+    document.getElementById(
+      "scores"
+    );
 
 
   const selectedWeek =
-    document.getElementById("weekFilter").value;
+    document.getElementById(
+      "weekFilter"
+    ).value;
 
 
   const selectedState =
-    document.getElementById("stateFilter").value;
+    document.getElementById(
+      "stateFilter"
+    ).value;
 
 
-  let games = allGames.filter(game => {
-
-    const weekMatches =
-      selectedWeek === "all" ||
-      game["Week"] === selectedWeek;
+  let games =
+    allGames.filter(game => {
 
 
-    const stateMatches =
-      selectedState === "all" ||
-      game["Away State"] === selectedState ||
-      game["Home State"] === selectedState;
+      const weekMatches =
+        selectedWeek === "all" ||
+        String(game["Week"])
+          .replace(
+            /week\s*/i,
+            ""
+          )
+          .trim()
+          === selectedWeek;
 
 
-    return weekMatches && stateMatches;
-
-  });
+      let categoryMatches = false;
 
 
-  /* SORT BY DATE */
+      /*
+      ALL NEW ENGLAND
+      */
 
-  games.sort((a, b) => {
+      if (
+        selectedState === "all"
+      ) {
 
-    return new Date(a["Date"]) -
-           new Date(b["Date"]);
+        categoryMatches = true;
 
-  });
+      }
+
+
+      /*
+      NEPSAC
+      */
+
+      else if (
+        selectedState === "NEPSAC"
+      ) {
+
+        categoryMatches =
+          isNEPSACGame(game);
+
+      }
+
+
+      /*
+      STATE FILTERS
+
+      NEPSAC games are excluded here
+      so prep games live in their own
+      NEPSAC section.
+      */
+
+      else {
+
+        const involvesState =
+          game["Away State"] ===
+            selectedState ||
+          game["Home State"] ===
+            selectedState;
+
+
+        categoryMatches =
+          involvesState &&
+          !isNEPSACGame(game);
+
+      }
+
+
+      return (
+        weekMatches &&
+        categoryMatches
+      );
+
+    });
+
+
+  /*
+  SORT BY DATE
+  */
+
+  games.sort(
+    (a, b) => {
+
+      return (
+        new Date(a["Date"]) -
+        new Date(b["Date"])
+      );
+
+    }
+  );
 
 
   if (!games.length) {
 
     scoresContainer.innerHTML =
-      '<div class="no-games">No games found.</div>';
+      '<div class="no-games">No games found for these filters.</div>';
 
     return;
 
   }
 
 
-  /* GROUP BY DATE */
+  /*
+  GROUP BY DATE
+  */
 
   const groupedGames = {};
 
 
   games.forEach(game => {
 
-    const date = game["Date"] || "Unknown Date";
+    const date =
+      game["Date"] ||
+      "Unknown Date";
+
 
     if (!groupedGames[date]) {
+
       groupedGames[date] = [];
+
     }
 
-    groupedGames[date].push(game);
+
+    groupedGames[date]
+      .push(game);
 
   });
 
@@ -544,86 +916,137 @@ function renderScores() {
   let html = "";
 
 
-  Object.keys(groupedGames).forEach(date => {
+  Object
+    .keys(groupedGames)
+    .forEach(date => {
 
-    html += `
-      <section class="date-section">
-
-        <div class="date-title">
-          ${escapeHTML(formatDate(date))}
-        </div>
-    `;
-
-
-    groupedGames[date].forEach(game => {
 
       html += `
 
-        <div class="game">
+        <section class="date-section">
 
-          <div class="team">
-
-            <div class="state">
-              ${escapeHTML(game["Away State"])}
-            </div>
-
-            <div class="team-name">
-              ${escapeHTML(game["Away Team"])}
-            </div>
-
-            <div class="score">
-              ${escapeHTML(game["Away Score"])}
-            </div>
-
+          <div class="date-title">
+            ${escapeHTML(
+              formatDate(date)
+            )}
           </div>
-
-
-          <div class="team">
-
-            <div class="state">
-              ${escapeHTML(game["Home State"])}
-            </div>
-
-            <div class="team-name">
-              ${escapeHTML(game["Home Team"])}
-            </div>
-
-            <div class="score">
-              ${escapeHTML(game["Home Score"])}
-            </div>
-
-          </div>
-
-
-          <div class="game-footer">
-
-            ${escapeHTML(game["Status"] || "Final")}
-            &nbsp; • &nbsp;
-            Week ${escapeHTML(game["Week"])}
-
-          </div>
-
-        </div>
 
       `;
+
+
+      groupedGames[date]
+        .forEach(game => {
+
+
+          const prepGame =
+            isNEPSACGame(game);
+
+
+          html += `
+
+            <div class="game">
+
+
+              <div class="team">
+
+                <div class="state">
+                  ${escapeHTML(
+                    game["Away State"]
+                  )}
+                </div>
+
+                <div class="team-name">
+                  ${escapeHTML(
+                    game["Away Team"]
+                  )}
+                </div>
+
+                <div class="score">
+                  ${escapeHTML(
+                    game["Away Score"]
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="team">
+
+                <div class="state">
+                  ${escapeHTML(
+                    game["Home State"]
+                  )}
+                </div>
+
+                <div class="team-name">
+                  ${escapeHTML(
+                    game["Home Team"]
+                  )}
+                </div>
+
+                <div class="score">
+                  ${escapeHTML(
+                    game["Home Score"]
+                  )}
+                </div>
+
+              </div>
+
+
+              <div class="game-footer">
+
+                ${escapeHTML(
+                  game["Status"] ||
+                  "Final"
+                )}
+
+                &nbsp; • &nbsp;
+
+                Week
+                ${escapeHTML(
+                  String(
+                    game["Week"]
+                  ).replace(
+                    /week\s*/i,
+                    ""
+                  )
+                )}
+
+                ${
+                  prepGame
+                    ? '<span class="prep-label">NEPSAC</span>'
+                    : ''
+                }
+
+              </div>
+
+            </div>
+
+          `;
+
+        });
+
+
+      html +=
+        `</section>`;
 
     });
 
 
-    html += `</section>`;
-
-  });
-
-
-  scoresContainer.innerHTML = html;
+  scoresContainer.innerHTML =
+    html;
 
 }
 
 
-/* FILTER EVENTS */
+/*
+FILTER EVENTS
+*/
 
 document
-  .getElementById("weekFilter")
+  .getElementById(
+    "weekFilter"
+  )
   .addEventListener(
     "change",
     renderScores
@@ -631,14 +1054,18 @@ document
 
 
 document
-  .getElementById("stateFilter")
+  .getElementById(
+    "stateFilter"
+  )
   .addEventListener(
     "change",
     renderScores
   );
 
 
-/* START */
+/*
+START WEBSITE
+*/
 
 loadScores();
 
