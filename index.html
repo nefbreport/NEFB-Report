@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <meta
     name="description"
@@ -10,6 +16,7 @@
   >
 
   <title>NEFB Report | New England High School Football</title>
+
 
   <style>
 
@@ -65,8 +72,10 @@
     .brand img {
       height: 76px;
       width: 150px;
+
       object-fit: contain;
       object-position: left center;
+
       display: block;
     }
 
@@ -265,7 +274,7 @@
 
 
     /* =========================
-       RANKINGS
+       TOP 5
     ========================== */
 
     .rankings {
@@ -284,7 +293,7 @@
       display: flex;
       align-items: center;
 
-      min-height: 55px;
+      min-height: 58px;
 
       border-bottom: 1px solid #292929;
     }
@@ -294,28 +303,59 @@
     }
 
     .rank {
-      width: 44px;
+      width: 42px;
 
       color: #aeb3b8;
 
       font-size: 21px;
       font-weight: 900;
+
+      flex-shrink: 0;
+    }
+
+    .ranking-info {
+      min-width: 0;
     }
 
     .team {
       font-size: 14px;
       font-weight: 800;
+
+      line-height: 1.25;
     }
 
-    .state {
-      margin-left: auto;
-
+    .ranking-meta {
       color: #777777;
 
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
 
-      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+
+      margin-top: 3px;
+    }
+
+    .movement {
+      margin-left: auto;
+      padding-left: 10px;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      flex-shrink: 0;
+    }
+
+    .movement.up {
+      color: #28a95b;
+    }
+
+    .movement.down {
+      color: #df4444;
+    }
+
+    .movement.same {
+      color: #888888;
     }
 
     .rankings .button {
@@ -355,13 +395,67 @@
     }
 
     .score-team {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+      gap: 15px;
+
+      align-items: center;
 
       font-size: 14px;
-      font-weight: 800;
 
       padding: 4px 0;
+    }
+
+    .score-team-name {
+      font-weight: 700;
+      min-width: 0;
+    }
+
+    .score-number {
+      font-weight: 900;
+      font-size: 15px;
+    }
+
+    .score-team.winner .score-team-name,
+    .score-team.winner .score-number {
+      font-weight: 900;
+    }
+
+    .score-team.loser {
+      color: #777777;
+    }
+
+    .score-association {
+      color: #999999;
+
+      font-size: 9px;
+      font-weight: 800;
+
+      margin-left: 5px;
+
+      text-transform: uppercase;
+    }
+
+    .scores-loading {
+      padding: 28px 22px;
+
+      color: #777777;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .scores-error {
+      padding: 28px 22px;
+
+      color: #777777;
+
+      font-size: 13px;
+      line-height: 1.5;
     }
 
 
@@ -506,24 +600,35 @@
       .newsletter {
         padding: 28px 22px;
       }
+
     }
 
   </style>
+
 </head>
 
 
 <body>
 
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================== -->
 
 <header>
 
   <div class="topbar">
 
-    <a class="brand" href="index.html">
-      <img src="nefb-logo.jpg" alt="NEFB Report">
+    <a
+      class="brand"
+      href="index.html"
+    >
+      <img
+        src="nefb-logo.jpg"
+        alt="NEFB Report"
+      >
     </a>
+
 
     <nav>
 
@@ -562,7 +667,10 @@
 </header>
 
 
-<!-- HERO -->
+
+<!-- =========================
+     HERO
+========================== -->
 
 <section class="hero">
 
@@ -587,23 +695,31 @@
 </section>
 
 
-<!-- MAIN -->
+
+<!-- =========================
+     MAIN
+========================== -->
 
 <main class="container">
+
 
   <div class="grid">
 
 
-    <!-- LEFT -->
+    <!-- =========================
+         LEFT SIDE
+    ========================== -->
 
     <section>
+
 
       <div class="section-title">
         Latest
       </div>
 
 
-      <!-- RANKINGS -->
+
+      <!-- RANKINGS CARD -->
 
       <article class="card">
 
@@ -634,6 +750,7 @@
       </article>
 
 
+
       <!-- GAMES OF THE WEEK -->
 
       <article class="card">
@@ -653,7 +770,10 @@
             across New England this week.
           </p>
 
-          <a class="button" href="#">
+          <a
+            class="button"
+            href="#"
+          >
             View Games
           </a>
 
@@ -662,7 +782,10 @@
       </article>
 
 
-      <!-- LATEST SCORES -->
+
+      <!-- =========================
+           LIVE SCORES
+      ========================== -->
 
       <div class="section-title">
         Latest Scores
@@ -672,39 +795,10 @@
       <div class="card">
 
 
-        <div class="score-card">
+        <div id="latestScores">
 
-          <div class="score-date">
-            Final
-          </div>
-
-          <div class="score-team">
-            <span>Team A</span>
-            <span>28</span>
-          </div>
-
-          <div class="score-team">
-            <span>Team B</span>
-            <span>21</span>
-          </div>
-
-        </div>
-
-
-        <div class="score-card">
-
-          <div class="score-date">
-            Final
-          </div>
-
-          <div class="score-team">
-            <span>Team C</span>
-            <span>35</span>
-          </div>
-
-          <div class="score-team">
-            <span>Team D</span>
-            <span>14</span>
+          <div class="scores-loading">
+            Loading latest scores...
           </div>
 
         </div>
@@ -723,20 +817,28 @@
 
       </div>
 
+
     </section>
 
 
-    <!-- RIGHT -->
+
+    <!-- =========================
+         RIGHT SIDE
+    ========================== -->
 
     <aside>
+
 
       <div class="section-title">
         NEFB Top 5
       </div>
 
 
+
       <div class="rankings">
 
+
+        <!-- #1 -->
 
         <div class="ranking-row">
 
@@ -744,16 +846,27 @@
             1
           </div>
 
-          <div class="team">
-            Avon Old Farms
+          <div class="ranking-info">
+
+            <div class="team">
+              Avon Old Farms
+            </div>
+
+            <div class="ranking-meta">
+              NEPSAC
+            </div>
+
           </div>
 
-          <div class="state">
-            CT
+          <div class="movement up">
+            ▲ +2
           </div>
 
         </div>
 
+
+
+        <!-- #2 -->
 
         <div class="ranking-row">
 
@@ -761,16 +874,27 @@
             2
           </div>
 
-          <div class="team">
-            Choate
+          <div class="ranking-info">
+
+            <div class="team">
+              Choate Rosemary Hall
+            </div>
+
+            <div class="ranking-meta">
+              NEPSAC
+            </div>
+
           </div>
 
-          <div class="state">
-            CT
+          <div class="movement up">
+            ▲ +2
           </div>
 
         </div>
 
+
+
+        <!-- #3 -->
 
         <div class="ranking-row">
 
@@ -778,16 +902,27 @@
             3
           </div>
 
-          <div class="team">
-            Williston Northampton
+          <div class="ranking-info">
+
+            <div class="team">
+              Williston Northampton
+            </div>
+
+            <div class="ranking-meta">
+              NEPSAC
+            </div>
+
           </div>
 
-          <div class="state">
-            MA
+          <div class="movement up">
+            ▲ +9
           </div>
 
         </div>
 
+
+
+        <!-- #4 -->
 
         <div class="ranking-row">
 
@@ -795,16 +930,27 @@
             4
           </div>
 
-          <div class="team">
-            St. John's Prep
+          <div class="ranking-info">
+
+            <div class="team">
+              St. John's Prep
+            </div>
+
+            <div class="ranking-meta">
+              MIAA
+            </div>
+
           </div>
 
-          <div class="state">
-            MA
+          <div class="movement up">
+            ▲ +1
           </div>
 
         </div>
 
+
+
+        <!-- #5 -->
 
         <div class="ranking-row">
 
@@ -812,15 +958,24 @@
             5
           </div>
 
-          <div class="team">
-            Catholic Memorial
+          <div class="ranking-info">
+
+            <div class="team">
+              Catholic Memorial
+            </div>
+
+            <div class="ranking-meta">
+              MIAA
+            </div>
+
           </div>
 
-          <div class="state">
-            MA
+          <div class="movement up">
+            ▲ +1
           </div>
 
         </div>
+
 
 
         <a
@@ -830,7 +985,9 @@
           Full Top 20
         </a>
 
+
       </div>
+
 
 
       <!-- COVERAGE -->
@@ -862,12 +1019,17 @@
 
       </div>
 
+
     </aside>
+
 
   </div>
 
 
-  <!-- NEWSLETTER -->
+
+  <!-- =========================
+       NEWSLETTER
+  ========================== -->
 
   <section class="newsletter">
 
@@ -894,7 +1056,10 @@
 </main>
 
 
-<!-- FOOTER -->
+
+<!-- =========================
+     FOOTER
+========================== -->
 
 <footer>
 
@@ -919,5 +1084,756 @@
 </footer>
 
 
+
+<script>
+
+
+/* =========================================================
+   GOOGLE SHEET
+========================================================= */
+
+
+const SHEET_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
+
+
+
+/* =========================================================
+   CSV PARSER
+========================================================= */
+
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char = text[i];
+
+
+    if (char === '"') {
+
+      if (
+        insideQuotes &&
+        text[i + 1] === '"'
+      ) {
+
+        cell += '"';
+        i++;
+
+      }
+
+      else {
+
+        insideQuotes =
+          !insideQuotes;
+
+      }
+
+    }
+
+
+    else if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(cell);
+      cell = "";
+
+    }
+
+
+    else if (
+      (char === "\n" ||
+       char === "\r") &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        text[i + 1] === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(cell);
+
+
+      if (
+        row.some(
+          value =>
+            String(value).trim() !== ""
+        )
+      ) {
+
+        rows.push(row);
+
+      }
+
+
+      row = [];
+      cell = "";
+
+    }
+
+
+    else {
+
+      cell += char;
+
+    }
+
+  }
+
+
+  if (
+    cell.length > 0 ||
+    row.length > 0
+  ) {
+
+    row.push(cell);
+
+
+    if (
+      row.some(
+        value =>
+          String(value).trim() !== ""
+      )
+    ) {
+
+      rows.push(row);
+
+    }
+
+  }
+
+
+  return rows;
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+/* =========================================================
+   CONVERT CSV TO OBJECTS
+========================================================= */
+
+
+function csvToObjects(csvText) {
+
+
+  const rows =
+    parseCSV(csvText);
+
+
+  if (
+    rows.length < 2
+  ) {
+
+    return [];
+
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        String(header).trim()
+    );
+
+
+  return rows
+
+    .slice(1)
+
+    .map(
+      (row, index) => {
+
+
+        const game = {
+          originalIndex: index
+        };
+
+
+        headers.forEach(
+          (header, columnIndex) => {
+
+            game[header] =
+              String(
+                row[columnIndex] ?? ""
+              ).trim();
+
+          }
+        );
+
+
+        return game;
+
+      }
+    );
+
+}
+
+
+
+/* =========================================================
+   DATE PARSING
+========================================================= */
+
+
+function parseGameDate(value) {
+
+
+  if (!value) {
+
+    return null;
+
+  }
+
+
+  const clean =
+    String(value).trim();
+
+
+  /*
+  Handles normal spreadsheet dates
+  like:
+
+  9/19/2026
+  09/19/2026
+  */
+
+  const slashMatch =
+    clean.match(
+      /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/
+    );
+
+
+  if (slashMatch) {
+
+    return new Date(
+      Number(slashMatch[3]),
+      Number(slashMatch[1]) - 1,
+      Number(slashMatch[2])
+    );
+
+  }
+
+
+  /*
+  Try browser parsing as backup
+  */
+
+  const parsed =
+    new Date(clean);
+
+
+  if (
+    !Number.isNaN(
+      parsed.getTime()
+    )
+  ) {
+
+    return parsed;
+
+  }
+
+
+  return null;
+
+}
+
+
+
+/* =========================================================
+   DATE DISPLAY
+========================================================= */
+
+
+function formatDate(value) {
+
+
+  const date =
+    parseGameDate(value);
+
+
+  if (!date) {
+
+    return value || "Final";
+
+  }
+
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month: "short",
+      day: "numeric"
+    }
+  );
+
+}
+
+
+
+/* =========================================================
+   SCORE NUMBER
+========================================================= */
+
+
+function getScore(value) {
+
+
+  const number =
+    Number(
+      String(value).trim()
+    );
+
+
+  if (
+    Number.isNaN(number)
+  ) {
+
+    return null;
+
+  }
+
+
+  return number;
+
+}
+
+
+
+/* =========================================================
+   RENDER ONE GAME
+========================================================= */
+
+
+function renderGame(game) {
+
+
+  const awayScore =
+    getScore(
+      game["Away Score"]
+    );
+
+
+  const homeScore =
+    getScore(
+      game["Home Score"]
+    );
+
+
+  let awayClass = "";
+  let homeClass = "";
+
+
+  if (
+    awayScore !== null &&
+    homeScore !== null
+  ) {
+
+
+    if (
+      awayScore > homeScore
+    ) {
+
+      awayClass = "winner";
+      homeClass = "loser";
+
+    }
+
+
+    else if (
+      homeScore > awayScore
+    ) {
+
+      homeClass = "winner";
+      awayClass = "loser";
+
+    }
+
+  }
+
+
+  const awayAssociation =
+    game["Away Association"]
+      ? `
+        <span class="score-association">
+          ${escapeHTML(
+            game["Away Association"]
+          )}
+        </span>
+      `
+      : "";
+
+
+  const homeAssociation =
+    game["Home Association"]
+      ? `
+        <span class="score-association">
+          ${escapeHTML(
+            game["Home Association"]
+          )}
+        </span>
+      `
+      : "";
+
+
+  return `
+
+    <div class="score-card">
+
+
+      <div class="score-date">
+
+        ${escapeHTML(
+          formatDate(
+            game["Date"]
+          )
+        )}
+
+        ·
+
+        ${escapeHTML(
+          game["Status"] || "Final"
+        )}
+
+      </div>
+
+
+      <div class="score-team ${awayClass}">
+
+        <div class="score-team-name">
+
+          ${escapeHTML(
+            game["Away Team"]
+          )}
+
+          ${awayAssociation}
+
+        </div>
+
+        <div class="score-number">
+
+          ${escapeHTML(
+            game["Away Score"]
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div class="score-team ${homeClass}">
+
+        <div class="score-team-name">
+
+          ${escapeHTML(
+            game["Home Team"]
+          )}
+
+          ${homeAssociation}
+
+        </div>
+
+        <div class="score-number">
+
+          ${escapeHTML(
+            game["Home Score"]
+          )}
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================================
+   LOAD LATEST SCORES
+========================================================= */
+
+
+async function loadLatestScores() {
+
+
+  const container =
+    document.getElementById(
+      "latestScores"
+    );
+
+
+  try {
+
+
+    const response =
+      await fetch(
+        SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "Could not load scores."
+      );
+
+    }
+
+
+    const csvText =
+      await response.text();
+
+
+    const games =
+      csvToObjects(
+        csvText
+      );
+
+
+    /*
+    Only verified final games
+    with both teams and scores.
+    */
+
+
+    const finals =
+      games.filter(
+        game => {
+
+
+          const status =
+            String(
+              game["Status"] || ""
+            ).toLowerCase();
+
+
+          const hasTeams =
+            game["Away Team"] &&
+            game["Home Team"];
+
+
+          const hasScores =
+            getScore(
+              game["Away Score"]
+            ) !== null &&
+            getScore(
+              game["Home Score"]
+            ) !== null;
+
+
+          return (
+            status.includes("final") &&
+            hasTeams &&
+            hasScores
+          );
+
+        }
+      );
+
+
+    /*
+    Newest dates first.
+
+    If several games have the
+    same date, newer spreadsheet
+    rows appear first.
+    */
+
+
+    finals.sort(
+      (a, b) => {
+
+
+        const dateA =
+          parseGameDate(
+            a["Date"]
+          );
+
+
+        const dateB =
+          parseGameDate(
+            b["Date"]
+          );
+
+
+        const timeA =
+          dateA
+            ? dateA.getTime()
+            : 0;
+
+
+        const timeB =
+          dateB
+            ? dateB.getTime()
+            : 0;
+
+
+        if (
+          timeB !== timeA
+        ) {
+
+          return timeB - timeA;
+
+        }
+
+
+        return (
+          b.originalIndex -
+          a.originalIndex
+        );
+
+      }
+    );
+
+
+    /*
+    Show the newest 4 finals
+    on the homepage.
+    */
+
+
+    const latest =
+      finals.slice(
+        0,
+        4
+      );
+
+
+    if (
+      latest.length === 0
+    ) {
+
+      container.innerHTML = `
+
+        <div class="scores-error">
+
+          No final scores are currently available.
+
+        </div>
+
+      `;
+
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      latest
+
+        .map(
+          game =>
+            renderGame(game)
+        )
+
+        .join("");
+
+
+  }
+
+
+  catch (error) {
+
+
+    console.error(error);
+
+
+    container.innerHTML = `
+
+      <div class="scores-error">
+
+        Latest scores could not be loaded right now.
+        Use the Scores page to view the full scoreboard.
+
+      </div>
+
+    `;
+
+
+  }
+
+}
+
+
+
+/* =========================================================
+   START
+========================================================= */
+
+
+loadLatestScores();
+
+
+</script>
+
+
 </body>
+
 </html>
