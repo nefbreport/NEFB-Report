@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -185,6 +186,7 @@
     }
 
     @media (max-width: 700px) {
+
       .header-inner {
         flex-direction: column;
         align-items: flex-start;
@@ -229,12 +231,16 @@
         font-size: 17px;
       }
     }
+
   </style>
 </head>
 
+
 <body>
 
+
 <header>
+
   <div class="header-inner">
 
     <div class="logo">
@@ -247,45 +253,74 @@
     </nav>
 
   </div>
+
 </header>
+
 
 
 <main class="container">
 
+
   <h1>New England Football Scores</h1>
+
 
   <div class="subtitle">
     High school and prep football scores from across New England.
   </div>
 
 
+
   <div class="filters">
 
+
     <select id="weekFilter">
-      <option value="all">All Weeks</option>
+
+      <option value="all">
+        All Dates
+      </option>
+
     </select>
+
+
 
     <select id="associationFilter">
-      <option value="all">All Associations</option>
+
+      <option value="all">
+        All Associations
+      </option>
+
     </select>
 
+
   </div>
+
 
 
   <div id="loading">
     Loading scores...
   </div>
 
+
   <div id="error">
     Scores could not be loaded.
   </div>
 
+
   <div id="scores"></div>
+
 
 </main>
 
 
+
 <script>
+
+
+/*
+=========================================
+GOOGLE SHEET
+=========================================
+*/
 
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
@@ -294,147 +329,236 @@ const SHEET_URL =
 let allGames = [];
 
 
+
 /*
------------------------------------------
-LOAD GOOGLE SHEET
------------------------------------------
+=========================================
+LOAD SCORES
+=========================================
 */
 
 async function loadScores() {
 
   try {
 
-    const response = await fetch(SHEET_URL);
+    const response =
+      await fetch(SHEET_URL);
+
 
     if (!response.ok) {
-      throw new Error("Could not load spreadsheet");
+
+      throw new Error(
+        "Could not load spreadsheet"
+      );
+
     }
 
-    const csv = await response.text();
 
-    const rows = parseCSV(csv);
+    const csv =
+      await response.text();
+
+
+    const rows =
+      parseCSV(csv);
+
 
     if (rows.length < 2) {
-      throw new Error("Spreadsheet is empty");
+
+      throw new Error(
+        "Spreadsheet is empty"
+      );
+
     }
 
+
     const headers =
-      rows[0].map(header => header.trim());
+      rows[0].map(
+        header => header.trim()
+      );
+
 
 
     allGames =
       rows
         .slice(1)
-        .filter(row =>
-          row.some(cell => cell.trim() !== "")
+
+        .filter(
+          row =>
+            row.some(
+              cell =>
+                cell.trim() !== ""
+            )
         )
-        .map((row, index) => {
 
-          const game = {};
+        .map(
+          (row, index) => {
 
-          headers.forEach((header, columnIndex) => {
-            game[header] =
-              row[columnIndex]
-                ? row[columnIndex].trim()
-                : "";
-          });
+            const game = {};
 
-          game._originalIndex = index;
 
-          return game;
+            headers.forEach(
+              (header, columnIndex) => {
 
-        });
+                game[header] =
+                  row[columnIndex]
+                    ? row[columnIndex].trim()
+                    : "";
+
+              }
+            );
+
+
+            game._originalIndex =
+              index;
+
+
+            return game;
+
+          }
+        );
+
 
 
     /*
-    -----------------------------------------
-    PREPARE GAME DATA
-    -----------------------------------------
+    Prepare records
     */
 
     prepareGames();
+
+
+
+    /*
+    Build filters
+    */
 
     buildWeekFilter();
 
     buildAssociationFilter();
 
 
+
     document
-      .getElementById("loading")
-      .style.display = "none";
+      .getElementById(
+        "loading"
+      )
+      .style.display =
+        "none";
 
 
     renderScores();
 
   }
 
+
   catch (error) {
+
 
     console.error(error);
 
-    document
-      .getElementById("loading")
-      .style.display = "none";
 
     document
-      .getElementById("error")
-      .style.display = "block";
+      .getElementById(
+        "loading"
+      )
+      .style.display =
+        "none";
+
+
+    document
+      .getElementById(
+        "error"
+      )
+      .style.display =
+        "block";
 
   }
 
 }
 
 
+
 /*
------------------------------------------
+=========================================
 CSV PARSER
------------------------------------------
+=========================================
 */
 
 function parseCSV(text) {
 
+
   const rows = [];
 
+
   let row = [];
+
   let cell = "";
+
   let insideQuotes = false;
 
 
-  for (let i = 0; i < text.length; i++) {
 
-    const character = text[i];
-    const nextCharacter = text[i + 1];
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
 
 
-    if (character === '"') {
+    const character =
+      text[i];
+
+
+    const nextCharacter =
+      text[i + 1];
+
+
+
+    if (
+      character === '"'
+    ) {
+
 
       if (
         insideQuotes &&
         nextCharacter === '"'
       ) {
 
+
         cell += '"';
+
         i++;
 
+
       }
+
 
       else {
 
-        insideQuotes = !insideQuotes;
+
+        insideQuotes =
+          !insideQuotes;
+
 
       }
 
+
     }
+
+
 
     else if (
       character === "," &&
       !insideQuotes
     ) {
 
+
       row.push(cell);
+
       cell = "";
 
+
     }
+
+
 
     else if (
       (
@@ -444,28 +568,42 @@ function parseCSV(text) {
       !insideQuotes
     ) {
 
+
       if (
         character === "\r" &&
         nextCharacter === "\n"
       ) {
+
         i++;
+
       }
 
+
       row.push(cell);
+
+
       rows.push(row);
 
+
       row = [];
+
       cell = "";
+
 
     }
 
+
+
     else {
 
+
       cell += character;
+
 
     }
 
   }
+
 
 
   if (
@@ -473,10 +611,14 @@ function parseCSV(text) {
     row.length
   ) {
 
+
     row.push(cell);
+
     rows.push(row);
 
+
   }
+
 
 
   return rows;
@@ -484,40 +626,67 @@ function parseCSV(text) {
 }
 
 
+
 /*
------------------------------------------
+=========================================
 NORMALIZE WEEK
------------------------------------------
+=========================================
 */
 
 function normalizeWeek(week) {
 
-  return String(week || "")
-    .replace(/week\s*/i, "")
+
+  return String(
+    week || ""
+  )
+
+    .replace(
+      /week\s*/i,
+      ""
+    )
+
     .trim();
 
 }
 
 
+
 /*
------------------------------------------
+=========================================
 DATE VALUE
------------------------------------------
+=========================================
 */
 
 function getDateValue(dateString) {
 
+
   if (!dateString) {
+
     return 0;
+
   }
 
-  const parts = dateString.split("/");
 
-  if (parts.length === 3) {
+  const parts =
+    dateString.split("/");
 
-    const month = Number(parts[0]);
-    const day = Number(parts[1]);
-    const year = Number(parts[2]);
+
+  if (
+    parts.length === 3
+  ) {
+
+
+    const month =
+      Number(parts[0]);
+
+
+    const day =
+      Number(parts[1]);
+
+
+    const year =
+      Number(parts[2]);
+
 
     return new Date(
       year,
@@ -527,31 +696,52 @@ function getDateValue(dateString) {
 
   }
 
-  return new Date(dateString).getTime() || 0;
+
+  return (
+    new Date(
+      dateString
+    ).getTime() || 0
+  );
 
 }
 
 
+
 /*
------------------------------------------
+=========================================
 DATE FORMAT
------------------------------------------
+=========================================
 */
 
 function formatDate(dateString) {
 
+
   if (!dateString) {
+
     return "";
+
   }
 
-  const parts = dateString.split("/");
+
+  const parts =
+    dateString.split("/");
 
 
-  if (parts.length === 3) {
+  if (
+    parts.length === 3
+  ) {
 
-    const month = Number(parts[0]);
-    const day = Number(parts[1]);
-    const year = Number(parts[2]);
+
+    const month =
+      Number(parts[0]);
+
+
+    const day =
+      Number(parts[1]);
+
+
+    const year =
+      Number(parts[2]);
 
 
     const date =
@@ -565,9 +755,16 @@ function formatDate(dateString) {
     return date.toLocaleDateString(
       "en-US",
       {
-        weekday: "long",
-        month: "long",
-        day: "numeric"
+
+        weekday:
+          "long",
+
+        month:
+          "long",
+
+        day:
+          "numeric"
+
       }
     );
 
@@ -579,224 +776,559 @@ function formatDate(dateString) {
 }
 
 
-/*
------------------------------------------
-SAFE HTML
------------------------------------------
-*/
-
-function escapeHTML(value) {
-
-  return String(value || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
 
 /*
------------------------------------------
-NORMALIZE TEAM NAME FOR RECORDS
------------------------------------------
+=========================================
+SHORT MONTH
+=========================================
 */
 
-function normalizeTeamName(name) {
-
-  return String(name || "")
-    .toLowerCase()
-    .replace(/[.’']/g, "")
-    .replace(/&/g, "and")
-    .replace(/-/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-}
+function getShortMonth(
+  monthNumber
+) {
 
 
-/*
------------------------------------------
-CHECK FINAL
------------------------------------------
-*/
+  const months = [
 
-function isFinalGame(game) {
+    "Jan.",
+    "Feb.",
+    "Mar.",
+    "Apr.",
+    "May",
+    "June",
+    "July",
+    "Aug.",
+    "Sept.",
+    "Oct.",
+    "Nov.",
+    "Dec."
 
-  return String(game["Status"] || "")
-    .toLowerCase()
-    .includes("final");
+  ];
 
-}
-
-
-/*
------------------------------------------
-PREPARE GAMES + CALCULATE RECORDS
------------------------------------------
-
-Records shown are the team's record
-AFTER that particular game.
-
-Example:
-
-Week 1: 1-0
-Week 2: 2-0
-Week 3: 2-1
-
------------------------------------------
-*/
-
-function prepareGames() {
-
-  const chronologicalGames =
-    [...allGames].sort((a, b) => {
-
-      const dateDifference =
-        getDateValue(a["Date"]) -
-        getDateValue(b["Date"]);
-
-      if (dateDifference !== 0) {
-        return dateDifference;
-      }
-
-      return (
-        a._originalIndex -
-        b._originalIndex
-      );
-
-    });
-
-
-  const records = {};
-
-
-  chronologicalGames.forEach(game => {
-
-    const awayTeam =
-      normalizeTeamName(
-        game["Away Team"]
-      );
-
-    const homeTeam =
-      normalizeTeamName(
-        game["Home Team"]
-      );
-
-
-    if (!records[awayTeam]) {
-      records[awayTeam] = {
-        wins: 0,
-        losses: 0,
-        ties: 0
-      };
-    }
-
-    if (!records[homeTeam]) {
-      records[homeTeam] = {
-        wins: 0,
-        losses: 0,
-        ties: 0
-      };
-    }
-
-
-    if (isFinalGame(game)) {
-
-      const awayScore =
-        Number(game["Away Score"]);
-
-      const homeScore =
-        Number(game["Home Score"]);
-
-
-      if (
-        Number.isFinite(awayScore) &&
-        Number.isFinite(homeScore)
-      ) {
-
-        if (awayScore > homeScore) {
-
-          records[awayTeam].wins++;
-          records[homeTeam].losses++;
-
-        }
-
-        else if (homeScore > awayScore) {
-
-          records[homeTeam].wins++;
-          records[awayTeam].losses++;
-
-        }
-
-        else {
-
-          records[awayTeam].ties++;
-          records[homeTeam].ties++;
-
-        }
-
-      }
-
-    }
-
-
-    game._awayRecord =
-      formatRecord(
-        records[awayTeam]
-      );
-
-    game._homeRecord =
-      formatRecord(
-        records[homeTeam]
-      );
-
-  });
-
-}
-
-
-/*
------------------------------------------
-FORMAT RECORD
------------------------------------------
-*/
-
-function formatRecord(record) {
-
-  if (!record) {
-    return "0-0";
-  }
-
-  if (record.ties > 0) {
-
-    return (
-      record.wins +
-      "-" +
-      record.losses +
-      "-" +
-      record.ties
-    );
-
-  }
 
   return (
-    record.wins +
-    "-" +
-    record.losses
+    months[
+      monthNumber - 1
+    ] || ""
   );
 
 }
 
 
+
 /*
------------------------------------------
-AUTOMATIC WEEK FILTER
------------------------------------------
+=========================================
+CREATE DATE RANGE
+=========================================
+*/
+
+function createDateRange(
+  startDateString,
+  endDateString
+) {
+
+
+  const startParts =
+    startDateString.split("/");
+
+
+  const endParts =
+    endDateString.split("/");
+
+
+
+  if (
+    startParts.length !== 3 ||
+    endParts.length !== 3
+  ) {
+
+
+    return (
+      startDateString +
+      " – " +
+      endDateString
+    );
+
+  }
+
+
+
+  const startMonth =
+    Number(startParts[0]);
+
+
+  const startDay =
+    Number(startParts[1]);
+
+
+  const endMonth =
+    Number(endParts[0]);
+
+
+  const endDay =
+    Number(endParts[1]);
+
+
+
+  /*
+  Same month:
+  Sept. 3–5
+  */
+
+  if (
+    startMonth ===
+    endMonth
+  ) {
+
+
+    return (
+      getShortMonth(
+        startMonth
+      ) +
+      " " +
+      startDay +
+      "–" +
+      endDay
+    );
+
+  }
+
+
+
+  /*
+  Different months:
+  Sept. 30 – Oct. 3
+  */
+
+  return (
+
+    getShortMonth(
+      startMonth
+    ) +
+
+    " " +
+
+    startDay +
+
+    " – " +
+
+    getShortMonth(
+      endMonth
+    ) +
+
+    " " +
+
+    endDay
+
+  );
+
+}
+
+
+
+/*
+=========================================
+SAFE HTML
+=========================================
+*/
+
+function escapeHTML(value) {
+
+
+  return String(
+    value || ""
+  )
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+/*
+=========================================
+NORMALIZE TEAM NAME
+=========================================
+*/
+
+function normalizeTeamName(name) {
+
+
+  return String(
+    name || ""
+  )
+
+    .toLowerCase()
+
+    .replace(
+      /[.’']/g,
+      ""
+    )
+
+    .replace(
+      /&/g,
+      "and"
+    )
+
+    .replace(
+      /-/g,
+      " "
+    )
+
+    .replace(
+      /\s+/g,
+      " "
+    )
+
+    .trim();
+
+}
+
+
+
+/*
+=========================================
+CHECK IF GAME IS FINAL
+=========================================
+*/
+
+function isFinalGame(game) {
+
+
+  return String(
+    game["Status"] || ""
+  )
+
+    .toLowerCase()
+
+    .includes(
+      "final"
+    );
+
+}
+
+
+
+/*
+=========================================
+CALCULATE TEAM RECORDS
+=========================================
+
+Record shown is the team's
+record AFTER that game.
+
+=========================================
+*/
+
+function prepareGames() {
+
+
+  const chronologicalGames =
+    [...allGames]
+
+      .sort(
+        (a, b) => {
+
+
+          const dateDifference =
+
+            getDateValue(
+              a["Date"]
+            )
+
+            -
+
+            getDateValue(
+              b["Date"]
+            );
+
+
+          if (
+            dateDifference !== 0
+          ) {
+
+            return dateDifference;
+
+          }
+
+
+          return (
+            a._originalIndex -
+            b._originalIndex
+          );
+
+        }
+      );
+
+
+
+  const records = {};
+
+
+
+  chronologicalGames.forEach(
+    game => {
+
+
+      const awayTeam =
+        normalizeTeamName(
+          game["Away Team"]
+        );
+
+
+      const homeTeam =
+        normalizeTeamName(
+          game["Home Team"]
+        );
+
+
+
+      if (
+        !records[awayTeam]
+      ) {
+
+
+        records[awayTeam] = {
+
+          wins: 0,
+          losses: 0,
+          ties: 0
+
+        };
+
+
+      }
+
+
+
+      if (
+        !records[homeTeam]
+      ) {
+
+
+        records[homeTeam] = {
+
+          wins: 0,
+          losses: 0,
+          ties: 0
+
+        };
+
+
+      }
+
+
+
+      if (
+        isFinalGame(game)
+      ) {
+
+
+        const awayScore =
+          Number(
+            game["Away Score"]
+          );
+
+
+        const homeScore =
+          Number(
+            game["Home Score"]
+          );
+
+
+
+        if (
+          Number.isFinite(
+            awayScore
+          ) &&
+          Number.isFinite(
+            homeScore
+          )
+        ) {
+
+
+
+          if (
+            awayScore >
+            homeScore
+          ) {
+
+
+            records[
+              awayTeam
+            ].wins++;
+
+
+            records[
+              homeTeam
+            ].losses++;
+
+
+          }
+
+
+
+          else if (
+            homeScore >
+            awayScore
+          ) {
+
+
+            records[
+              homeTeam
+            ].wins++;
+
+
+            records[
+              awayTeam
+            ].losses++;
+
+
+          }
+
+
+
+          else {
+
+
+            records[
+              awayTeam
+            ].ties++;
+
+
+            records[
+              homeTeam
+            ].ties++;
+
+
+          }
+
+
+        }
+
+
+      }
+
+
+
+      game._awayRecord =
+        formatRecord(
+          records[
+            awayTeam
+          ]
+        );
+
+
+      game._homeRecord =
+        formatRecord(
+          records[
+            homeTeam
+          ]
+        );
+
+
+    }
+  );
+
+}
+
+
+
+/*
+=========================================
+FORMAT RECORD
+=========================================
+*/
+
+function formatRecord(record) {
+
+
+  if (!record) {
+
+    return "0-0";
+
+  }
+
+
+  if (
+    record.ties > 0
+  ) {
+
+
+    return (
+
+      record.wins +
+
+      "-" +
+
+      record.losses +
+
+      "-" +
+
+      record.ties
+
+    );
+
+  }
+
+
+  return (
+
+    record.wins +
+
+    "-" +
+
+    record.losses
+
+  );
+
+}
+
+
+
+/*
+=========================================
+AUTOMATIC DATE RANGE FILTER
+=========================================
+
+Uses Week internally.
+
+Visitor sees:
+
+Sept. 3–5
+Sept. 9–12
+Sept. 16–19
+
+New weeks automatically appear.
+
+=========================================
 */
 
 function buildWeekFilter() {
+
 
   const weekFilter =
     document.getElementById(
@@ -804,138 +1336,153 @@ function buildWeekFilter() {
     );
 
 
-  const weeks =
-    [
-      ...new Set(
-        allGames
-          .map(game =>
-            normalizeWeek(
-              game["Week"]
-            )
-          )
-          .filter(Boolean)
-      )
-    ];
+
+  const weeks = {};
 
 
-  weeks.sort((a, b) => {
-
-    const numberA = Number(a);
-    const numberB = Number(b);
-
-    if (
-      Number.isFinite(numberA) &&
-      Number.isFinite(numberB)
-    ) {
-      return numberA - numberB;
-    }
-
-    return a.localeCompare(b);
-
-  });
+  allGames.forEach(
+    game => {
 
 
-  weeks.forEach(week => {
+      const week =
+        normalizeWeek(
+          game["Week"]
+        );
 
-    const option =
-      document.createElement(
-        "option"
+
+      const date =
+        game["Date"];
+
+
+      if (
+        !week ||
+        !date
+      ) {
+
+        return;
+
+      }
+
+
+
+      if (
+        !weeks[week]
+      ) {
+
+
+        weeks[week] = [];
+
+
+      }
+
+
+      weeks[week].push(
+        date
       );
 
-    option.value = week;
-    option.textContent =
-      "Week " + week;
 
-    weekFilter.appendChild(option);
-
-  });
-
-}
-
-
-/*
------------------------------------------
-AUTOMATIC ASSOCIATION FILTER
------------------------------------------
-*/
-
-function buildAssociationFilter() {
-
-  const associationFilter =
-    document.getElementById(
-      "associationFilter"
-    );
-
-
-  const preferredOrder = [
-    "MIAA",
-    "CIAC",
-    "RIIL",
-    "NHIAA",
-    "MPA",
-    "VPA",
-    "NEPSAC"
-  ];
-
-
-  const associations =
-    [
-      ...new Set(
-        allGames
-          .flatMap(game => [
-            game["Away Association"],
-            game["Home Association"]
-          ])
-          .map(value =>
-            String(value || "").trim()
-          )
-          .filter(Boolean)
-      )
-    ];
-
-
-  associations.sort((a, b) => {
-
-    const indexA =
-      preferredOrder.indexOf(a);
-
-    const indexB =
-      preferredOrder.indexOf(b);
-
-
-    if (
-      indexA !== -1 &&
-      indexB !== -1
-    ) {
-      return indexA - indexB;
     }
-
-    if (indexA !== -1) {
-      return -1;
-    }
-
-    if (indexB !== -1) {
-      return 1;
-    }
-
-    return a.localeCompare(b);
-
-  });
+  );
 
 
-  associations.forEach(
-    association => {
+
+  const weekNumbers =
+    Object.keys(
+      weeks
+    )
+
+      .sort(
+        (a, b) => {
+
+          const numberA =
+            Number(a);
+
+          const numberB =
+            Number(b);
+
+
+          if (
+            Number.isFinite(
+              numberA
+            ) &&
+            Number.isFinite(
+              numberB
+            )
+          ) {
+
+
+            return (
+              numberA -
+              numberB
+            );
+
+
+          }
+
+
+          return (
+            a.localeCompare(b)
+          );
+
+        }
+      );
+
+
+
+  weekNumbers.forEach(
+    week => {
+
+
+      const dates =
+        weeks[week]
+
+          .sort(
+            (a, b) =>
+
+              getDateValue(a) -
+              getDateValue(b)
+
+          );
+
+
+
+      const firstDate =
+        dates[0];
+
+
+      const lastDate =
+        dates[
+          dates.length - 1
+        ];
+
+
+
+      const label =
+        createDateRange(
+          firstDate,
+          lastDate
+        );
+
+
 
       const option =
         document.createElement(
           "option"
         );
 
-      option.value = association;
-      option.textContent = association;
 
-      associationFilter
-        .appendChild(option);
+      option.value =
+        week;
+
+
+      option.textContent =
+        label;
+
+
+      weekFilter.appendChild(
+        option
+      );
+
 
     }
   );
@@ -943,18 +1490,90 @@ function buildAssociationFilter() {
 }
 
 
+
 /*
------------------------------------------
+=========================================
+ASSOCIATION FILTER
+=========================================
+
+ONLY these associations receive
+dropdown options.
+
+NJ / NY / PA / NCAA / etc.
+can still appear in games but
+do NOT get filter options.
+
+=========================================
+*/
+
+function buildAssociationFilter() {
+
+
+  const associationFilter =
+    document.getElementById(
+      "associationFilter"
+    );
+
+
+  const associations = [
+
+    "MIAA",
+    "CIAC",
+    "RIIL",
+    "NHIAA",
+    "MPA",
+    "VPA",
+    "NEPSAC"
+
+  ];
+
+
+
+  associations.forEach(
+    association => {
+
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        association;
+
+
+      option.textContent =
+        association;
+
+
+      associationFilter
+        .appendChild(
+          option
+        );
+
+
+    }
+  );
+
+}
+
+
+
+/*
+=========================================
 DISPLAY SCORES
------------------------------------------
+=========================================
 */
 
 function renderScores() {
+
 
   const scoresContainer =
     document.getElementById(
       "scores"
     );
+
 
 
   const selectedWeek =
@@ -963,296 +1582,539 @@ function renderScores() {
     ).value;
 
 
+
   const selectedAssociation =
     document.getElementById(
       "associationFilter"
     ).value;
 
 
+
   let games =
-    allGames.filter(game => {
+    allGames.filter(
+      game => {
 
 
-      const weekMatches =
-        selectedWeek === "all" ||
-        normalizeWeek(
-          game["Week"]
-        ) === selectedWeek;
+
+        const weekMatches =
+
+          selectedWeek ===
+            "all"
+
+          ||
+
+          normalizeWeek(
+            game["Week"]
+          ) ===
+            selectedWeek;
 
 
-      const associationMatches =
-        selectedAssociation === "all" ||
-        game["Away Association"] ===
-          selectedAssociation ||
-        game["Home Association"] ===
-          selectedAssociation;
+
+        const associationMatches =
+
+          selectedAssociation ===
+            "all"
+
+          ||
+
+          game[
+            "Away Association"
+          ] ===
+            selectedAssociation
+
+          ||
+
+          game[
+            "Home Association"
+          ] ===
+            selectedAssociation;
 
 
-      return (
-        weekMatches &&
-        associationMatches
-      );
 
-    });
+        return (
+
+          weekMatches &&
+
+          associationMatches
+
+        );
+
+
+      }
+    );
+
 
 
   /*
-  -----------------------------------------
-  SORT BY DATE
-  -----------------------------------------
+  Sort games by date
   */
 
-  games.sort((a, b) => {
+  games.sort(
+    (a, b) => {
 
-    const dateDifference =
-      getDateValue(a["Date"]) -
-      getDateValue(b["Date"]);
 
-    if (dateDifference !== 0) {
-      return dateDifference;
+      const dateDifference =
+
+        getDateValue(
+          a["Date"]
+        )
+
+        -
+
+        getDateValue(
+          b["Date"]
+        );
+
+
+      if (
+        dateDifference !== 0
+      ) {
+
+        return dateDifference;
+
+      }
+
+
+      return (
+        a._originalIndex -
+        b._originalIndex
+      );
+
+
     }
-
-    return (
-      a._originalIndex -
-      b._originalIndex
-    );
-
-  });
+  );
 
 
-  if (!games.length) {
+
+  if (
+    !games.length
+  ) {
+
 
     scoresContainer.innerHTML =
+
       '<div class="no-games">No games found for these filters.</div>';
+
 
     return;
 
   }
 
 
+
   /*
-  -----------------------------------------
-  GROUP BY DATE
-  -----------------------------------------
+  Group games by date
   */
 
   const groupedGames = {};
 
 
-  games.forEach(game => {
 
-    const date =
-      game["Date"] ||
-      "Unknown Date";
+  games.forEach(
+    game => {
 
 
-    if (!groupedGames[date]) {
-      groupedGames[date] = [];
+      const date =
+
+        game["Date"] ||
+
+        "Unknown Date";
+
+
+
+      if (
+        !groupedGames[
+          date
+        ]
+      ) {
+
+
+        groupedGames[
+          date
+        ] = [];
+
+
+      }
+
+
+
+      groupedGames[
+        date
+      ].push(
+        game
+      );
+
+
     }
+  );
 
-
-    groupedGames[date]
-      .push(game);
-
-  });
 
 
   let html = "";
 
 
+
   Object
-    .keys(groupedGames)
-    .forEach(date => {
+    .keys(
+      groupedGames
+    )
+
+    .forEach(
+      date => {
 
 
-      html += `
 
-        <section class="date-section">
+        html += `
 
-          <div class="date-title">
-            ${escapeHTML(
-              formatDate(date)
-            )}
-          </div>
+          <section class="date-section">
 
-      `;
+            <div class="date-title">
 
-
-      groupedGames[date]
-        .forEach(game => {
-
-
-          const awayScore =
-            Number(
-              game["Away Score"]
-            );
-
-          const homeScore =
-            Number(
-              game["Home Score"]
-            );
-
-
-          const awayWinner =
-            isFinalGame(game) &&
-            Number.isFinite(awayScore) &&
-            Number.isFinite(homeScore) &&
-            awayScore > homeScore;
-
-
-          const homeWinner =
-            isFinalGame(game) &&
-            Number.isFinite(awayScore) &&
-            Number.isFinite(homeScore) &&
-            homeScore > awayScore;
-
-
-          const awayAssociation =
-            game["Away Association"] ||
-            "";
-
-
-          const homeAssociation =
-            game["Home Association"] ||
-            "";
-
-
-          let associationLabel = "";
-
-
-          if (
-            awayAssociation ===
-              homeAssociation &&
-            awayAssociation
-          ) {
-
-            associationLabel =
-              awayAssociation;
-
-          }
-
-          else if (
-            awayAssociation ||
-            homeAssociation
-          ) {
-
-            associationLabel =
-              [
-                awayAssociation,
-                homeAssociation
-              ]
-                .filter(Boolean)
-                .join(" vs ");
-
-          }
-
-
-          html += `
-
-            <div class="game">
-
-
-              <div class="team ${awayWinner ? "winner" : ""}">
-
-                <div class="association">
-                  ${escapeHTML(
-                    awayAssociation
-                  )}
-                </div>
-
-                <div class="team-name">
-                  ${escapeHTML(
-                    game["Away Team"]
-                  )}
-                </div>
-
-                <div class="record">
-                  (${escapeHTML(
-                    game._awayRecord ||
-                    "0-0"
-                  )})
-                </div>
-
-                <div class="score">
-                  ${escapeHTML(
-                    game["Away Score"]
-                  )}
-                </div>
-
-              </div>
-
-
-              <div class="team ${homeWinner ? "winner" : ""}">
-
-                <div class="association">
-                  ${escapeHTML(
-                    homeAssociation
-                  )}
-                </div>
-
-                <div class="team-name">
-                  ${escapeHTML(
-                    game["Home Team"]
-                  )}
-                </div>
-
-                <div class="record">
-                  (${escapeHTML(
-                    game._homeRecord ||
-                    "0-0"
-                  )})
-                </div>
-
-                <div class="score">
-                  ${escapeHTML(
-                    game["Home Score"]
-                  )}
-                </div>
-
-              </div>
-
-
-              <div class="game-footer">
-
-                ${escapeHTML(
-                  game["Status"] ||
-                  "Final"
-                )}
-
-                &nbsp; • &nbsp;
-
-                Week
-                ${escapeHTML(
-                  normalizeWeek(
-                    game["Week"]
-                  )
-                )}
-
-                ${
-                  associationLabel
-                    ? `
-                      <span class="association-label">
-                        ${escapeHTML(
-                          associationLabel
-                        )}
-                      </span>
-                    `
-                    : ""
-                }
-
-              </div>
+              ${escapeHTML(
+                formatDate(
+                  date
+                )
+              )}
 
             </div>
 
-          `;
-
-        });
+        `;
 
 
-      html +=
-        `</section>`;
 
-    });
+        groupedGames[
+          date
+        ]
+
+          .forEach(
+            game => {
+
+
+
+              const awayScore =
+                Number(
+                  game[
+                    "Away Score"
+                  ]
+                );
+
+
+
+              const homeScore =
+                Number(
+                  game[
+                    "Home Score"
+                  ]
+                );
+
+
+
+              const awayWinner =
+
+                isFinalGame(
+                  game
+                )
+
+                &&
+
+                Number.isFinite(
+                  awayScore
+                )
+
+                &&
+
+                Number.isFinite(
+                  homeScore
+                )
+
+                &&
+
+                awayScore >
+                  homeScore;
+
+
+
+              const homeWinner =
+
+                isFinalGame(
+                  game
+                )
+
+                &&
+
+                Number.isFinite(
+                  awayScore
+                )
+
+                &&
+
+                Number.isFinite(
+                  homeScore
+                )
+
+                &&
+
+                homeScore >
+                  awayScore;
+
+
+
+              const awayAssociation =
+
+                game[
+                  "Away Association"
+                ]
+
+                || "";
+
+
+
+              const homeAssociation =
+
+                game[
+                  "Home Association"
+                ]
+
+                || "";
+
+
+
+              let associationLabel =
+                "";
+
+
+
+              if (
+                awayAssociation ===
+                  homeAssociation
+
+                &&
+
+                awayAssociation
+              ) {
+
+
+                associationLabel =
+                  awayAssociation;
+
+
+              }
+
+
+
+              else if (
+                awayAssociation ||
+                homeAssociation
+              ) {
+
+
+                associationLabel =
+
+                  [
+                    awayAssociation,
+                    homeAssociation
+                  ]
+
+                    .filter(
+                      Boolean
+                    )
+
+                    .join(
+                      " vs "
+                    );
+
+
+              }
+
+
+
+              html += `
+
+
+                <div class="game">
+
+
+                  <div
+                    class="team ${
+                      awayWinner
+                        ? "winner"
+                        : ""
+                    }"
+                  >
+
+
+                    <div class="association">
+
+                      ${escapeHTML(
+                        awayAssociation
+                      )}
+
+                    </div>
+
+
+                    <div class="team-name">
+
+                      ${escapeHTML(
+                        game[
+                          "Away Team"
+                        ]
+                      )}
+
+                    </div>
+
+
+                    <div class="record">
+
+                      (${escapeHTML(
+                        game._awayRecord
+                          || "0-0"
+                      )})
+
+                    </div>
+
+
+                    <div class="score">
+
+                      ${escapeHTML(
+                        game[
+                          "Away Score"
+                        ]
+                      )}
+
+                    </div>
+
+
+                  </div>
+
+
+
+
+                  <div
+                    class="team ${
+                      homeWinner
+                        ? "winner"
+                        : ""
+                    }"
+                  >
+
+
+                    <div class="association">
+
+                      ${escapeHTML(
+                        homeAssociation
+                      )}
+
+                    </div>
+
+
+                    <div class="team-name">
+
+                      ${escapeHTML(
+                        game[
+                          "Home Team"
+                        ]
+                      )}
+
+                    </div>
+
+
+                    <div class="record">
+
+                      (${escapeHTML(
+                        game._homeRecord
+                          || "0-0"
+                      )})
+
+                    </div>
+
+
+                    <div class="score">
+
+                      ${escapeHTML(
+                        game[
+                          "Home Score"
+                        ]
+                      )}
+
+                    </div>
+
+
+                  </div>
+
+
+
+
+                  <div class="game-footer">
+
+
+                    ${escapeHTML(
+
+                      game[
+                        "Status"
+                      ]
+
+                      ||
+
+                      "Final"
+
+                    )}
+
+
+                    &nbsp; • &nbsp;
+
+
+                    ${escapeHTML(
+
+                      formatDate(
+                        game[
+                          "Date"
+                        ]
+                      )
+
+                    )}
+
+
+                    ${
+                      associationLabel
+
+                        ? `
+
+                          <span class="association-label">
+
+                            ${escapeHTML(
+                              associationLabel
+                            )}
+
+                          </span>
+
+                        `
+
+                        : ""
+                    }
+
+
+                  </div>
+
+
+                </div>
+
+
+              `;
+
+
+            }
+          );
+
+
+
+        html +=
+
+          `</section>`;
+
+
+      }
+    );
+
 
 
   scoresContainer.innerHTML =
@@ -1261,10 +2123,11 @@ function renderScores() {
 }
 
 
+
 /*
------------------------------------------
+=========================================
 FILTER EVENTS
------------------------------------------
+=========================================
 */
 
 document
@@ -1277,6 +2140,7 @@ document
   );
 
 
+
 document
   .getElementById(
     "associationFilter"
@@ -1287,15 +2151,19 @@ document
   );
 
 
+
 /*
------------------------------------------
+=========================================
 START WEBSITE
------------------------------------------
+=========================================
 */
 
 loadScores();
 
+
 </script>
 
+
 </body>
+
 </html>
