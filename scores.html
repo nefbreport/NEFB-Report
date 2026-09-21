@@ -105,26 +105,41 @@
 
     .team {
       display: grid;
-      grid-template-columns: 45px 1fr 50px;
+      grid-template-columns: 70px minmax(0, 1fr) auto 50px;
       align-items: center;
-      padding: 6px 0;
+      gap: 10px;
+      padding: 7px 0;
     }
 
-    .state {
+    .association {
       color: #888;
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     .team-name {
       font-size: 16px;
       font-weight: 700;
+      min-width: 0;
+    }
+
+    .record {
+      color: #777;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .score {
       font-size: 18px;
       font-weight: 900;
       text-align: right;
+    }
+
+    .winner .team-name,
+    .winner .score {
+      font-weight: 900;
     }
 
     .game-footer {
@@ -137,7 +152,7 @@
       text-transform: uppercase;
     }
 
-    .prep-label {
+    .association-label {
       display: inline-block;
       background: #111;
       color: #fff;
@@ -192,6 +207,27 @@
       select {
         width: 100%;
       }
+
+      .team {
+        grid-template-columns: 58px minmax(0, 1fr) auto 38px;
+        gap: 7px;
+      }
+
+      .association {
+        font-size: 9px;
+      }
+
+      .team-name {
+        font-size: 14px;
+      }
+
+      .record {
+        font-size: 11px;
+      }
+
+      .score {
+        font-size: 17px;
+      }
     }
   </style>
 </head>
@@ -227,49 +263,10 @@
 
     <select id="weekFilter">
       <option value="all">All Weeks</option>
-      <option value="1">Week 1</option>
-      <option value="2">Week 2</option>
-      <option value="3">Week 3</option>
-      <option value="4">Week 4</option>
-      <option value="5">Week 5</option>
-      <option value="6">Week 6</option>
-      <option value="7">Week 7</option>
-      <option value="8">Week 8</option>
-      <option value="9">Week 9</option>
-      <option value="10">Week 10</option>
     </select>
 
-
-    <select id="stateFilter">
-      <option value="all">All New England</option>
-
-      <option value="NEPSAC">
-        NEPSAC / Prep
-      </option>
-
-      <option value="MA">
-        Massachusetts
-      </option>
-
-      <option value="CT">
-        Connecticut
-      </option>
-
-      <option value="RI">
-        Rhode Island
-      </option>
-
-      <option value="NH">
-        New Hampshire
-      </option>
-
-      <option value="ME">
-        Maine
-      </option>
-
-      <option value="VT">
-        Vermont
-      </option>
+    <select id="associationFilter">
+      <option value="all">All Associations</option>
     </select>
 
   </div>
@@ -299,262 +296,67 @@ let allGames = [];
 
 /*
 -----------------------------------------
-NEPSAC FOOTBALL PROGRAMS
------------------------------------------
-*/
-
-const NEPSAC_TEAMS = [
-
-  "Avon Old Farms",
-  "Avon Old Farms School",
-
-  "Belmont Hill",
-  "Belmont Hill School",
-
-  "Berkshire",
-  "Berkshire School",
-
-  "Blair Academy",
-
-  "Brunswick",
-  "Brunswick School",
-
-  "Buckingham Browne & Nichols",
-  "BB&N",
-  "BBN",
-
-  "Canterbury",
-  "Canterbury School",
-
-  "Cheshire Academy",
-
-  "Choate",
-  "Choate Rosemary Hall",
-
-  "Deerfield",
-  "Deerfield Academy",
-
-  "Dexter Southfield",
-  "Dexter Southfield School",
-
-  "Frederick Gunn",
-  "Frederick Gunn School",
-  "The Frederick Gunn School",
-
-  "Greenwich Country Day",
-  "Greenwich Country Day School",
-
-  "Hamden Hall",
-  "Hamden Hall Country Day School",
-
-  "Hotchkiss",
-  "Hotchkiss School",
-  "The Hotchkiss School",
-
-  "Kent",
-  "Kent School",
-
-  "Kingswood Oxford",
-  "Kingswood-Oxford",
-  "Kingswood Oxford School",
-
-  "Lawrence Academy",
-
-  "Loomis Chaffee",
-  "Loomis Chaffee School",
-  "Loomis-Chaffee",
-
-  "Milton Academy",
-
-  "New Hampton",
-  "New Hampton School",
-
-  "Noble & Greenough",
-  "Noble and Greenough",
-  "Nobles",
-
-  "Phillips Andover",
-  "Phillips Academy",
-  "Phillips Academy Andover",
-
-  "Phillips Exeter",
-  "Phillips Exeter Academy",
-  "Exeter",
-
-  "Pomfret",
-  "Pomfret School",
-
-  "Salisbury",
-  "Salisbury School",
-
-  "St. Mark's",
-  "St Mark's",
-  "St. Mark’s School",
-  "St. Mark's School",
-
-  "St. Paul's",
-  "St Paul's",
-  "St. Paul's School",
-  "St. Paul’s School",
-
-  "St. Sebastian's",
-  "St Sebastian's",
-  "St. Sebastian’s School",
-  "St. Sebastian's School",
-  "St. Seb's",
-  "St Sebs",
-
-  "St. Thomas More",
-  "St Thomas More",
-  "St. Thomas More School",
-
-  "Suffield Academy",
-
-  "Tabor",
-  "Tabor Academy",
-
-  "Taft",
-  "Taft School",
-  "The Taft School",
-
-  "Thayer",
-  "Thayer Academy",
-
-  "The Governor's Academy",
-  "Governor's Academy",
-  "Governors Academy",
-
-  "The Rivers School",
-  "Rivers",
-  "Rivers School",
-
-  "Trinity-Pawling",
-  "Trinity Pawling",
-  "Trinity-Pawling School",
-
-  "Westminster",
-  "Westminster School",
-
-  "Williston Northampton",
-  "Williston Northampton School",
-
-  "Worcester Academy"
-
-];
-
-
-/*
-NORMALIZE TEAM NAMES
-*/
-
-function normalizeTeamName(name) {
-
-  return String(name || "")
-    .toLowerCase()
-    .replace(/[.’']/g, "")
-    .replace(/&/g, "and")
-    .replace(/-/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-
-}
-
-
-const normalizedNEPSACTeams =
-  NEPSAC_TEAMS.map(normalizeTeamName);
-
-
-/*
-CHECK WHETHER TEAM IS NEPSAC
-*/
-
-function isNEPSACTeam(teamName) {
-
-  const team =
-    normalizeTeamName(teamName);
-
-  return normalizedNEPSACTeams.includes(team);
-
-}
-
-
-/*
-CHECK WHETHER GAME IS NEPSAC
-*/
-
-function isNEPSACGame(game) {
-
-  return (
-    isNEPSACTeam(game["Away Team"]) ||
-    isNEPSACTeam(game["Home Team"])
-  );
-
-}
-
-
-/*
 LOAD GOOGLE SHEET
+-----------------------------------------
 */
 
 async function loadScores() {
 
   try {
 
-    const response =
-      await fetch(SHEET_URL);
+    const response = await fetch(SHEET_URL);
 
     if (!response.ok) {
-      throw new Error(
-        "Could not load spreadsheet"
-      );
+      throw new Error("Could not load spreadsheet");
     }
 
-    const csv =
-      await response.text();
+    const csv = await response.text();
 
-    const rows =
-      parseCSV(csv);
+    const rows = parseCSV(csv);
 
     if (rows.length < 2) {
-      throw new Error(
-        "Spreadsheet is empty"
-      );
+      throw new Error("Spreadsheet is empty");
     }
 
     const headers =
-      rows[0].map(
-        header => header.trim()
-      );
+      rows[0].map(header => header.trim());
 
 
     allGames =
       rows
         .slice(1)
-        .filter(
-          row =>
-            row.some(
-              cell =>
-                cell.trim() !== ""
-            )
+        .filter(row =>
+          row.some(cell => cell.trim() !== "")
         )
-        .map(row => {
+        .map((row, index) => {
 
           const game = {};
 
-          headers.forEach(
-            (header, index) => {
+          headers.forEach((header, columnIndex) => {
+            game[header] =
+              row[columnIndex]
+                ? row[columnIndex].trim()
+                : "";
+          });
 
-              game[header] =
-                row[index]
-                  ? row[index].trim()
-                  : "";
-
-            }
-          );
+          game._originalIndex = index;
 
           return game;
 
         });
+
+
+    /*
+    -----------------------------------------
+    PREPARE GAME DATA
+    -----------------------------------------
+    */
+
+    prepareGames();
+
+    buildWeekFilter();
+
+    buildAssociationFilter();
 
 
     document
@@ -584,7 +386,9 @@ async function loadScores() {
 
 
 /*
+-----------------------------------------
 CSV PARSER
+-----------------------------------------
 */
 
 function parseCSV(text) {
@@ -596,17 +400,10 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
+  for (let i = 0; i < text.length; i++) {
 
-    const character =
-      text[i];
-
-    const nextCharacter =
-      text[i + 1];
+    const character = text[i];
+    const nextCharacter = text[i + 1];
 
 
     if (character === '"') {
@@ -617,15 +414,13 @@ function parseCSV(text) {
       ) {
 
         cell += '"';
-
         i++;
 
       }
 
       else {
 
-        insideQuotes =
-          !insideQuotes;
+        insideQuotes = !insideQuotes;
 
       }
 
@@ -637,7 +432,6 @@ function parseCSV(text) {
     ) {
 
       row.push(cell);
-
       cell = "";
 
     }
@@ -658,7 +452,6 @@ function parseCSV(text) {
       }
 
       row.push(cell);
-
       rows.push(row);
 
       row = [];
@@ -681,7 +474,6 @@ function parseCSV(text) {
   ) {
 
     row.push(cell);
-
     rows.push(row);
 
   }
@@ -693,29 +485,73 @@ function parseCSV(text) {
 
 
 /*
+-----------------------------------------
+NORMALIZE WEEK
+-----------------------------------------
+*/
+
+function normalizeWeek(week) {
+
+  return String(week || "")
+    .replace(/week\s*/i, "")
+    .trim();
+
+}
+
+
+/*
+-----------------------------------------
+DATE VALUE
+-----------------------------------------
+*/
+
+function getDateValue(dateString) {
+
+  if (!dateString) {
+    return 0;
+  }
+
+  const parts = dateString.split("/");
+
+  if (parts.length === 3) {
+
+    const month = Number(parts[0]);
+    const day = Number(parts[1]);
+    const year = Number(parts[2]);
+
+    return new Date(
+      year,
+      month - 1,
+      day
+    ).getTime();
+
+  }
+
+  return new Date(dateString).getTime() || 0;
+
+}
+
+
+/*
+-----------------------------------------
 DATE FORMAT
+-----------------------------------------
 */
 
 function formatDate(dateString) {
 
-  if (!dateString)
+  if (!dateString) {
     return "";
+  }
 
-
-  const parts =
-    dateString.split("/");
+  const parts = dateString.split("/");
 
 
   if (parts.length === 3) {
 
-    const month =
-      Number(parts[0]);
-
-    const day =
-      Number(parts[1]);
-
-    const year =
-      Number(parts[2]);
+    const month = Number(parts[0]);
+    const day = Number(parts[1]);
+    const year = Number(parts[2]);
 
 
     const date =
@@ -744,7 +580,9 @@ function formatDate(dateString) {
 
 
 /*
+-----------------------------------------
 SAFE HTML
+-----------------------------------------
 */
 
 function escapeHTML(value) {
@@ -760,7 +598,355 @@ function escapeHTML(value) {
 
 
 /*
+-----------------------------------------
+NORMALIZE TEAM NAME FOR RECORDS
+-----------------------------------------
+*/
+
+function normalizeTeamName(name) {
+
+  return String(name || "")
+    .toLowerCase()
+    .replace(/[.’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+
+/*
+-----------------------------------------
+CHECK FINAL
+-----------------------------------------
+*/
+
+function isFinalGame(game) {
+
+  return String(game["Status"] || "")
+    .toLowerCase()
+    .includes("final");
+
+}
+
+
+/*
+-----------------------------------------
+PREPARE GAMES + CALCULATE RECORDS
+-----------------------------------------
+
+Records shown are the team's record
+AFTER that particular game.
+
+Example:
+
+Week 1: 1-0
+Week 2: 2-0
+Week 3: 2-1
+
+-----------------------------------------
+*/
+
+function prepareGames() {
+
+  const chronologicalGames =
+    [...allGames].sort((a, b) => {
+
+      const dateDifference =
+        getDateValue(a["Date"]) -
+        getDateValue(b["Date"]);
+
+      if (dateDifference !== 0) {
+        return dateDifference;
+      }
+
+      return (
+        a._originalIndex -
+        b._originalIndex
+      );
+
+    });
+
+
+  const records = {};
+
+
+  chronologicalGames.forEach(game => {
+
+    const awayTeam =
+      normalizeTeamName(
+        game["Away Team"]
+      );
+
+    const homeTeam =
+      normalizeTeamName(
+        game["Home Team"]
+      );
+
+
+    if (!records[awayTeam]) {
+      records[awayTeam] = {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      };
+    }
+
+    if (!records[homeTeam]) {
+      records[homeTeam] = {
+        wins: 0,
+        losses: 0,
+        ties: 0
+      };
+    }
+
+
+    if (isFinalGame(game)) {
+
+      const awayScore =
+        Number(game["Away Score"]);
+
+      const homeScore =
+        Number(game["Home Score"]);
+
+
+      if (
+        Number.isFinite(awayScore) &&
+        Number.isFinite(homeScore)
+      ) {
+
+        if (awayScore > homeScore) {
+
+          records[awayTeam].wins++;
+          records[homeTeam].losses++;
+
+        }
+
+        else if (homeScore > awayScore) {
+
+          records[homeTeam].wins++;
+          records[awayTeam].losses++;
+
+        }
+
+        else {
+
+          records[awayTeam].ties++;
+          records[homeTeam].ties++;
+
+        }
+
+      }
+
+    }
+
+
+    game._awayRecord =
+      formatRecord(
+        records[awayTeam]
+      );
+
+    game._homeRecord =
+      formatRecord(
+        records[homeTeam]
+      );
+
+  });
+
+}
+
+
+/*
+-----------------------------------------
+FORMAT RECORD
+-----------------------------------------
+*/
+
+function formatRecord(record) {
+
+  if (!record) {
+    return "0-0";
+  }
+
+  if (record.ties > 0) {
+
+    return (
+      record.wins +
+      "-" +
+      record.losses +
+      "-" +
+      record.ties
+    );
+
+  }
+
+  return (
+    record.wins +
+    "-" +
+    record.losses
+  );
+
+}
+
+
+/*
+-----------------------------------------
+AUTOMATIC WEEK FILTER
+-----------------------------------------
+*/
+
+function buildWeekFilter() {
+
+  const weekFilter =
+    document.getElementById(
+      "weekFilter"
+    );
+
+
+  const weeks =
+    [
+      ...new Set(
+        allGames
+          .map(game =>
+            normalizeWeek(
+              game["Week"]
+            )
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  weeks.sort((a, b) => {
+
+    const numberA = Number(a);
+    const numberB = Number(b);
+
+    if (
+      Number.isFinite(numberA) &&
+      Number.isFinite(numberB)
+    ) {
+      return numberA - numberB;
+    }
+
+    return a.localeCompare(b);
+
+  });
+
+
+  weeks.forEach(week => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value = week;
+    option.textContent =
+      "Week " + week;
+
+    weekFilter.appendChild(option);
+
+  });
+
+}
+
+
+/*
+-----------------------------------------
+AUTOMATIC ASSOCIATION FILTER
+-----------------------------------------
+*/
+
+function buildAssociationFilter() {
+
+  const associationFilter =
+    document.getElementById(
+      "associationFilter"
+    );
+
+
+  const preferredOrder = [
+    "MIAA",
+    "CIAC",
+    "RIIL",
+    "NHIAA",
+    "MPA",
+    "VPA",
+    "NEPSAC"
+  ];
+
+
+  const associations =
+    [
+      ...new Set(
+        allGames
+          .flatMap(game => [
+            game["Away Association"],
+            game["Home Association"]
+          ])
+          .map(value =>
+            String(value || "").trim()
+          )
+          .filter(Boolean)
+      )
+    ];
+
+
+  associations.sort((a, b) => {
+
+    const indexA =
+      preferredOrder.indexOf(a);
+
+    const indexB =
+      preferredOrder.indexOf(b);
+
+
+    if (
+      indexA !== -1 &&
+      indexB !== -1
+    ) {
+      return indexA - indexB;
+    }
+
+    if (indexA !== -1) {
+      return -1;
+    }
+
+    if (indexB !== -1) {
+      return 1;
+    }
+
+    return a.localeCompare(b);
+
+  });
+
+
+  associations.forEach(
+    association => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value = association;
+      option.textContent = association;
+
+      associationFilter
+        .appendChild(option);
+
+    }
+  );
+
+}
+
+
+/*
+-----------------------------------------
 DISPLAY SCORES
+-----------------------------------------
 */
 
 function renderScores() {
@@ -777,9 +963,9 @@ function renderScores() {
     ).value;
 
 
-  const selectedState =
+  const selectedAssociation =
     document.getElementById(
-      "stateFilter"
+      "associationFilter"
     ).value;
 
 
@@ -789,91 +975,49 @@ function renderScores() {
 
       const weekMatches =
         selectedWeek === "all" ||
-        String(game["Week"])
-          .replace(
-            /week\s*/i,
-            ""
-          )
-          .trim()
-          === selectedWeek;
+        normalizeWeek(
+          game["Week"]
+        ) === selectedWeek;
 
 
-      let categoryMatches = false;
-
-
-      /*
-      ALL NEW ENGLAND
-      */
-
-      if (
-        selectedState === "all"
-      ) {
-
-        categoryMatches = true;
-
-      }
-
-
-      /*
-      NEPSAC
-      */
-
-      else if (
-        selectedState === "NEPSAC"
-      ) {
-
-        categoryMatches =
-          isNEPSACGame(game);
-
-      }
-
-
-      /*
-      STATE FILTERS
-
-      NEPSAC games are excluded here
-      so prep games live in their own
-      NEPSAC section.
-      */
-
-      else {
-
-        const involvesState =
-          game["Away State"] ===
-            selectedState ||
-          game["Home State"] ===
-            selectedState;
-
-
-        categoryMatches =
-          involvesState &&
-          !isNEPSACGame(game);
-
-      }
+      const associationMatches =
+        selectedAssociation === "all" ||
+        game["Away Association"] ===
+          selectedAssociation ||
+        game["Home Association"] ===
+          selectedAssociation;
 
 
       return (
         weekMatches &&
-        categoryMatches
+        associationMatches
       );
 
     });
 
 
   /*
+  -----------------------------------------
   SORT BY DATE
+  -----------------------------------------
   */
 
-  games.sort(
-    (a, b) => {
+  games.sort((a, b) => {
 
-      return (
-        new Date(a["Date"]) -
-        new Date(b["Date"])
-      );
+    const dateDifference =
+      getDateValue(a["Date"]) -
+      getDateValue(b["Date"]);
 
+    if (dateDifference !== 0) {
+      return dateDifference;
     }
-  );
+
+    return (
+      a._originalIndex -
+      b._originalIndex
+    );
+
+  });
 
 
   if (!games.length) {
@@ -887,7 +1031,9 @@ function renderScores() {
 
 
   /*
+  -----------------------------------------
   GROUP BY DATE
+  -----------------------------------------
   */
 
   const groupedGames = {};
@@ -901,9 +1047,7 @@ function renderScores() {
 
 
     if (!groupedGames[date]) {
-
       groupedGames[date] = [];
-
     }
 
 
@@ -938,8 +1082,69 @@ function renderScores() {
         .forEach(game => {
 
 
-          const prepGame =
-            isNEPSACGame(game);
+          const awayScore =
+            Number(
+              game["Away Score"]
+            );
+
+          const homeScore =
+            Number(
+              game["Home Score"]
+            );
+
+
+          const awayWinner =
+            isFinalGame(game) &&
+            Number.isFinite(awayScore) &&
+            Number.isFinite(homeScore) &&
+            awayScore > homeScore;
+
+
+          const homeWinner =
+            isFinalGame(game) &&
+            Number.isFinite(awayScore) &&
+            Number.isFinite(homeScore) &&
+            homeScore > awayScore;
+
+
+          const awayAssociation =
+            game["Away Association"] ||
+            "";
+
+
+          const homeAssociation =
+            game["Home Association"] ||
+            "";
+
+
+          let associationLabel = "";
+
+
+          if (
+            awayAssociation ===
+              homeAssociation &&
+            awayAssociation
+          ) {
+
+            associationLabel =
+              awayAssociation;
+
+          }
+
+          else if (
+            awayAssociation ||
+            homeAssociation
+          ) {
+
+            associationLabel =
+              [
+                awayAssociation,
+                homeAssociation
+              ]
+                .filter(Boolean)
+                .join(" vs ");
+
+          }
 
 
           html += `
@@ -947,11 +1152,11 @@ function renderScores() {
             <div class="game">
 
 
-              <div class="team">
+              <div class="team ${awayWinner ? "winner" : ""}">
 
-                <div class="state">
+                <div class="association">
                   ${escapeHTML(
-                    game["Away State"]
+                    awayAssociation
                   )}
                 </div>
 
@@ -959,6 +1164,13 @@ function renderScores() {
                   ${escapeHTML(
                     game["Away Team"]
                   )}
+                </div>
+
+                <div class="record">
+                  (${escapeHTML(
+                    game._awayRecord ||
+                    "0-0"
+                  )})
                 </div>
 
                 <div class="score">
@@ -970,11 +1182,11 @@ function renderScores() {
               </div>
 
 
-              <div class="team">
+              <div class="team ${homeWinner ? "winner" : ""}">
 
-                <div class="state">
+                <div class="association">
                   ${escapeHTML(
-                    game["Home State"]
+                    homeAssociation
                   )}
                 </div>
 
@@ -982,6 +1194,13 @@ function renderScores() {
                   ${escapeHTML(
                     game["Home Team"]
                   )}
+                </div>
+
+                <div class="record">
+                  (${escapeHTML(
+                    game._homeRecord ||
+                    "0-0"
+                  )})
                 </div>
 
                 <div class="score">
@@ -1004,18 +1223,21 @@ function renderScores() {
 
                 Week
                 ${escapeHTML(
-                  String(
+                  normalizeWeek(
                     game["Week"]
-                  ).replace(
-                    /week\s*/i,
-                    ""
                   )
                 )}
 
                 ${
-                  prepGame
-                    ? '<span class="prep-label">NEPSAC</span>'
-                    : ''
+                  associationLabel
+                    ? `
+                      <span class="association-label">
+                        ${escapeHTML(
+                          associationLabel
+                        )}
+                      </span>
+                    `
+                    : ""
                 }
 
               </div>
@@ -1040,7 +1262,9 @@ function renderScores() {
 
 
 /*
+-----------------------------------------
 FILTER EVENTS
+-----------------------------------------
 */
 
 document
@@ -1055,7 +1279,7 @@ document
 
 document
   .getElementById(
-    "stateFilter"
+    "associationFilter"
   )
   .addEventListener(
     "change",
@@ -1064,7 +1288,9 @@ document
 
 
 /*
+-----------------------------------------
 START WEBSITE
+-----------------------------------------
 */
 
 loadScores();
