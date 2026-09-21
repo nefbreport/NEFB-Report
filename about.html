@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="About NEFB Report - independent coverage of New England high school football."
+  >
+
+  <title>About | NEFB Report</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f3f3;
+      color: #111;
+    }
+
+    /* HEADER */
+
+    header {
+      background: #050505;
+      color: white;
+      border-bottom: 1px solid #333;
+    }
+
+    .topbar {
+      max-width: 1250px;
+      min-height: 92px;
+      margin: auto;
+      padding: 8px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand img {
+      height: 76px;
+      width: 150px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    nav a:hover {
+      color: #aeb3b8;
+    }
+
+
+    /* HERO */
+
+    .hero {
+      background:
+        radial-gradient(
+          circle at 80% 40%,
+          #1d1d1d 0%,
+          #0c0c0c 35%,
+          #050505 70%
+        );
+
+      color: white;
+      padding: 85px 24px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      color: #aeb3b8;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 2px;
+
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(50px, 8vw, 78px);
+      line-height: .98;
+      letter-spacing: -3px;
+
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 720px;
+
+      color: #bbb;
+
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+
+    /* MAIN */
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+
+      padding: 55px 20px 80px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.5fr .8fr;
+      gap: 45px;
+      align-items: start;
+    }
+
+    .section {
+      margin-bottom: 45px;
+    }
+
+    .section-label {
+      color: #777;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+
+      margin-bottom: 8px;
+    }
+
+    .section h2 {
+      font-size: 32px;
+      line-height: 1.05;
+
+      letter-spacing: -1px;
+
+      margin-bottom: 18px;
+    }
+
+    .section p {
+      color: #555;
+
+      font-size: 15px;
+      line-height: 1.75;
+
+      margin-bottom: 17px;
+    }
+
+
+    /* COVERAGE */
+
+    .coverage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+
+      margin-top: 24px;
+    }
+
+    .coverage-item {
+      background: white;
+
+      border: 1px solid #ddd;
+      border-radius: 4px;
+
+      padding: 18px;
+    }
+
+    .coverage-item strong {
+      display: block;
+
+      font-size: 14px;
+
+      margin-bottom: 4px;
+    }
+
+    .coverage-item span {
+      color: #888;
+
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+
+    /* SIDEBAR */
+
+    .sidebar-card {
+      background: white;
+
+      border: 1px solid #ddd;
+      border-radius: 5px;
+
+      padding: 25px;
+
+      margin-bottom: 20px;
+    }
+
+    .sidebar-card h3 {
+      font-size: 19px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      padding-bottom: 11px;
+      margin-bottom: 15px;
+
+      border-bottom: 2px solid #111;
+    }
+
+    .sidebar-card p {
+      color: #666;
+
+      font-size: 13px;
+      line-height: 1.65;
+
+      margin-bottom: 14px;
+    }
+
+    .sidebar-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-button {
+      display: block;
+
+      width: 100%;
+
+      background: #111;
+      color: white;
+
+      text-decoration: none;
+      text-align: center;
+
+      padding: 12px 15px;
+
+      border-radius: 3px;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      margin-top: 16px;
+    }
+
+    .contact-button:hover {
+      background: #333;
+    }
+
+
+    /* MISSION */
+
+    .mission {
+      background: #111;
+      color: white;
+
+      border-radius: 5px;
+
+      padding: 38px;
+
+      margin-top: 15px;
+    }
+
+    .mission .section-label {
+      color: #999;
+    }
+
+    .mission h2 {
+      font-size: 30px;
+
+      margin-bottom: 15px;
+    }
+
+    .mission p {
+      color: #bbb;
+
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+      background: #050505;
+      color: #858585;
+
+      border-top: 1px solid #222;
+
+      padding: 45px 24px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .footer-brand {
+      color: white;
+
+      font-size: 23px;
+      font-weight: 900;
+
+      margin-bottom: 9px;
+    }
+
+    footer p {
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 850px) {
+
+      .topbar {
+        min-height: auto;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+      }
+
+      .brand img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      .hero {
+        padding: 60px 20px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .coverage-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="topbar">
+
+    <a class="brand" href="index.html">
+
+      <img
+        src="nefb-logo.jpg"
+        alt="NEFB Report"
+      >
+
+    </a>
+
+
+    <nav>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="scores.html">
+        Scores
+      </a>
+
+      <a href="teams.html">
+        Teams
+      </a>
+
+      <a href="rankings.html">
+        Rankings
+      </a>
+
+      <a href="recruiting.html">
+        Recruiting
+      </a>
+
+      <a href="news.html">
+        News
+      </a>
+
+      <a href="about.html">
+        About
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<section class="hero">
+
+  <div class="hero-inner">
+
+    <div class="eyebrow">
+      About NEFB Report
+    </div>
+
+    <h1>
+      New England Football.
+      <br>
+      All in One Place.
+    </h1>
+
+    <p>
+      NEFB Report is an independent media platform covering
+      high school football across all six New England states
+      and the region's prep football landscape.
+    </p>
+
+  </div>
+
+</section>
+
+
+
+<main class="container">
+
+  <div class="about-grid">
+
+
+    <!-- MAIN CONTENT -->
+
+    <div>
+
+
+      <section class="section">
+
+        <div class="section-label">
+          Who We Are
+        </div>
+
+        <h2>
+          Built for New England Football
+        </h2>
+
+        <p>
+          NEFB Report was created to bring New England high
+          school football coverage together in one place.
+          From public-school programs to prep football,
+          our goal is to make it easier for players, families,
+          coaches and fans to follow football throughout
+          the region.
+        </p>
+
+        <p>
+          We cover scores, rankings, recruiting, major
+          matchups, player performances, team news and
+          other stories from across New England.
+        </p>
+
+      </section>
+
+
+
+      <section class="section">
+
+        <div class="section-label">
+          Our Coverage
+        </div>
+
+        <h2>
+          Six States + Prep
+        </h2>
+
+        <p>
+          NEFB Report follows programs across each New England
+          state association as well as New England prep football.
+        </p>
+
+
+        <div class="coverage-grid">
+
+
+          <div class="coverage-item">
+            <strong>Massachusetts</strong>
+            <span>MIAA</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>Connecticut</strong>
+            <span>CIAC</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>Rhode Island</strong>
+            <span>RIIL</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>New Hampshire</strong>
+            <span>NHIAA</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>Maine</strong>
+            <span>MPA</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>Vermont</strong>
+            <span>VPA</span>
+          </div>
+
+
+          <div class="coverage-item">
+            <strong>Prep Football</strong>
+            <span>NEPSAC</span>
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+
+      <div class="mission">
+
+        <div class="section-label">
+          Our Mission
+        </div>
+
+        <h2>
+          Grow the Coverage.
+        </h2>
+
+        <p>
+          Our goal is to build a central destination for
+          New England football — giving programs and players
+          across the region more coverage while giving fans
+          one place to follow the teams, scores, rankings
+          and stories that matter.
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- SIDEBAR -->
+
+    <aside>
+
+
+      <div class="sidebar-card">
+
+        <h3>
+          What We Cover
+        </h3>
+
+        <p>
+          Scores & Results
+        </p>
+
+        <p>
+          NEFB Top 20 Rankings
+        </p>
+
+        <p>
+          Recruiting & Commitments
+        </p>
+
+        <p>
+          Games of the Week
+        </p>
+
+        <p>
+          Player Performances
+        </p>
+
+        <p>
+          Team & Program News
+        </p>
+
+      </div>
+
+
+
+      <div class="sidebar-card">
+
+        <h3>
+          Contact NEFB
+        </h3>
+
+        <p>
+          Have a score correction, news tip, commitment,
+          story idea, photo or other information for
+          NEFB Report?
+        </p>
+
+        <p>
+          Get in touch with NEFB Report through our
+          social media channels.
+        </p>
+
+      </div>
+
+
+
+      <div class="sidebar-card">
+
+        <h3>
+          Work With Us
+        </h3>
+
+        <p>
+          NEFB Report is continuing to expand its coverage
+          throughout New England.
+        </p>
+
+        <p>
+          Photographers, writers, contributors, programs
+          and potential partners interested in working with
+          NEFB Report can reach out to learn more.
+        </p>
+
+      </div>
+
+
+    </aside>
+
+
+  </div>
+
+</main>
+
+
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div class="footer-brand">
+      NEFB REPORT
+    </div>
+
+    <p>
+      Independent coverage of New England high school football.
+    </p>
+
+    <br>
+
+    <p>
+      © 2026 NEFB Report. All rights reserved.
+    </p>
+
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
