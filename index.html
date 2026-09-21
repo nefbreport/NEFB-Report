@@ -648,7 +648,7 @@
         Rankings
       </a>
 
-      <a href="#">
+      <a href="recruiting.html">
         Recruiting
       </a>
 
@@ -838,8 +838,6 @@
       <div class="rankings">
 
 
-        <!-- #1 -->
-
         <div class="ranking-row">
 
           <div class="rank">
@@ -865,8 +863,6 @@
         </div>
 
 
-
-        <!-- #2 -->
 
         <div class="ranking-row">
 
@@ -894,8 +890,6 @@
 
 
 
-        <!-- #3 -->
-
         <div class="ranking-row">
 
           <div class="rank">
@@ -922,8 +916,6 @@
 
 
 
-        <!-- #4 -->
-
         <div class="ranking-row">
 
           <div class="rank">
@@ -949,8 +941,6 @@
         </div>
 
 
-
-        <!-- #5 -->
 
         <div class="ranking-row">
 
@@ -1112,11 +1102,7 @@ function parseCSV(text) {
   let insideQuotes = false;
 
 
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
+  for (let i = 0; i < text.length; i++) {
 
     const char = text[i];
 
@@ -1131,12 +1117,9 @@ function parseCSV(text) {
         cell += '"';
         i++;
 
-      }
+      } else {
 
-      else {
-
-        insideQuotes =
-          !insideQuotes;
+        insideQuotes = !insideQuotes;
 
       }
 
@@ -1155,8 +1138,7 @@ function parseCSV(text) {
 
 
     else if (
-      (char === "\n" ||
-       char === "\r") &&
+      (char === "\n" || char === "\r") &&
       !insideQuotes
     ) {
 
@@ -1164,9 +1146,7 @@ function parseCSV(text) {
         char === "\r" &&
         text[i + 1] === "\n"
       ) {
-
         i++;
-
       }
 
 
@@ -1237,30 +1217,11 @@ function escapeHTML(value) {
 
   return String(value ?? "")
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -1273,17 +1234,11 @@ function escapeHTML(value) {
 
 function csvToObjects(csvText) {
 
-
-  const rows =
-    parseCSV(csvText);
+  const rows = parseCSV(csvText);
 
 
-  if (
-    rows.length < 2
-  ) {
-
+  if (rows.length < 2) {
     return [];
-
   }
 
 
@@ -1300,7 +1255,6 @@ function csvToObjects(csvText) {
 
     .map(
       (row, index) => {
-
 
         const game = {
           originalIndex: index
@@ -1335,25 +1289,14 @@ function csvToObjects(csvText) {
 
 function parseGameDate(value) {
 
-
   if (!value) {
-
     return null;
-
   }
 
 
   const clean =
     String(value).trim();
 
-
-  /*
-  Handles normal spreadsheet dates
-  like:
-
-  9/19/2026
-  09/19/2026
-  */
 
   const slashMatch =
     clean.match(
@@ -1371,10 +1314,6 @@ function parseGameDate(value) {
 
   }
 
-
-  /*
-  Try browser parsing as backup
-  */
 
   const parsed =
     new Date(clean);
@@ -1404,15 +1343,12 @@ function parseGameDate(value) {
 
 function formatDate(value) {
 
-
   const date =
     parseGameDate(value);
 
 
   if (!date) {
-
     return value || "Final";
-
   }
 
 
@@ -1435,19 +1371,14 @@ function formatDate(value) {
 
 function getScore(value) {
 
-
   const number =
     Number(
       String(value).trim()
     );
 
 
-  if (
-    Number.isNaN(number)
-  ) {
-
+  if (Number.isNaN(number)) {
     return null;
-
   }
 
 
@@ -1463,7 +1394,6 @@ function getScore(value) {
 
 
 function renderGame(game) {
-
 
   const awayScore =
     getScore(
@@ -1486,20 +1416,14 @@ function renderGame(game) {
     homeScore !== null
   ) {
 
-
-    if (
-      awayScore > homeScore
-    ) {
+    if (awayScore > homeScore) {
 
       awayClass = "winner";
       homeClass = "loser";
 
     }
 
-
-    else if (
-      homeScore > awayScore
-    ) {
+    else if (homeScore > awayScore) {
 
       homeClass = "winner";
       awayClass = "loser";
@@ -1513,9 +1437,7 @@ function renderGame(game) {
     game["Away Association"]
       ? `
         <span class="score-association">
-          ${escapeHTML(
-            game["Away Association"]
-          )}
+          ${escapeHTML(game["Away Association"])}
         </span>
       `
       : "";
@@ -1525,9 +1447,7 @@ function renderGame(game) {
     game["Home Association"]
       ? `
         <span class="score-association">
-          ${escapeHTML(
-            game["Home Association"]
-          )}
+          ${escapeHTML(game["Home Association"])}
         </span>
       `
       : "";
@@ -1536,7 +1456,6 @@ function renderGame(game) {
   return `
 
     <div class="score-card">
-
 
       <div class="score-date">
 
@@ -1600,7 +1519,6 @@ function renderGame(game) {
 
       </div>
 
-
     </div>
 
   `;
@@ -1616,7 +1534,6 @@ function renderGame(game) {
 
 async function loadLatestScores() {
 
-
   const container =
     document.getElementById(
       "latestScores"
@@ -1624,7 +1541,6 @@ async function loadLatestScores() {
 
 
   try {
-
 
     const response =
       await fetch(
@@ -1635,9 +1551,7 @@ async function loadLatestScores() {
       );
 
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
 
       throw new Error(
         "Could not load scores."
@@ -1656,16 +1570,9 @@ async function loadLatestScores() {
       );
 
 
-    /*
-    Only verified final games
-    with both teams and scores.
-    */
-
-
     const finals =
       games.filter(
         game => {
-
 
           const status =
             String(
@@ -1697,18 +1604,8 @@ async function loadLatestScores() {
       );
 
 
-    /*
-    Newest dates first.
-
-    If several games have the
-    same date, newer spreadsheet
-    rows appear first.
-    */
-
-
     finals.sort(
       (a, b) => {
-
 
         const dateA =
           parseGameDate(
@@ -1734,12 +1631,8 @@ async function loadLatestScores() {
             : 0;
 
 
-        if (
-          timeB !== timeA
-        ) {
-
+        if (timeB !== timeA) {
           return timeB - timeA;
-
         }
 
 
@@ -1752,12 +1645,6 @@ async function loadLatestScores() {
     );
 
 
-    /*
-    Show the newest 4 finals
-    on the homepage.
-    */
-
-
     const latest =
       finals.slice(
         0,
@@ -1765,20 +1652,15 @@ async function loadLatestScores() {
       );
 
 
-    if (
-      latest.length === 0
-    ) {
+    if (latest.length === 0) {
 
       container.innerHTML = `
 
         <div class="scores-error">
-
           No final scores are currently available.
-
         </div>
 
       `;
-
 
       return;
 
@@ -1787,20 +1669,16 @@ async function loadLatestScores() {
 
     container.innerHTML =
       latest
-
         .map(
           game =>
             renderGame(game)
         )
-
         .join("");
 
 
   }
 
-
   catch (error) {
-
 
     console.error(error);
 
@@ -1808,14 +1686,11 @@ async function loadLatestScores() {
     container.innerHTML = `
 
       <div class="scores-error">
-
         Latest scores could not be loaded right now.
         Use the Scores page to view the full scoreboard.
-
       </div>
 
     `;
-
 
   }
 
