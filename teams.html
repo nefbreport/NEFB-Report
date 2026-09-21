@@ -8,6 +8,7 @@
   <title>Teams | NEFB Report</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,37 +21,68 @@
       color: #111;
     }
 
+
+    /* =========================
+       HEADER
+    ========================= */
+
     header {
-      background: #111;
+      background: #050505;
       color: white;
-      padding: 20px;
+      border-bottom: 1px solid #333;
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1250px;
+      min-height: 92px;
       margin: auto;
+      padding: 8px 24px;
+
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 30px;
     }
 
     .logo {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 76px;
+      width: 150px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      margin-left: 22px;
-      font-weight: 700;
-      font-size: 14px;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: .4px;
     }
 
     nav a:hover {
-      opacity: .7;
+      color: #aeb3b8;
     }
+
+
+    /* =========================
+       PAGE
+    ========================= */
 
     .container {
       max-width: 1100px;
@@ -67,6 +99,11 @@
       color: #666;
       margin-bottom: 25px;
     }
+
+
+    /* =========================
+       FILTERS
+    ========================= */
 
     .filters {
       display: flex;
@@ -92,6 +129,11 @@
     select {
       cursor: pointer;
     }
+
+
+    /* =========================
+       TEAM DIRECTORY
+    ========================= */
 
     .team-count {
       color: #777;
@@ -155,6 +197,11 @@
       text-transform: uppercase;
     }
 
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
     #loading {
       text-align: center;
       padding: 50px;
@@ -176,7 +223,9 @@
     }
 
 
-    /* TEAM DETAIL */
+    /* =========================
+       TEAM DETAIL
+    ========================= */
 
     #teamDetail {
       display: none;
@@ -283,17 +332,37 @@
       text-transform: uppercase;
     }
 
+
+    /* =========================
+       MOBILE
+    ========================= */
+
     @media (max-width: 700px) {
 
       .header-inner {
+        min-height: auto;
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        gap: 10px;
+      }
+
+      .logo img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+        gap: 14px;
+        flex-wrap: wrap;
       }
 
       nav a {
-        margin-left: 0;
-        margin-right: 15px;
+        font-size: 11px;
       }
 
       h1 {
@@ -317,25 +386,33 @@
         align-items: flex-start;
         flex-direction: column;
       }
+
     }
+
   </style>
+
 </head>
 
 
 <body>
 
+
 <header>
 
   <div class="header-inner">
 
-    <div class="logo">
-      NEFB REPORT
-    </div>
+    <a class="logo" href="index.html">
+      <img src="nefb-logo.jpg" alt="NEFB Report">
+    </a>
 
     <nav>
-      <a href="/">Home</a>
-      <a href="/scores.html">Scores</a>
-      <a href="/teams.html">Teams</a>
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
     </nav>
 
   </div>
@@ -344,6 +421,7 @@
 
 
 <main class="container">
+
 
   <!-- TEAM DIRECTORY -->
 
@@ -408,14 +486,17 @@
       Loading teams...
     </div>
 
+
     <div id="error">
       Teams could not be loaded.
     </div>
+
 
     <div
       id="teamCount"
       class="team-count"
     ></div>
+
 
     <div
       id="teams"
@@ -423,6 +504,7 @@
     ></div>
 
   </div>
+
 
 
   <!-- INDIVIDUAL TEAM -->
@@ -475,7 +557,9 @@
 
   </div>
 
+
 </main>
+
 
 
 <script>
@@ -499,6 +583,7 @@ const CORE_ASSOCIATIONS = [
 let allGames = [];
 
 let teams = [];
+
 
 
 /*
@@ -590,6 +675,7 @@ async function loadTeams() {
 
   }
 
+
   catch (error) {
 
     console.error(error);
@@ -607,6 +693,7 @@ async function loadTeams() {
   }
 
 }
+
 
 
 /*
@@ -653,6 +740,7 @@ function parseCSV(text) {
         i++;
 
       }
+
 
       else {
 
@@ -731,6 +819,7 @@ function parseCSV(text) {
 }
 
 
+
 /*
 =========================================
 HELPERS
@@ -750,6 +839,7 @@ function normalizeTeam(name) {
     .trim();
 
 }
+
 
 
 function teamKey(
@@ -774,6 +864,7 @@ function teamKey(
 }
 
 
+
 function isFinal(game) {
 
   return String(
@@ -783,6 +874,7 @@ function isFinal(game) {
     .includes("final");
 
 }
+
 
 
 function getDateValue(dateString) {
@@ -818,6 +910,7 @@ function getDateValue(dateString) {
   );
 
 }
+
 
 
 function formatDate(dateString) {
@@ -861,6 +954,7 @@ function formatDate(dateString) {
 }
 
 
+
 function escapeHTML(value) {
 
   return String(value || "")
@@ -871,6 +965,7 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 
 }
+
 
 
 /*
@@ -921,6 +1016,7 @@ function buildTeams() {
   );
 
 }
+
 
 
 /*
@@ -992,6 +1088,7 @@ function addTeamToMap(
   }
 
 }
+
 
 
 /*
@@ -1149,6 +1246,7 @@ function calculateRecords() {
 }
 
 
+
 /*
 =========================================
 FORMAT RECORD
@@ -1179,6 +1277,7 @@ function recordText(team) {
   );
 
 }
+
 
 
 /*
@@ -1358,6 +1457,7 @@ function renderTeams() {
 }
 
 
+
 /*
 =========================================
 OPEN TEAM
@@ -1434,6 +1534,7 @@ function openTeam(key) {
 }
 
 
+
 /*
 =========================================
 CLOSE TEAM
@@ -1465,6 +1566,7 @@ function closeTeam() {
   );
 
 }
+
 
 
 /*
@@ -1725,6 +1827,7 @@ function renderTeamResults(team) {
 }
 
 
+
 /*
 =========================================
 FILTER EVENTS
@@ -1749,6 +1852,7 @@ document
     "change",
     renderTeams
   );
+
 
 
 /*
