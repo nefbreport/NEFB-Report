@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -17,7 +16,6 @@
 
   <title>Rankings | NEFB Report</title>
 
-
   <style>
 
     * {
@@ -26,29 +24,21 @@
       box-sizing: border-box;
     }
 
-
     body {
       font-family: Arial, Helvetica, sans-serif;
       background: #f3f3f3;
       color: #111111;
     }
 
-
     a {
       color: inherit;
     }
-
-
-    /* =========================
-       HEADER
-    ========================== */
 
     header {
       background: #050505;
       color: #ffffff;
       border-bottom: 1px solid #333333;
     }
-
 
     .topbar {
       max-width: 1250px;
@@ -62,13 +52,11 @@
       gap: 30px;
     }
 
-
     .brand {
       display: flex;
       align-items: center;
       flex-shrink: 0;
     }
-
 
     .brand img {
       height: 76px;
@@ -78,13 +66,11 @@
       display: block;
     }
 
-
     nav {
       display: flex;
       align-items: center;
       gap: 28px;
     }
-
 
     nav a {
       color: #ffffff;
@@ -99,15 +85,9 @@
       transition: color 0.2s ease;
     }
 
-
     nav a:hover {
       color: #aeb3b8;
     }
-
-
-    /* =========================
-       PAGE HEADER
-    ========================== */
 
     .page-header {
       background:
@@ -118,17 +98,14 @@
           #050505 70%
         );
 
-      color: white;
-
+      color: #ffffff;
       padding: 65px 24px;
     }
-
 
     .page-header-inner {
       max-width: 1100px;
       margin: auto;
     }
-
 
     .eyebrow {
       color: #aeb3b8;
@@ -142,7 +119,6 @@
       margin-bottom: 12px;
     }
 
-
     .page-header h1 {
       font-size: clamp(42px, 6vw, 65px);
       line-height: 1;
@@ -150,7 +126,6 @@
 
       margin-bottom: 14px;
     }
-
 
     .page-header p {
       max-width: 650px;
@@ -161,18 +136,11 @@
       line-height: 1.6;
     }
 
-
-    /* =========================
-       MAIN
-    ========================== */
-
     .container {
       max-width: 1100px;
       margin: auto;
-
       padding: 45px 20px 70px;
     }
-
 
     .rankings-header {
       display: flex;
@@ -183,7 +151,6 @@
       margin-bottom: 18px;
     }
 
-
     .rankings-header h2 {
       font-size: 25px;
       font-weight: 900;
@@ -192,7 +159,6 @@
       letter-spacing: -0.5px;
     }
 
-
     .updated {
       color: #777777;
 
@@ -200,17 +166,12 @@
       font-weight: 700;
     }
 
-
-    /* =========================
-       COLUMN LABELS
-    ========================== */
-
     .column-labels {
       display: grid;
 
       grid-template-columns:
         55px
-        55px
+        70px
         minmax(0, 1fr)
         100px
         80px;
@@ -228,18 +189,12 @@
       letter-spacing: 0.7px;
     }
 
-
     .right {
       text-align: right;
     }
 
-
-    /* =========================
-       RANKINGS LIST
-    ========================== */
-
     .rankings-list {
-      background: white;
+      background: #ffffff;
 
       border: 1px solid #dddddd;
       border-radius: 7px;
@@ -250,13 +205,12 @@
         0 3px 12px rgba(0,0,0,0.04);
     }
 
-
     .ranking-row {
       display: grid;
 
       grid-template-columns:
         55px
-        55px
+        70px
         minmax(0, 1fr)
         100px
         80px;
@@ -271,68 +225,57 @@
 
       border-bottom: 1px solid #e5e5e5;
 
-      transition:
-        background 0.15s ease;
+      transition: background 0.15s ease;
     }
-
 
     .ranking-row:last-child {
       border-bottom: none;
     }
 
-
     .ranking-row:hover {
       background: #f8f8f8;
     }
-
-
-    /* RANK */
 
     .rank {
       font-size: 24px;
       font-weight: 900;
     }
 
-
-    /* MOVEMENT */
-
     .movement {
-      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+
+      font-size: 13px;
       font-weight: 900;
     }
 
-
     .movement.up {
-      color: #16833b;
+      color: #159447;
     }
-
 
     .movement.down {
-      color: #b12b2b;
+      color: #d12d2d;
     }
-
 
     .movement.same {
-      color: #999999;
+      color: #9a9a9a;
+      font-size: 18px;
     }
-
 
     .movement.new {
-      color: #111111;
-      font-size: 9px;
-      letter-spacing: .4px;
+      color: #777777;
+
+      font-size: 10px;
+      font-weight: 900;
+
+      letter-spacing: 0.4px;
     }
-
-
-    /* TEAM */
 
     .team-name {
       font-size: 16px;
       font-weight: 900;
     }
-
-
-    /* ASSOCIATION */
 
     .association {
       color: #777777;
@@ -343,20 +286,12 @@
       text-align: right;
     }
 
-
-    /* RECORD */
-
     .record {
       font-size: 14px;
       font-weight: 900;
 
       text-align: right;
     }
-
-
-    /* =========================
-       NOTE
-    ========================== */
 
     .ranking-note {
       margin-top: 18px;
@@ -367,11 +302,6 @@
       line-height: 1.6;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================== */
-
     footer {
       background: #050505;
       color: #858585;
@@ -381,12 +311,10 @@
       padding: 45px 24px;
     }
 
-
     .footer-inner {
       max-width: 1100px;
       margin: auto;
     }
-
 
     .footer-brand {
       color: #ffffff;
@@ -397,16 +325,10 @@
       margin-bottom: 9px;
     }
 
-
     footer p {
       font-size: 12px;
       line-height: 1.6;
     }
-
-
-    /* =========================
-       MOBILE
-    ========================== */
 
     @media (max-width: 850px) {
 
@@ -422,88 +344,79 @@
         gap: 10px;
       }
 
-
       .brand img {
         height: 65px;
         width: 130px;
       }
 
-
       nav {
         width: 100%;
-
         gap: 14px;
-
         flex-wrap: wrap;
       }
-
 
       nav a {
         font-size: 11px;
       }
 
-
       .page-header {
         padding: 50px 20px;
       }
 
-
       .rankings-header {
         flex-direction: column;
         align-items: flex-start;
-
         gap: 7px;
       }
 
-
       .column-labels {
         grid-template-columns:
-          40px
-          45px
+          38px
+          55px
           minmax(0, 1fr)
-          65px;
+          55px;
+
+        gap: 6px;
 
         padding-left: 12px;
         padding-right: 12px;
       }
-
 
       .column-labels .association-column {
         display: none;
       }
 
-
       .ranking-row {
         grid-template-columns:
-          40px
-          45px
+          38px
+          55px
           minmax(0, 1fr)
-          65px;
+          55px;
 
         padding-left: 12px;
         padding-right: 12px;
 
-        gap: 7px;
+        gap: 6px;
       }
-
 
       .association {
         display: none;
       }
 
-
       .rank {
         font-size: 20px;
       }
-
 
       .team-name {
         font-size: 14px;
       }
 
-
       .record {
         font-size: 12px;
+      }
+
+      .movement {
+        font-size: 11px;
       }
 
     }
@@ -516,24 +429,16 @@
 <body>
 
 
-<!-- =========================
-     HEADER
-========================== -->
-
 <header>
 
   <div class="topbar">
 
-    <a
-      class="brand"
-      href="index.html"
-    >
+    <a class="brand" href="index.html">
       <img
         src="nefb-logo.jpg"
         alt="NEFB Report"
       >
     </a>
-
 
     <nav>
 
@@ -573,10 +478,6 @@
 
 
 
-<!-- =========================
-     PAGE HEADER
-========================== -->
-
 <section class="page-header">
 
   <div class="page-header-inner">
@@ -585,11 +486,9 @@
       NEFB Report Rankings
     </div>
 
-
     <h1>
       NEFB Top 20
     </h1>
-
 
     <p>
       The top high school and prep football programs
@@ -602,10 +501,6 @@
 
 
 
-<!-- =========================
-     MAIN
-========================== -->
-
 <main class="container">
 
 
@@ -615,19 +510,13 @@
       Top 20
     </h2>
 
-
-    <div
-      class="updated"
-      id="updatedDate"
-    >
+    <div class="updated">
       Updated September 21, 2026
     </div>
 
   </div>
 
 
-
-  <!-- COLUMN LABELS -->
 
   <div class="column-labels">
 
@@ -643,9 +532,7 @@
       Team
     </div>
 
-    <div
-      class="right association-column"
-    >
+    <div class="right association-column">
       Association
     </div>
 
@@ -657,8 +544,6 @@
 
 
 
-  <!-- RANKINGS -->
-
   <div
     class="rankings-list"
     id="rankingsList"
@@ -669,10 +554,8 @@
 
   <div class="ranking-note">
 
-    Rankings are selected by NEFB Report and include
-    programs from Massachusetts, Connecticut,
-    Rhode Island, New Hampshire, Maine, Vermont
-    and New England prep football.
+    Movement reflects each team's change
+    from the previous NEFB Top 20.
 
   </div>
 
@@ -680,10 +563,6 @@
 </main>
 
 
-
-<!-- =========================
-     FOOTER
-========================== -->
 
 <footer>
 
@@ -713,40 +592,9 @@
 
 
 /*
-====================================================
-EDIT YOUR RANKINGS HERE EACH WEEK
-====================================================
-
-rank:
-Current ranking
-
-team:
-Team name
-
-association:
-MIAA / CIAC / RIIL / NHIAA / MPA / VPA / NEPSAC
-
-record:
-Current record
-
-movement:
-Number of spots moved.
-
-Examples:
-
-movement: 2
-= moved UP 2
-
-movement: -3
-= moved DOWN 3
-
-movement: 0
-= no change
-
-movement: "NEW"
-= entered Top 20
-
-====================================================
+============================================
+CURRENT NEFB TOP 20
+============================================
 */
 
 
@@ -754,223 +602,186 @@ const RANKINGS = [
 
   {
     rank: 1,
+    movement: 2,
     team: "Avon Old Farms",
     association: "NEPSAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 2,
-    team: "Choate",
+    movement: 2,
+    team: "Choate Rosemary Hall",
     association: "NEPSAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 3,
+    movement: 9,
     team: "Williston Northampton",
     association: "NEPSAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 4,
+    movement: 1,
     team: "St. John's Prep",
     association: "MIAA",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 5,
+    movement: 1,
     team: "Catholic Memorial",
     association: "MIAA",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 6,
-    team: "Xaverian",
+    movement: 1,
+    team: "Xaverian Brothers",
     association: "MIAA",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 7,
+    movement: -6,
     team: "Tabor Academy",
     association: "NEPSAC",
-    record: "1-0",
-    movement: 0
+    record: "1-0"
   },
 
   {
     rank: 8,
+    movement: 3,
     team: "Brunswick School",
     association: "NEPSAC",
-    record: "1-0",
-    movement: 0
+    record: "1-0"
   },
 
   {
     rank: 9,
+    movement: -7,
     team: "St. Thomas More",
     association: "NEPSAC",
-    record: "1-2",
-    movement: 0
+    record: "1-2"
   },
 
   {
     rank: 10,
-    team: "Taft",
+    movement: 4,
+    team: "Taft School",
     association: "NEPSAC",
-    record: "1-0",
-    movement: 0
+    record: "1-0"
   },
 
   {
     rank: 11,
-    team: "BB&N",
+    movement: 2,
+    team: "Buckingham Browne & Nichols",
     association: "NEPSAC",
-    record: "0-0",
-    movement: 0
+    record: "0-0"
   },
 
   {
     rank: 12,
+    movement: -4,
     team: "Milton Academy",
     association: "NEPSAC",
-    record: "0-0",
-    movement: 0
+    record: "0-0"
   },
 
   {
     rank: 13,
+    movement: -3,
     team: "Dexter Southfield",
     association: "NEPSAC",
-    record: "1-0",
-    movement: 0
+    record: "1-0"
   },
 
   {
     rank: 14,
+    movement: -5,
     team: "Phillips Exeter",
     association: "NEPSAC",
-    record: "0-1",
-    movement: 0
+    record: "0-1"
   },
 
   {
     rank: 15,
-    team: "Springfield Central",
-    association: "MIAA",
-    record: "1-1",
-    movement: 0
+    movement: 2,
+    team: "New Canaan",
+    association: "CIAC",
+    record: "2-0"
   },
 
   {
     rank: 16,
-    team: "New Canaan",
-    association: "CIAC",
-    record: "2-0",
-    movement: 0
+    movement: -1,
+    team: "Springfield Central",
+    association: "MIAA",
+    record: "1-1"
   },
 
   {
     rank: 17,
+    movement: 1,
     team: "St. Joseph",
     association: "CIAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 18,
+    movement: 1,
     team: "Daniel Hand",
     association: "CIAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 19,
+    movement: 1,
     team: "Greenwich",
     association: "CIAC",
-    record: "2-0",
-    movement: 0
+    record: "2-0"
   },
 
   {
     rank: 20,
-    team: "Cheshire Academy",
-    association: "NEPSAC",
-    record: "0-1",
-    movement: 0
+    movement: "NEW",
+    team: "Central Catholic",
+    association: "MIAA",
+    record: "2-0"
   }
 
 ];
 
 
 
-/*
-====================================================
-ESCAPE HTML
-====================================================
-*/
-
 function escapeHTML(value) {
 
-  return String(
-    value || ""
-  )
+  return String(value ?? "")
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
 
 
-/*
-====================================================
-MOVEMENT DISPLAY
-====================================================
-*/
-
-function movementHTML(
-  movement
-) {
+function movementHTML(movement) {
 
 
-  if (
-    movement === "NEW"
-  ) {
+  if (movement === "NEW") {
 
     return `
       <span class="movement new">
@@ -981,35 +792,26 @@ function movementHTML(
   }
 
 
-
-  if (
-    movement > 0
-  ) {
+  if (movement > 0) {
 
     return `
       <span class="movement up">
-        ▲ ${movement}
+        ▲ +${movement}
       </span>
     `;
 
   }
 
 
-
-  if (
-    movement < 0
-  ) {
+  if (movement < 0) {
 
     return `
       <span class="movement down">
-        ▼ ${Math.abs(
-          movement
-        )}
+        ▼ ${movement}
       </span>
     `;
 
   }
-
 
 
   return `
@@ -1022,108 +824,68 @@ function movementHTML(
 
 
 
-/*
-====================================================
-RENDER RANKINGS
-====================================================
-*/
-
 function renderRankings() {
 
 
   const rankingsList =
-    document.getElementById(
-      "rankingsList"
+    document.getElementById("rankingsList");
+
+
+  const sortedRankings =
+    [...RANKINGS].sort(
+      (a, b) => a.rank - b.rank
     );
 
 
   let html = "";
 
 
-
-  RANKINGS
-
-    .sort(
-      (a, b) =>
-        a.rank - b.rank
-    )
-
-    .forEach(
-      team => {
+  sortedRankings.forEach(team => {
 
 
-        html += `
+    html += `
 
-          <div class="ranking-row">
-
-
-            <div class="rank">
-
-              ${escapeHTML(
-                team.rank
-              )}
-
-            </div>
+      <div class="ranking-row">
 
 
-            <div>
-
-              ${movementHTML(
-                team.movement
-              )}
-
-            </div>
+        <div class="rank">
+          ${escapeHTML(team.rank)}
+        </div>
 
 
-            <div class="team-name">
-
-              ${escapeHTML(
-                team.team
-              )}
-
-            </div>
+        <div>
+          ${movementHTML(team.movement)}
+        </div>
 
 
-            <div class="association">
-
-              ${escapeHTML(
-                team.association
-              )}
-
-            </div>
+        <div class="team-name">
+          ${escapeHTML(team.team)}
+        </div>
 
 
-            <div class="record">
-
-              ${escapeHTML(
-                team.record
-              )}
-
-            </div>
+        <div class="association">
+          ${escapeHTML(team.association)}
+        </div>
 
 
-          </div>
-
-        `;
-
-
-      }
-    );
+        <div class="record">
+          ${escapeHTML(team.record)}
+        </div>
 
 
+      </div>
 
-  rankingsList.innerHTML =
-    html;
+    `;
+
+
+  });
+
+
+  rankingsList.innerHTML = html;
 
 }
 
 
-
-/*
-====================================================
-START
-====================================================
-*/
 
 renderRankings();
 
