@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="NEFB Report Recruiting - New England high school football recruiting coverage."
+  >
+
+  <title>Recruiting | NEFB Report</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #050505;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #050505;
+      border-bottom: 1px solid #333333;
+    }
+
+    .topbar {
+      max-width: 1250px;
+      min-height: 92px;
+      margin: auto;
+      padding: 8px 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand img {
+      height: 76px;
+      width: 150px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 800;
+
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #aeb3b8;
+    }
+
+    .coming-soon {
+      flex: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 80px 24px;
+
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          #1d1d1d 0%,
+          #0c0c0c 38%,
+          #050505 72%
+        );
+    }
+
+    .coming-inner {
+      max-width: 750px;
+    }
+
+    .eyebrow {
+      color: #aeb3b8;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(52px, 8vw, 88px);
+
+      line-height: 0.95;
+
+      letter-spacing: -3px;
+
+      margin-bottom: 22px;
+    }
+
+    .coming-inner p {
+      max-width: 620px;
+
+      margin: auto;
+
+      color: #a9a9a9;
+
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+
+      margin-top: 30px;
+      padding: 13px 21px;
+
+      background: #ffffff;
+      color: #111111;
+
+      border-radius: 3px;
+
+      text-decoration: none;
+
+      font-size: 12px;
+      font-weight: 900;
+
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      transition: background 0.2s ease;
+    }
+
+    .button:hover {
+      background: #b8bdc1;
+    }
+
+    footer {
+      background: #050505;
+      color: #777777;
+
+      border-top: 1px solid #222222;
+
+      padding: 30px 24px;
+
+      text-align: center;
+
+      font-size: 11px;
+    }
+
+    @media (max-width: 850px) {
+
+      .topbar {
+        min-height: auto;
+
+        padding-top: 12px;
+        padding-bottom: 15px;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 10px;
+      }
+
+      .brand img {
+        height: 65px;
+        width: 130px;
+      }
+
+      nav {
+        width: 100%;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 11px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="topbar">
+
+    <a class="brand" href="index.html">
+
+      <img
+        src="nefb-logo.jpg"
+        alt="NEFB Report"
+      >
+
+    </a>
+
+
+    <nav>
+
+      <a href="index.html">
+        Home
+      </a>
+
+      <a href="scores.html">
+        Scores
+      </a>
+
+      <a href="teams.html">
+        Teams
+      </a>
+
+      <a href="rankings.html">
+        Rankings
+      </a>
+
+      <a href="recruiting.html">
+        Recruiting
+      </a>
+
+      <a href="#">
+        News
+      </a>
+
+      <a href="#">
+        About
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+<main class="coming-soon">
+
+  <div class="coming-inner">
+
+    <div class="eyebrow">
+      NEFB Recruiting
+    </div>
+
+    <h1>
+      Coming Soon.
+    </h1>
+
+    <p>
+      New England football recruiting coverage, commitments,
+      prospects and more are coming to NEFB Report.
+    </p>
+
+    <a
+      href="index.html"
+      class="button"
+    >
+      Back to Home
+    </a>
+
+  </div>
+
+</main>
+
+
+
+<footer>
+
+  © 2026 NEFB Report. All rights reserved.
+
+</footer>
+
+
+</body>
+
+</html>
