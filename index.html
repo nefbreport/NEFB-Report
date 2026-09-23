@@ -590,7 +590,6 @@
         grid-template-columns: 1fr;
       }
     }
-
   </style>
 </head>
 
@@ -715,7 +714,7 @@
 
           <a
             class="feature-button"
-            href="#"
+            href="games.html"
           >
             View Matchups
           </a>
@@ -1593,22 +1592,31 @@ async function loadLatestScores() {
               ).toLowerCase();
 
 
+            const awayScoreText =
+              String(
+                game["Away Score"] || ""
+              ).trim();
+
+            const homeScoreText =
+              String(
+                game["Home Score"] || ""
+              ).trim();
+
+
             const awayScore =
-              Number(
-                game["Away Score"]
-              );
+              Number(awayScoreText);
 
 
             const homeScore =
-              Number(
-                game["Home Score"]
-              );
+              Number(homeScoreText);
 
 
             return (
               status.includes("final") &&
               game["Away Team"] &&
               game["Home Team"] &&
+              awayScoreText !== "" &&
+              homeScoreText !== "" &&
               Number.isFinite(
                 awayScore
               ) &&
