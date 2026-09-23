@@ -67,10 +67,8 @@
     nav a {
       color: white;
       text-decoration: none;
-
       font-size: 13px;
       font-weight: 800;
-
       text-transform: uppercase;
       letter-spacing: .4px;
     }
@@ -146,6 +144,25 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     }
 
+    .game.ranked-game {
+      border-left: 4px solid #111;
+    }
+
+    .ranked-matchup-banner {
+      margin: -16px -18px 12px;
+      padding: 7px 18px;
+
+      background: #111;
+      color: white;
+
+      border-radius: 8px 8px 0 0;
+
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
     .team {
       display: grid;
       grid-template-columns: 70px minmax(0, 1fr) auto 50px;
@@ -165,6 +182,12 @@
       font-size: 16px;
       font-weight: 700;
       min-width: 0;
+    }
+
+    .rank-number {
+      font-weight: 900;
+      margin-right: 5px;
+      color: #111;
     }
 
     .record {
@@ -295,6 +318,10 @@
         font-size: 14px;
       }
 
+      .rank-number {
+        margin-right: 3px;
+      }
+
       .record {
         font-size: 11px;
       }
@@ -367,11 +394,24 @@
 
     </select>
 
+
+    <select id="rankedFilter">
+
+      <option value="all">
+        All Games
+      </option>
+
+      <option value="ranked">
+        Ranked Games
+      </option>
+
+    </select>
+
   </div>
 
 
   <div id="loading">
-    Loading scores...
+    Loading scores and rankings...
   </div>
 
 
@@ -391,7 +431,7 @@
 
 /*
 =========================================
-GOOGLE SHEET
+GOOGLE SHEETS
 =========================================
 */
 
@@ -399,13 +439,19 @@ const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
 
 
+const RANKINGS_SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=1805915467&single=true&output=csv";
+
+
 let allGames = [];
+
+let rankings = {};
 
 
 
 /*
 =========================================
-LOAD SCORES
+LOAD WEBSITE DATA
 =========================================
 */
 
@@ -413,31 +459,71 @@ async function loadScores() {
 
   try {
 
-    const response =
-      await fetch(SHEET_URL);
+    const [
+      scoresResponse,
+      rankingsResponse
+    ] = await Promise.all([
+
+      fetch(
+        SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      ),
+
+      fetch(
+        RANKINGS_SHEET_URL,
+        {
+          cache: "no-store"
+        }
+      )
+
+    ]);
 
 
-    if (!response.ok) {
+    if (!scoresResponse.ok) {
 
       throw new Error(
-        "Could not load spreadsheet"
+        "Could not load scores spreadsheet"
       );
 
     }
 
 
-    const csv =
-      await response.text();
+    if (!rankingsResponse.ok) {
+
+      throw new Error(
+        "Could not load rankings spreadsheet"
+      );
+
+    }
+
+
+    const scoresCSV =
+      await scoresResponse.text();
+
+
+    const rankingsCSV =
+      await rankingsResponse.text();
+
+
+    loadRankings(
+      rankingsCSV
+    );
 
 
     const rows =
-      parseCSV(csv);
+      parseCSV(
+        scoresCSV
+      );
 
 
-    if (rows.length < 2) {
+    if (
+      rows.length < 2
+    ) {
 
       throw new Error(
-        "Spreadsheet is empty"
+        "Scores spreadsheet is empty"
       );
 
     }
@@ -445,7 +531,8 @@ async function loadScores() {
 
     const headers =
       rows[0].map(
-        header => header.trim()
+        header =>
+          header.trim()
       );
 
 
@@ -457,7 +544,9 @@ async function loadScores() {
           row =>
             row.some(
               cell =>
-                cell.trim() !== ""
+                String(
+                  cell || ""
+                ).trim() !== ""
             )
         )
 
@@ -468,7 +557,10 @@ async function loadScores() {
 
 
             headers.forEach(
-              (header, columnIndex) => {
+              (
+                header,
+                columnIndex
+              ) => {
 
                 game[header] =
                   row[columnIndex]
@@ -511,7 +603,9 @@ async function loadScores() {
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     document
@@ -530,6 +624,131 @@ async function loadScores() {
         "block";
 
   }
+
+}
+
+
+
+/*
+=========================================
+LOAD RANKINGS
+=========================================
+*/
+
+function loadRankings(csv) {
+
+  const rows =
+    parseCSV(
+      csv
+    );
+
+
+  rankings = {};
+
+
+  if (
+    rows.length < 2
+  ) {
+
+    return;
+
+  }
+
+
+  const headers =
+    rows[0].map(
+      header =>
+        String(
+          header || ""
+        ).trim()
+    );
+
+
+  const rankIndex =
+    headers.findIndex(
+      header =>
+        header.toLowerCase() ===
+        "rank"
+    );
+
+
+  const teamIndex =
+    headers.findIndex(
+      header =>
+        header.toLowerCase() ===
+        "team"
+    );
+
+
+  const associationIndex =
+    headers.findIndex(
+      header =>
+        header.toLowerCase() ===
+        "association"
+    );
+
+
+  if (
+    rankIndex === -1 ||
+    teamIndex === -1 ||
+    associationIndex === -1
+  ) {
+
+    console.warn(
+      "Rankings sheet must contain Rank, Team, and Association columns."
+    );
+
+    return;
+
+  }
+
+
+  rows
+    .slice(1)
+    .forEach(
+      row => {
+
+        const rank =
+          String(
+            row[rankIndex] || ""
+          ).trim();
+
+
+        const team =
+          String(
+            row[teamIndex] || ""
+          ).trim();
+
+
+        const association =
+          String(
+            row[associationIndex] || ""
+          ).trim();
+
+
+        if (
+          !rank ||
+          !team ||
+          !association
+        ) {
+
+          return;
+
+        }
+
+
+        const key =
+          teamKey(
+            team,
+            association
+          );
+
+
+        rankings[key] =
+          rank;
+
+      }
+    );
 
 }
 
@@ -595,7 +814,9 @@ function parseCSV(text) {
       !insideQuotes
     ) {
 
-      row.push(cell);
+      row.push(
+        cell
+      );
 
       cell = "";
 
@@ -620,9 +841,25 @@ function parseCSV(text) {
       }
 
 
-      row.push(cell);
+      row.push(
+        cell
+      );
 
-      rows.push(row);
+
+      if (
+        row.some(
+          value =>
+            String(
+              value || ""
+            ).trim() !== ""
+        )
+      ) {
+
+        rows.push(
+          row
+        );
+
+      }
 
 
       row = [];
@@ -646,9 +883,25 @@ function parseCSV(text) {
     row.length
   ) {
 
-    row.push(cell);
+    row.push(
+      cell
+    );
 
-    rows.push(row);
+
+    if (
+      row.some(
+        value =>
+          String(
+            value || ""
+          ).trim() !== ""
+      )
+    ) {
+
+      rows.push(
+        row
+      );
+
+    }
 
   }
 
@@ -688,9 +941,13 @@ DATE VALUE
 =========================================
 */
 
-function getDateValue(dateString) {
+function getDateValue(
+  dateString
+) {
 
-  if (!dateString) {
+  if (
+    !dateString
+  ) {
 
     return 0;
 
@@ -698,7 +955,9 @@ function getDateValue(dateString) {
 
 
   const parts =
-    dateString.split("/");
+    dateString.split(
+      "/"
+    );
 
 
   if (
@@ -706,13 +965,19 @@ function getDateValue(dateString) {
   ) {
 
     const month =
-      Number(parts[0]);
+      Number(
+        parts[0]
+      );
 
     const day =
-      Number(parts[1]);
+      Number(
+        parts[1]
+      );
 
     const year =
-      Number(parts[2]);
+      Number(
+        parts[2]
+      );
 
 
     return new Date(
@@ -740,9 +1005,13 @@ DATE FORMAT
 =========================================
 */
 
-function formatDate(dateString) {
+function formatDate(
+  dateString
+) {
 
-  if (!dateString) {
+  if (
+    !dateString
+  ) {
 
     return "";
 
@@ -750,7 +1019,9 @@ function formatDate(dateString) {
 
 
   const parts =
-    dateString.split("/");
+    dateString.split(
+      "/"
+    );
 
 
   if (
@@ -758,13 +1029,19 @@ function formatDate(dateString) {
   ) {
 
     const month =
-      Number(parts[0]);
+      Number(
+        parts[0]
+      );
 
     const day =
-      Number(parts[1]);
+      Number(
+        parts[1]
+      );
 
     const year =
-      Number(parts[2]);
+      Number(
+        parts[2]
+      );
 
 
     const date =
@@ -850,11 +1127,15 @@ function createDateRange(
 ) {
 
   const startParts =
-    startDateString.split("/");
+    startDateString.split(
+      "/"
+    );
 
 
   const endParts =
-    endDateString.split("/");
+    endDateString.split(
+      "/"
+    );
 
 
   if (
@@ -872,19 +1153,27 @@ function createDateRange(
 
 
   const startMonth =
-    Number(startParts[0]);
+    Number(
+      startParts[0]
+    );
 
 
   const startDay =
-    Number(startParts[1]);
+    Number(
+      startParts[1]
+    );
 
 
   const endMonth =
-    Number(endParts[0]);
+    Number(
+      endParts[0]
+    );
 
 
   const endDay =
-    Number(endParts[1]);
+    Number(
+      endParts[1]
+    );
 
 
   if (
@@ -937,10 +1226,12 @@ SAFE HTML
 =========================================
 */
 
-function escapeHTML(value) {
+function escapeHTML(
+  value
+) {
 
   return String(
-    value || ""
+    value ?? ""
   )
 
     .replaceAll(
@@ -978,7 +1269,9 @@ NORMALIZE TEAM NAME
 =========================================
 */
 
-function normalizeTeamName(name) {
+function normalizeTeamName(
+  name
+) {
 
   return String(
     name || ""
@@ -1014,11 +1307,165 @@ function normalizeTeamName(name) {
 
 /*
 =========================================
+NORMALIZE ASSOCIATION
+=========================================
+*/
+
+function normalizeAssociation(
+  association
+) {
+
+  return String(
+    association || ""
+  )
+
+    .toUpperCase()
+
+    .replace(
+      /\s+/g,
+      " "
+    )
+
+    .trim();
+
+}
+
+
+
+/*
+=========================================
+TEAM KEY
+
+Using BOTH association and team name
+prevents similarly named programs from
+being treated as the same team.
+=========================================
+*/
+
+function teamKey(
+  team,
+  association
+) {
+
+  return (
+    normalizeAssociation(
+      association
+    ) +
+    "|" +
+    normalizeTeamName(
+      team
+    )
+  );
+
+}
+
+
+
+/*
+=========================================
+GET TEAM RANK
+=========================================
+*/
+
+function getTeamRank(
+  team,
+  association
+) {
+
+  const key =
+    teamKey(
+      team,
+      association
+    );
+
+
+  return (
+    rankings[key] ||
+    ""
+  );
+
+}
+
+
+
+/*
+=========================================
+IS RANKED GAME
+
+A game is considered ranked if
+AT LEAST ONE team is ranked.
+=========================================
+*/
+
+function isRankedGame(
+  game
+) {
+
+  const awayRank =
+    getTeamRank(
+      game["Away Team"],
+      game["Away Association"]
+    );
+
+
+  const homeRank =
+    getTeamRank(
+      game["Home Team"],
+      game["Home Association"]
+    );
+
+
+  return Boolean(
+    awayRank ||
+    homeRank
+  );
+
+}
+
+
+
+/*
+=========================================
+BOTH TEAMS RANKED
+=========================================
+*/
+
+function isRankedMatchup(
+  game
+) {
+
+  const awayRank =
+    getTeamRank(
+      game["Away Team"],
+      game["Away Association"]
+    );
+
+
+  const homeRank =
+    getTeamRank(
+      game["Home Team"],
+      game["Home Association"]
+    );
+
+
+  return Boolean(
+    awayRank &&
+    homeRank
+  );
+
+}
+
+
+
+/*
+=========================================
 CHECK IF GAME IS FINAL
 =========================================
 */
 
-function isFinalGame(game) {
+function isFinalGame(
+  game
+) {
 
   return String(
     game["Status"] || ""
@@ -1036,12 +1483,61 @@ function isFinalGame(game) {
 
 /*
 =========================================
-CALCULATE TEAM RECORDS
+VALID SCORE
 =========================================
+*/
 
-Record shown is the team's
-record AFTER that game.
+function hasValidScores(
+  game
+) {
 
+  const awayScoreText =
+    String(
+      game["Away Score"] || ""
+    ).trim();
+
+
+  const homeScoreText =
+    String(
+      game["Home Score"] || ""
+    ).trim();
+
+
+  if (
+    awayScoreText === "" ||
+    homeScoreText === ""
+  ) {
+
+    return false;
+
+  }
+
+
+  return (
+    Number.isFinite(
+      Number(
+        awayScoreText
+      )
+    ) &&
+    Number.isFinite(
+      Number(
+        homeScoreText
+      )
+    )
+  );
+
+}
+
+
+
+/*
+=========================================
+CALCULATE TEAM RECORDS
+
+Record shown is the team's record
+AFTER that game.
+
+Uses Association + Team identity.
 =========================================
 */
 
@@ -1090,23 +1586,29 @@ function prepareGames() {
   chronologicalGames.forEach(
     game => {
 
-      const awayTeam =
-        normalizeTeamName(
-          game["Away Team"]
+      const awayTeamKey =
+        teamKey(
+          game["Away Team"],
+          game["Away Association"]
         );
 
 
-      const homeTeam =
-        normalizeTeamName(
-          game["Home Team"]
+      const homeTeamKey =
+        teamKey(
+          game["Home Team"],
+          game["Home Association"]
         );
 
 
       if (
-        !records[awayTeam]
+        !records[
+          awayTeamKey
+        ]
       ) {
 
-        records[awayTeam] = {
+        records[
+          awayTeamKey
+        ] = {
 
           wins: 0,
           losses: 0,
@@ -1118,10 +1620,14 @@ function prepareGames() {
 
 
       if (
-        !records[homeTeam]
+        !records[
+          homeTeamKey
+        ]
       ) {
 
-        records[homeTeam] = {
+        records[
+          homeTeamKey
+        ] = {
 
           wins: 0,
           losses: 0,
@@ -1133,77 +1639,74 @@ function prepareGames() {
 
 
       if (
-        isFinalGame(game)
+        isFinalGame(
+          game
+        ) &&
+        hasValidScores(
+          game
+        )
       ) {
 
         const awayScore =
           Number(
-            game["Away Score"]
+            game[
+              "Away Score"
+            ]
           );
 
 
         const homeScore =
           Number(
-            game["Home Score"]
+            game[
+              "Home Score"
+            ]
           );
 
 
         if (
-          Number.isFinite(
-            awayScore
-          ) &&
-          Number.isFinite(
-            homeScore
-          )
+          awayScore >
+          homeScore
         ) {
 
-
-          if (
-            awayScore >
-            homeScore
-          ) {
-
-            records[
-              awayTeam
-            ].wins++;
+          records[
+            awayTeamKey
+          ].wins++;
 
 
-            records[
-              homeTeam
-            ].losses++;
+          records[
+            homeTeamKey
+          ].losses++;
 
-          }
-
-
-          else if (
-            homeScore >
-            awayScore
-          ) {
-
-            records[
-              homeTeam
-            ].wins++;
+        }
 
 
-            records[
-              awayTeam
-            ].losses++;
+        else if (
+          homeScore >
+          awayScore
+        ) {
 
-          }
-
-
-          else {
-
-            records[
-              awayTeam
-            ].ties++;
+          records[
+            homeTeamKey
+          ].wins++;
 
 
-            records[
-              homeTeam
-            ].ties++;
+          records[
+            awayTeamKey
+          ].losses++;
 
-          }
+        }
+
+
+        else {
+
+          records[
+            awayTeamKey
+          ].ties++;
+
+
+          records[
+            homeTeamKey
+          ].ties++;
 
         }
 
@@ -1213,7 +1716,7 @@ function prepareGames() {
       game._awayRecord =
         formatRecord(
           records[
-            awayTeam
+            awayTeamKey
           ]
         );
 
@@ -1221,7 +1724,7 @@ function prepareGames() {
       game._homeRecord =
         formatRecord(
           records[
-            homeTeam
+            homeTeamKey
           ]
         );
 
@@ -1238,9 +1741,13 @@ FORMAT RECORD
 =========================================
 */
 
-function formatRecord(record) {
+function formatRecord(
+  record
+) {
 
-  if (!record) {
+  if (
+    !record
+  ) {
 
     return "0-0";
 
@@ -1323,15 +1830,21 @@ function buildWeekFilter() {
 
 
       if (
-        !weeks[week]
+        !weeks[
+          week
+        ]
       ) {
 
-        weeks[week] = [];
+        weeks[
+          week
+        ] = [];
 
       }
 
 
-      weeks[week].push(
+      weeks[
+        week
+      ].push(
         date
       );
 
@@ -1348,10 +1861,14 @@ function buildWeekFilter() {
         (a, b) => {
 
           const numberA =
-            Number(a);
+            Number(
+              a
+            );
 
           const numberB =
-            Number(b);
+            Number(
+              b
+            );
 
 
           if (
@@ -1372,7 +1889,9 @@ function buildWeekFilter() {
 
 
           return (
-            a.localeCompare(b)
+            a.localeCompare(
+              b
+            )
           );
 
         }
@@ -1383,19 +1902,30 @@ function buildWeekFilter() {
     week => {
 
       const dates =
-        weeks[week]
+        weeks[
+          week
+        ]
 
           .sort(
             (a, b) =>
 
-              getDateValue(a) -
-              getDateValue(b)
+              getDateValue(
+                a
+              )
+
+              -
+
+              getDateValue(
+                b
+              )
 
           );
 
 
       const firstDate =
-        dates[0];
+        dates[
+          0
+        ];
 
 
       const lastDate =
@@ -1518,6 +2048,12 @@ function renderScores() {
     ).value;
 
 
+  const selectedRanked =
+    document.getElementById(
+      "rankedFilter"
+    ).value;
+
+
   let games =
     allGames.filter(
       game => {
@@ -1555,11 +2091,32 @@ function renderScores() {
             selectedAssociation;
 
 
+        const rankedMatches =
+
+          selectedRanked ===
+            "all"
+
+          ||
+
+          (
+            selectedRanked ===
+              "ranked"
+
+            &&
+
+            isRankedGame(
+              game
+            )
+          );
+
+
         return (
 
           weekMatches &&
 
-          associationMatches
+          associationMatches &&
+
+          rankedMatches
 
         );
 
@@ -1686,19 +2243,38 @@ function renderScores() {
           .forEach(
             game => {
 
-              const awayScore =
-                Number(
+
+              const awayScoreText =
+                String(
                   game[
                     "Away Score"
-                  ]
+                  ] || ""
+                ).trim();
+
+
+              const homeScoreText =
+                String(
+                  game[
+                    "Home Score"
+                  ] || ""
+                ).trim();
+
+
+              const awayScore =
+                Number(
+                  awayScoreText
                 );
 
 
               const homeScore =
                 Number(
-                  game[
-                    "Home Score"
-                  ]
+                  homeScoreText
+                );
+
+
+              const validScores =
+                hasValidScores(
+                  game
                 );
 
 
@@ -1710,15 +2286,7 @@ function renderScores() {
 
                 &&
 
-                Number.isFinite(
-                  awayScore
-                )
-
-                &&
-
-                Number.isFinite(
-                  homeScore
-                )
+                validScores
 
                 &&
 
@@ -1734,15 +2302,7 @@ function renderScores() {
 
                 &&
 
-                Number.isFinite(
-                  awayScore
-                )
-
-                &&
-
-                Number.isFinite(
-                  homeScore
-                )
+                validScores
 
                 &&
 
@@ -1766,6 +2326,36 @@ function renderScores() {
                 ]
 
                 || "";
+
+
+              const awayRank =
+                getTeamRank(
+                  game[
+                    "Away Team"
+                  ],
+                  awayAssociation
+                );
+
+
+              const homeRank =
+                getTeamRank(
+                  game[
+                    "Home Team"
+                  ],
+                  homeAssociation
+                );
+
+
+              const rankedGame =
+                isRankedGame(
+                  game
+                );
+
+
+              const rankedMatchup =
+                isRankedMatchup(
+                  game
+                );
 
 
               let associationLabel =
@@ -1813,7 +2403,26 @@ function renderScores() {
               html += `
 
 
-                <div class="game">
+                <div class="game ${
+                  rankedGame
+                    ? "ranked-game"
+                    : ""
+                }">
+
+
+                  ${
+                    rankedMatchup
+
+                      ? `
+
+                        <div class="ranked-matchup-banner">
+                          Ranked Matchup
+                        </div>
+
+                      `
+
+                      : ""
+                  }
 
 
                   <div
@@ -1835,6 +2444,22 @@ function renderScores() {
 
 
                     <div class="team-name">
+
+                      ${
+                        awayRank
+
+                          ? `
+
+                            <span class="rank-number">
+                              #${escapeHTML(
+                                awayRank
+                              )}
+                            </span>
+
+                          `
+
+                          : ""
+                      }
 
                       ${escapeHTML(
                         game[
@@ -1858,9 +2483,7 @@ function renderScores() {
                     <div class="score">
 
                       ${escapeHTML(
-                        game[
-                          "Away Score"
-                        ]
+                        awayScoreText
                       )}
 
                     </div>
@@ -1890,6 +2513,22 @@ function renderScores() {
 
                     <div class="team-name">
 
+                      ${
+                        homeRank
+
+                          ? `
+
+                            <span class="rank-number">
+                              #${escapeHTML(
+                                homeRank
+                              )}
+                            </span>
+
+                          `
+
+                          : ""
+                      }
+
                       ${escapeHTML(
                         game[
                           "Home Team"
@@ -1912,9 +2551,7 @@ function renderScores() {
                     <div class="score">
 
                       ${escapeHTML(
-                        game[
-                          "Home Score"
-                        ]
+                        homeScoreText
                       )}
 
                     </div>
@@ -2018,6 +2655,16 @@ document
 document
   .getElementById(
     "associationFilter"
+  )
+  .addEventListener(
+    "change",
+    renderScores
+  );
+
+
+document
+  .getElementById(
+    "rankedFilter"
   )
   .addEventListener(
     "change",
