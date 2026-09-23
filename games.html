@@ -156,63 +156,113 @@
       text-transform: uppercase;
     }
 
-    /* FEATURED GAME */
+    /* GAME OF THE WEEK TEASER */
 
     .featured-game {
+      position: relative;
+      overflow: hidden;
+
       background:
-        linear-gradient(
-          135deg,
-          #191919,
-          #050505
+        radial-gradient(
+          circle at 50% 50%,
+          #202020 0%,
+          #101010 45%,
+          #050505 100%
         );
 
       color: white;
       padding: 34px;
       border-radius: 6px;
       margin-bottom: 20px;
+      min-height: 245px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .featured-game::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 1px solid #222;
+      top: -140px;
+      right: -80px;
+    }
+
+    .featured-game::after {
+      content: "?";
+      position: absolute;
+      right: 25px;
+      bottom: -35px;
+
+      color: rgba(255,255,255,.035);
+      font-size: 230px;
+      line-height: 1;
+      font-weight: 900;
     }
 
     .featured-label {
+      position: relative;
+      z-index: 2;
+
       color: #aaa;
       font-size: 10px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 22px;
     }
 
-    .featured-matchup {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 25px;
-      align-items: center;
+    .reveal-content {
+      position: relative;
+      z-index: 2;
+
+      text-align: center;
+      padding: 24px 10px;
     }
 
-    .featured-team {
-      font-size: clamp(23px, 4vw, 36px);
+    .reveal-kicker {
+      color: #777;
+      font-size: 10px;
       font-weight: 900;
       text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
     }
 
-    .featured-team:last-child {
-      text-align: right;
-    }
-
-    .at {
-      color: #777;
-      font-size: 16px;
+    .reveal-title {
+      font-size: clamp(30px, 5vw, 48px);
       font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .reveal-description {
+      max-width: 500px;
+      margin: 17px auto 0;
+
+      color: #aaa;
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .featured-details {
+      position: relative;
+      z-index: 2;
+
       border-top: 1px solid #333;
-      margin-top: 25px;
       padding-top: 16px;
 
       color: #aaa;
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 800;
       text-transform: uppercase;
+      letter-spacing: .6px;
+
+      text-align: center;
     }
 
     /* GAME CARDS */
@@ -281,16 +331,6 @@
       font-size: 9px;
       font-weight: 900;
       text-transform: uppercase;
-    }
-
-    .game-location {
-      background: #fafafa;
-      border-top: 1px solid #eee;
-      padding: 11px 20px;
-
-      color: #777;
-      font-size: 10px;
-      font-weight: 700;
     }
 
     /* NOTE */
@@ -364,23 +404,19 @@
         grid-template-columns: 1fr;
       }
 
-      .featured-matchup {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .featured-team:last-child {
-        text-align: left;
-      }
-
-      .at {
-        font-size: 12px;
-      }
-
       .week-heading {
         align-items: flex-start;
         flex-direction: column;
         gap: 5px;
+      }
+
+      .featured-game {
+        min-height: 225px;
+        padding: 25px;
+      }
+
+      .featured-game::after {
+        font-size: 180px;
       }
     }
   </style>
@@ -388,6 +424,7 @@
 
 
 <body>
+
 
 <header>
 
@@ -412,6 +449,7 @@
 </header>
 
 
+
 <section class="page-hero">
 
   <div class="page-hero-inner">
@@ -434,7 +472,9 @@
 </section>
 
 
+
 <main class="container">
+
 
   <div class="week-heading">
 
@@ -449,7 +489,8 @@
   </div>
 
 
-  <!-- FEATURED GAME -->
+
+  <!-- GAME OF THE WEEK TEASER -->
 
   <article class="featured-game">
 
@@ -457,30 +498,32 @@
       NEFB Game of the Week
     </div>
 
-    <div class="featured-matchup">
+    <div class="reveal-content">
 
-      <div class="featured-team">
-        Avon Old Farms
+      <div class="reveal-kicker">
+        Coming Tomorrow
       </div>
 
-      <div class="at">
-        AT
+      <div class="reveal-title">
+        Matchup To Be Revealed
       </div>
 
-      <div class="featured-team">
-        Brunswick School
+      <div class="reveal-description">
+        NEFB Report's featured Game of the Week
+        will be announced tomorrow.
       </div>
 
     </div>
 
     <div class="featured-details">
-      New England Prep Football
+      September 24, 2026
     </div>
 
   </article>
 
 
-  <!-- OTHER GAMES -->
+
+  <!-- MATCHUPS -->
 
   <div class="games-grid">
 
@@ -497,10 +540,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Lawrenceville
             </div>
+
             <div class="association">
               NJ
             </div>
@@ -509,13 +554,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Choate Rosemary Hall
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -524,11 +573,67 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
+
+
+    <!-- AVON OLD FARMS @ BRUNSWICK -->
+
+    <article class="game-card">
+
+      <div class="game-top">
+        <span>Featured Matchup</span>
+        <span>Prep</span>
+      </div>
+
+      <div class="game-content">
+
+        <div class="team-row">
+
+          <div>
+            <div class="team-name">
+              Avon Old Farms
+            </div>
+
+            <div class="association">
+              NEPSAC
+            </div>
+          </div>
+
+          <div class="away-home">
+            Away
+          </div>
+
+        </div>
+
+
+        <div class="team-row">
+
+          <div>
+            <div class="team-name">
+              Brunswick School
+            </div>
+
+            <div class="association">
+              NEPSAC
+            </div>
+          </div>
+
+          <div class="away-home">
+            Home
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
 
 
     <!-- PHILLIPS EXETER @ CHESHIRE -->
@@ -543,10 +648,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Phillips Exeter
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -555,13 +662,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Cheshire Academy
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -570,11 +681,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- TAFT @ LOOMIS -->
@@ -589,10 +702,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Taft School
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -601,13 +716,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Loomis Chaffee
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -616,11 +735,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- VIERA @ CATHOLIC MEMORIAL -->
@@ -635,10 +756,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Viera
             </div>
+
             <div class="association">
               FL
             </div>
@@ -647,13 +770,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Catholic Memorial
             </div>
+
             <div class="association">
               MIAA
             </div>
@@ -662,11 +789,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- XAVERIAN @ SPRINGFIELD CENTRAL -->
@@ -681,10 +810,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Xaverian Brothers
             </div>
+
             <div class="association">
               MIAA
             </div>
@@ -693,13 +824,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Springfield Central
             </div>
+
             <div class="association">
               MIAA
             </div>
@@ -708,11 +843,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- CENTRAL CATHOLIC @ BISHOP HENDRICKEN -->
@@ -727,10 +864,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Central Catholic
             </div>
+
             <div class="association">
               MIAA
             </div>
@@ -739,13 +878,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Bishop Hendricken
             </div>
+
             <div class="association">
               RIIL
             </div>
@@ -754,11 +897,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- MILTON ACADEMY @ ST. SEBASTIAN'S -->
@@ -773,10 +918,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Milton Academy
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -785,13 +932,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               St. Sebastian's
             </div>
+
             <div class="association">
               NEPSAC
             </div>
@@ -800,11 +951,13 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
 
     </article>
+
 
 
     <!-- PINKERTON @ LONDONDERRY -->
@@ -819,10 +972,12 @@
       <div class="game-content">
 
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Pinkerton Academy
             </div>
+
             <div class="association">
               NHIAA
             </div>
@@ -831,13 +986,17 @@
           <div class="away-home">
             Away
           </div>
+
         </div>
 
+
         <div class="team-row">
+
           <div>
             <div class="team-name">
               Londonderry
             </div>
+
             <div class="association">
               NHIAA
             </div>
@@ -846,6 +1005,7 @@
           <div class="away-home">
             Home
           </div>
+
         </div>
 
       </div>
@@ -856,12 +1016,15 @@
   </div>
 
 
+
   <div class="note">
     Games of the Week are selected by NEFB Report and feature
     notable matchups from across New England and prep football.
   </div>
 
+
 </main>
+
 
 
 <footer>
@@ -885,6 +1048,7 @@
   </div>
 
 </footer>
+
 
 </body>
 </html>
