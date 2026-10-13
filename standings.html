@@ -189,15 +189,6 @@ nav a:hover {
   flex-wrap: wrap;
 }
 
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
 .reset-button {
   background: transparent;
   border: none;
@@ -513,11 +504,6 @@ footer p {
     </div>
 
     <div class="extra-filters">
-      <label class="checkbox-label">
-        <input type="checkbox" id="undefeatedOnly">
-        Undefeated Teams Only
-      </label>
-
       <button class="reset-button" id="resetFilters">
         Reset Filters
       </button>
@@ -915,10 +901,6 @@ function renderStandings() {
     .getElementById("associationFilter")
     .value;
 
-  const undefeatedOnly = document
-    .getElementById("undefeatedOnly")
-    .checked;
-
   let filtered = allTeams.filter(team => {
     const matchesSearch =
       team.name.toLowerCase().includes(search);
@@ -927,17 +909,9 @@ function renderStandings() {
       association === "all" ||
       team.association === association;
 
-    const matchesUndefeated =
-      !undefeatedOnly ||
-      (
-        team.losses === 0 &&
-        team.wins + team.ties > 0
-      );
-
     return (
       matchesSearch &&
-      matchesAssociation &&
-      matchesUndefeated
+      matchesAssociation
     );
   });
 
@@ -1044,11 +1018,9 @@ async function loadStandings() {
     }
 
     const csv = await response.text();
-
     const games = csvToObjects(csv);
 
     buildStandings(games);
-
     renderStandings();
 
   } catch (error) {
@@ -1076,9 +1048,6 @@ document.getElementById("teamSearch")
 document.getElementById("associationFilter")
   .addEventListener("change", renderStandings);
 
-document.getElementById("undefeatedOnly")
-  .addEventListener("change", renderStandings);
-
 document.getElementById("sortFilter")
   .addEventListener("change", event => {
     currentSort = event.target.value;
@@ -1104,9 +1073,6 @@ document.getElementById("resetFilters")
 
     document.getElementById("associationFilter")
       .value = "all";
-
-    document.getElementById("undefeatedOnly")
-      .checked = false;
 
     document.getElementById("sortFilter")
       .value = "pct";
