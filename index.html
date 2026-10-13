@@ -1843,8 +1843,157 @@ async function loadLatestScores() {
 ========================================================= */
 
 
+
+/* =========================================================
+   AUTOMATIC NEFB TOP 5
+========================================================= */
+
+async function loadHomepageTop5() {
+
+  const container =
+    document.getElementById("homepageTop5");
+
+  if (!container) return;
+
+  try {
+
+    const response = await fetch(
+      RANKINGS_SHEET_URL,
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not load rankings");
+    }
+
+    const csv = await response.text();
+    const rankings = csvToObjects(csv);
+
+    const getField = (row, names) => {
+      for (const name of names) {
+        const key = Object.keys(row).find(
+          k => k.trim().toLowerCase() === name.toLowerCase()
+        );
+        if (key && row[key]) return String(row[key]).trim();
+      }
+      return "";
+    };
+
+    const overall = rankings
+      .filter(row => {
+        const category = getField(row, [
+          "Category", "Type", "Poll", "Ranking Type", "List"
+        ]);
+
+        return !category ||
+          /overall|top 20/i.test(category);
+      })
+      .map(row => {
+
+        const rank = Number(
+          getField(row, ["Rank", "Ranking", "Position"])
+            .replace("#", "")
+        );
+
+        const team = getField(row, [
+          "Team", "School", "Team Name"
+        ]);
+
+        const association = getField(row, [
+          "Association", "League", "Conference"
+        ]);
+
+        const movement = getField(row, [
+          "Movement", "Change", "Rank Change"
+        ]);
+
+        return {
+          rank,
+          team,
+          association,
+          movement
+        };
+
+      })
+      .filter(row =>
+        Number.isInteger(row.rank) &&
+        row.rank >= 1 &&
+        row.rank <= 5 &&
+        row.team
+      )
+      .sort((a, b) => a.rank - b.rank);
+
+    const top5 = overall.filter(
+      (row, index, arr) =>
+        arr.findIndex(other => other.rank === row.rank) === index
+    );
+
+    if (!top5.length) {
+      throw new Error("No overall Top 5 rankings found");
+    }
+
+    container.innerHTML = top5.map(row => {
+
+      let movementHTML = "";
+
+      const raw = row.movement.trim();
+
+      if (/^(up|▲|\+)/i.test(raw)) {
+        movementHTML =
+          `<div class="movement up">${escapeHTML(raw)}</div>`;
+      } else if (/^(down|▼|-)/i.test(raw)) {
+        movementHTML =
+          `<div class="movement down">${escapeHTML(raw)}</div>`;
+      } else if (raw) {
+        movementHTML =
+          `<div class="movement">${escapeHTML(raw)}</div>`;
+      }
+
+      return `
+        <div class="ranking-row">
+
+          <div class="rank-number">
+            ${row.rank}
+          </div>
+
+          <div>
+            <div class="rank-team">
+              ${escapeHTML(row.team)}
+            </div>
+
+            <div class="rank-association">
+              ${escapeHTML(row.association)}
+            </div>
+          </div>
+
+          ${movementHTML}
+
+        </div>
+      `;
+
+    }).join("");
+
+  } catch (error) {
+
+    console.error("Top 5 rankings error:", error);
+
+    container.innerHTML = `
+      <div class="coming-soon">
+        Rankings are temporarily unavailable.
+        <a href="rankings.html">View full rankings →</a>
+      </div>
+    `;
+
+  }
+
+}
+
+/* LOAD HOMEPAGE */
+
 loadLatestNews();
 loadLatestScores();
+loadHomepageTop5();
+
 
 
 </script>
