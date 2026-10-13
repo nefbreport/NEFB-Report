@@ -1,2690 +1,662 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Scores | NEFB Report</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f4f4;
-      color: #111;
-    }
-
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      background: #050505;
-      color: white;
-      border-bottom: 1px solid #333;
-    }
-
-    .header-inner {
-      max-width: 1250px;
-      min-height: 92px;
-      margin: auto;
-      padding: 8px 24px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .logo img {
-      height: 76px;
-      width: 150px;
-      object-fit: contain;
-      object-position: left center;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .4px;
-    }
-
-    nav a:hover {
-      color: #aeb3b8;
-    }
-
-
-    /* =========================
-       PAGE
-    ========================= */
-
-    .container {
-      max-width: 1100px;
-      margin: 35px auto;
-      padding: 0 20px 60px;
-    }
-
-    h1 {
-      font-size: 36px;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      color: #666;
-      margin-bottom: 25px;
-    }
-
-
-    /* =========================
-       FILTERS
-    ========================= */
-
-    .filters {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-
-    select {
-      padding: 11px 15px;
-      border-radius: 7px;
-      border: 1px solid #ccc;
-      background: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-
-    /* =========================
-       SCORE SECTIONS
-    ========================= */
-
-    .date-section {
-      margin-bottom: 35px;
-    }
-
-    .date-title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #111;
-      padding-bottom: 8px;
-    }
-
-    .game {
-      background: white;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      padding: 16px 18px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
-
-    .game.ranked-game {
-      border-left: 4px solid #111;
-    }
-
-    .ranked-matchup-banner {
-      margin: -16px -18px 12px;
-      padding: 7px 18px;
-
-      background: #111;
-      color: white;
-
-      border-radius: 8px 8px 0 0;
-
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .team {
-      display: grid;
-      grid-template-columns: 70px minmax(0, 1fr) auto 50px;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 0;
-    }
-
-    .association {
-      color: #888;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-
-    .team-name {
-      font-size: 16px;
-      font-weight: 700;
-      min-width: 0;
-    }
-
-    .rank-number {
-      font-weight: 900;
-      margin-right: 5px;
-      color: #111;
-    }
-
-    .record {
-      color: #777;
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .score {
-      font-size: 18px;
-      font-weight: 900;
-      text-align: right;
-    }
-
-    .winner .team-name,
-    .winner .score {
-      font-weight: 900;
-    }
-
-    .game-footer {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid #eee;
-
-      font-size: 11px;
-      font-weight: 800;
-
-      color: #777;
-      text-transform: uppercase;
-    }
-
-    .association-label {
-      display: inline-block;
-
-      background: #111;
-      color: #fff;
-
-      padding: 3px 6px;
-      border-radius: 4px;
-      margin-left: 6px;
-
-      font-size: 9px;
-      letter-spacing: .5px;
-    }
-
-
-    /* =========================
-       MESSAGES
-    ========================= */
-
-    #loading {
-      text-align: center;
-      padding: 50px;
-      color: #666;
-    }
-
-    #error {
-      display: none;
-      background: #ffe7e7;
-      padding: 18px;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .no-games {
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      color: #666;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 700px) {
-
-      .header-inner {
-        min-height: auto;
-        flex-direction: column;
-        align-items: flex-start;
-
-        padding-top: 12px;
-        padding-bottom: 15px;
-
-        gap: 10px;
-      }
-
-      .logo img {
-        height: 65px;
-        width: 130px;
-      }
-
-      nav {
-        width: 100%;
-        gap: 14px;
-        flex-wrap: wrap;
-      }
-
-      nav a {
-        font-size: 11px;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-
-      .filters {
-        flex-direction: column;
-      }
-
-      select {
-        width: 100%;
-      }
-
-      .team {
-        grid-template-columns: 58px minmax(0, 1fr) auto 38px;
-        gap: 7px;
-      }
-
-      .association {
-        font-size: 9px;
-      }
-
-      .team-name {
-        font-size: 14px;
-      }
-
-      .rank-number {
-        margin-right: 3px;
-      }
-
-      .record {
-        font-size: 11px;
-      }
-
-      .score {
-        font-size: 17px;
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scores | NEFB Report</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#111}
+header{background:#050505;color:#fff;border-bottom:1px solid #333}
+.header-inner{max-width:1250px;min-height:92px;margin:auto;padding:8px 24px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo img{height:76px;width:150px;object-fit:contain;object-position:left center;display:block}
+nav{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+nav a{color:#fff;text-decoration:none;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+nav a:hover{color:#aeb3b8}
+nav a.active{color:#aeb3b8}
+.container{max-width:1100px;margin:35px auto;padding:0 20px 60px}
+h1{font-size:36px;margin-bottom:5px}
+.subtitle{color:#666;margin-bottom:25px}
+.filters{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+select{padding:11px 15px;border-radius:7px;border:1px solid #ccc;background:#fff;font-size:15px;cursor:pointer}
+.date-section{margin-bottom:35px}
+.date-title{font-size:20px;font-weight:800;margin-bottom:12px;border-bottom:2px solid #111;padding-bottom:8px}
+.game{background:#fff;border-radius:8px;margin-bottom:10px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.game.ranked-game{border-left:4px solid #111}
+.ranked-matchup-banner{margin:-16px -18px 12px;padding:7px 18px;background:#111;color:#fff;border-radius:8px 8px 0 0;font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+.team{display:grid;grid-template-columns:70px minmax(0,1fr) auto 50px;align-items:center;gap:10px;padding:7px 0}
+.association{color:#888;font-size:11px;font-weight:800;text-transform:uppercase}
+.team-name{font-size:16px;font-weight:700;min-width:0}
+.rank-number{font-weight:900;margin-right:5px;color:#111}
+.record{color:#777;font-size:13px;font-weight:700;white-space:nowrap}
+.score{font-size:18px;font-weight:900;text-align:right}
+.winner .team-name,.winner .score{font-weight:900}
+.game-footer{margin-top:8px;padding-top:8px;border-top:1px solid #eee;font-size:11px;font-weight:800;color:#777;text-transform:uppercase}
+.association-label{display:inline-block;background:#111;color:#fff;padding:3px 6px;border-radius:4px;margin-left:6px;font-size:9px;letter-spacing:.5px}
+#loading{text-align:center;padding:50px;color:#666}
+#error{display:none;background:#ffe7e7;padding:18px;border-radius:8px;margin-top:20px}
+.no-games{background:#fff;padding:25px;border-radius:8px;color:#666}
+
+@media(max-width:700px){
+.header-inner{min-height:auto;flex-direction:column;align-items:flex-start;padding-top:12px;padding-bottom:15px;gap:10px}
+.logo img{height:65px;width:130px}
+nav{width:100%;gap:14px;flex-wrap:wrap}
+nav a{font-size:11px}
+h1{font-size:30px}
+.filters{flex-direction:column}
+select{width:100%}
+.team{grid-template-columns:58px minmax(0,1fr) auto 38px;gap:7px}
+.association{font-size:9px}
+.team-name{font-size:14px}
+.rank-number{margin-right:3px}
+.record{font-size:11px}
+.score{font-size:17px}
+}
+</style>
 </head>
-
 
 <body>
 
-
 <header>
-
   <div class="header-inner">
-
     <a class="logo" href="index.html">
       <img src="nefb-logo.jpg" alt="NEFB Report">
     </a>
 
     <nav>
       <a href="index.html">Home</a>
-      <a href="scores.html">Scores</a>
+      <a href="scores.html" class="active">Scores</a>
+      <a href="standings.html">Standings</a>
       <a href="teams.html">Teams</a>
       <a href="rankings.html">Rankings</a>
       <a href="recruiting.html">Recruiting</a>
       <a href="news.html">News</a>
       <a href="about.html">About</a>
     </nav>
-
   </div>
-
 </header>
 
-
-
 <main class="container">
-
-  <h1>
-    New England Football Scores
-  </h1>
-
+  <h1>New England Football Scores</h1>
   <div class="subtitle">
     High school and prep football scores from across New England.
   </div>
 
-
   <div class="filters">
-
     <select id="weekFilter">
-
-      <option value="all">
-        All Dates
-      </option>
-
+      <option value="all">All Dates</option>
     </select>
-
 
     <select id="associationFilter">
-
-      <option value="all">
-        All Associations
-      </option>
-
+      <option value="all">All Associations</option>
     </select>
-
 
     <select id="rankedFilter">
-
-      <option value="all">
-        All Games
-      </option>
-
-      <option value="ranked">
-        Ranked Games
-      </option>
-
+      <option value="all">All Games</option>
+      <option value="ranked">Ranked Games</option>
     </select>
-
   </div>
 
-
-  <div id="loading">
-    Loading scores and rankings...
-  </div>
-
-
-  <div id="error">
-    Scores could not be loaded.
-  </div>
-
-
+  <div id="loading">Loading scores and rankings...</div>
+  <div id="error">Scores could not be loaded.</div>
   <div id="scores"></div>
-
 </main>
 
-
-
 <script>
-
-
-/*
-=========================================
-GOOGLE SHEETS
-=========================================
-*/
+"use strict";
 
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
 
-
 const RANKINGS_SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=1805915467&single=true&output=csv";
 
-
 let allGames = [];
-
 let rankings = {};
 
-
-
-/*
-=========================================
-LOAD WEBSITE DATA
-=========================================
-*/
-
-async function loadScores() {
-
-  try {
-
-    const [
-      scoresResponse,
-      rankingsResponse
-    ] = await Promise.all([
-
-      fetch(
-        SHEET_URL,
-        {
-          cache: "no-store"
-        }
-      ),
-
-      fetch(
-        RANKINGS_SHEET_URL,
-        {
-          cache: "no-store"
-        }
-      )
-
-    ]);
-
-
-    if (!scoresResponse.ok) {
-
-      throw new Error(
-        "Could not load scores spreadsheet"
-      );
-
-    }
-
-
-    if (!rankingsResponse.ok) {
-
-      throw new Error(
-        "Could not load rankings spreadsheet"
-      );
-
-    }
-
-
-    const scoresCSV =
-      await scoresResponse.text();
-
-
-    const rankingsCSV =
-      await rankingsResponse.text();
-
-
-    loadRankings(
-      rankingsCSV
-    );
-
-
-    const rows =
-      parseCSV(
-        scoresCSV
-      );
-
-
-    if (
-      rows.length < 2
-    ) {
-
-      throw new Error(
-        "Scores spreadsheet is empty"
-      );
-
-    }
-
-
-    const headers =
-      rows[0].map(
-        header =>
-          header.trim()
-      );
-
-
-    allGames =
-      rows
-        .slice(1)
-
-        .filter(
-          row =>
-            row.some(
-              cell =>
-                String(
-                  cell || ""
-                ).trim() !== ""
-            )
-        )
-
-        .map(
-          (row, index) => {
-
-            const game = {};
-
-
-            headers.forEach(
-              (
-                header,
-                columnIndex
-              ) => {
-
-                game[header] =
-                  row[columnIndex]
-                    ? row[columnIndex].trim()
-                    : "";
-
-              }
-            );
-
-
-            game._originalIndex =
-              index;
-
-
-            return game;
-
-          }
-        );
-
-
-    prepareGames();
-
-    buildWeekFilter();
-
-    buildAssociationFilter();
-
-
-    document
-      .getElementById(
-        "loading"
-      )
-      .style.display =
-        "none";
-
-
-    renderScores();
-
-  }
-
-
-  catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    document
-      .getElementById(
-        "loading"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "error"
-      )
-      .style.display =
-        "block";
-
-  }
-
-}
-
-
-
-/*
-=========================================
-LOAD RANKINGS
-=========================================
-*/
-
-function loadRankings(csv) {
-
-  const rows =
-    parseCSV(
-      csv
-    );
-
-
-  rankings = {};
-
-
-  if (
-    rows.length < 2
-  ) {
-
-    return;
-
-  }
-
-
-  const headers =
-    rows[0].map(
-      header =>
-        String(
-          header || ""
-        ).trim()
-    );
-
-
-  const rankIndex =
-    headers.findIndex(
-      header =>
-        header.toLowerCase() ===
-        "rank"
-    );
-
-
-  const teamIndex =
-    headers.findIndex(
-      header =>
-        header.toLowerCase() ===
-        "team"
-    );
-
-
-  const associationIndex =
-    headers.findIndex(
-      header =>
-        header.toLowerCase() ===
-        "association"
-    );
-
-
-  if (
-    rankIndex === -1 ||
-    teamIndex === -1 ||
-    associationIndex === -1
-  ) {
-
-    console.warn(
-      "Rankings sheet must contain Rank, Team, and Association columns."
-    );
-
-    return;
-
-  }
-
-
-  rows
-    .slice(1)
-    .forEach(
-      row => {
-
-        const rank =
-          String(
-            row[rankIndex] || ""
-          ).trim();
-
-
-        const team =
-          String(
-            row[teamIndex] || ""
-          ).trim();
-
-
-        const association =
-          String(
-            row[associationIndex] || ""
-          ).trim();
-
-
-        if (
-          !rank ||
-          !team ||
-          !association
-        ) {
-
-          return;
-
-        }
-
-
-        const key =
-          teamKey(
-            team,
-            association
-          );
-
-
-        rankings[key] =
-          rank;
-
-      }
-    );
-
-}
-
-
-
-/*
-=========================================
-CSV PARSER
-=========================================
-*/
-
 function parseCSV(text) {
-
+  text = text.replace(/^\uFEFF/, "");
   const rows = [];
+  let row = [], cell = "", quoted = false;
 
-  let row = [];
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
 
-  let cell = "";
-
-  let insideQuotes = false;
-
-
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
-
-    const character =
-      text[i];
-
-    const nextCharacter =
-      text[i + 1];
-
-
-    if (
-      character === '"'
-    ) {
-
-      if (
-        insideQuotes &&
-        nextCharacter === '"'
-      ) {
-
+    if (c === '"') {
+      if (quoted && text[i+1] === '"') {
         cell += '"';
-
         i++;
-
+      } else {
+        quoted = !quoted;
       }
-
-      else {
-
-        insideQuotes =
-          !insideQuotes;
-
-      }
-
-    }
-
-
-    else if (
-      character === "," &&
-      !insideQuotes
-    ) {
-
-      row.push(
-        cell
-      );
-
+    } else if (c === "," && !quoted) {
+      row.push(cell);
       cell = "";
-
-    }
-
-
-    else if (
-      (
-        character === "\n" ||
-        character === "\r"
-      ) &&
-      !insideQuotes
-    ) {
-
-      if (
-        character === "\r" &&
-        nextCharacter === "\n"
-      ) {
-
-        i++;
-
-      }
-
-
-      row.push(
-        cell
-      );
-
-
-      if (
-        row.some(
-          value =>
-            String(
-              value || ""
-            ).trim() !== ""
-        )
-      ) {
-
-        rows.push(
-          row
-        );
-
-      }
-
-
+    } else if ((c === "\r" || c === "\n") && !quoted) {
+      if (c === "\r" && text[i+1] === "\n") i++;
+      row.push(cell);
+      if (row.some(x => String(x).trim())) rows.push(row);
       row = [];
-
       cell = "";
-
+    } else {
+      cell += c;
     }
-
-
-    else {
-
-      cell += character;
-
-    }
-
   }
 
-
-  if (
-    cell.length ||
-    row.length
-  ) {
-
-    row.push(
-      cell
-    );
-
-
-    if (
-      row.some(
-        value =>
-          String(
-            value || ""
-          ).trim() !== ""
-      )
-    ) {
-
-      rows.push(
-        row
-      );
-
-    }
-
-  }
-
-
+  row.push(cell);
+  if (row.some(x => String(x).trim())) rows.push(row);
   return rows;
-
 }
 
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
+function normalizeTeamName(name) {
+  return String(name || "")
+    .toLowerCase()
+    .replace(/[.’']/g,"")
+    .replace(/&/g,"and")
+    .replace(/-/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
 
-/*
-=========================================
-NORMALIZE WEEK
-=========================================
-*/
+function normalizeAssociation(value) {
+  return String(value || "")
+    .toUpperCase()
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function teamKey(team, association) {
+  return normalizeAssociation(association) + "|" +
+    normalizeTeamName(team);
+}
 
 function normalizeWeek(week) {
-
-  return String(
-    week || ""
-  )
-
-    .replace(
-      /week\s*/i,
-      ""
-    )
-
-    .trim();
-
+  return String(week || "").replace(/week\s*/i,"").trim();
 }
 
-
-
-/*
-=========================================
-DATE VALUE
-=========================================
-*/
-
-function getDateValue(
-  dateString
-) {
-
-  if (
-    !dateString
-  ) {
-
-    return 0;
-
-  }
-
-
-  const parts =
-    dateString.split(
-      "/"
-    );
-
-
-  if (
-    parts.length === 3
-  ) {
-
-    const month =
-      Number(
-        parts[0]
-      );
-
-    const day =
-      Number(
-        parts[1]
-      );
-
-    const year =
-      Number(
-        parts[2]
-      );
-
-
+function getDateValue(dateString) {
+  if (!dateString) return 0;
+  const parts = dateString.split("/");
+  if (parts.length === 3) {
     return new Date(
-      year,
-      month - 1,
-      day
+      Number(parts[2]),
+      Number(parts[0])-1,
+      Number(parts[1])
     ).getTime();
-
   }
-
-
-  return (
-    new Date(
-      dateString
-    ).getTime() || 0
-  );
-
+  return new Date(dateString).getTime() || 0;
 }
 
-
-
-/*
-=========================================
-DATE FORMAT
-=========================================
-*/
-
-function formatDate(
-  dateString
-) {
-
-  if (
-    !dateString
-  ) {
-
-    return "";
-
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const parts = dateString.split("/");
+  if (parts.length === 3) {
+    return new Date(
+      Number(parts[2]),
+      Number(parts[0])-1,
+      Number(parts[1])
+    ).toLocaleDateString("en-US",{
+      weekday:"long",
+      month:"long",
+      day:"numeric"
+    });
   }
-
-
-  const parts =
-    dateString.split(
-      "/"
-    );
-
-
-  if (
-    parts.length === 3
-  ) {
-
-    const month =
-      Number(
-        parts[0]
-      );
-
-    const day =
-      Number(
-        parts[1]
-      );
-
-    const year =
-      Number(
-        parts[2]
-      );
-
-
-    const date =
-      new Date(
-        year,
-        month - 1,
-        day
-      );
-
-
-    return date.toLocaleDateString(
-      "en-US",
-      {
-
-        weekday:
-          "long",
-
-        month:
-          "long",
-
-        day:
-          "numeric"
-
-      }
-    );
-
-  }
-
-
   return dateString;
-
 }
 
-
-
-/*
-=========================================
-SHORT MONTH
-=========================================
-*/
-
-function getShortMonth(
-  monthNumber
-) {
-
-  const months = [
-
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "June",
-    "July",
-    "Aug.",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dec."
-
-  ];
-
-
-  return (
-    months[
-      monthNumber - 1
-    ] || ""
-  );
-
+function getShortMonth(n) {
+  return [
+    "Jan.","Feb.","Mar.","Apr.","May","June",
+    "July","Aug.","Sept.","Oct.","Nov.","Dec."
+  ][n-1] || "";
 }
 
+function createDateRange(start, end) {
+  const a = start.split("/");
+  const b = end.split("/");
 
-
-/*
-=========================================
-CREATE DATE RANGE
-=========================================
-*/
-
-function createDateRange(
-  startDateString,
-  endDateString
-) {
-
-  const startParts =
-    startDateString.split(
-      "/"
-    );
-
-
-  const endParts =
-    endDateString.split(
-      "/"
-    );
-
-
-  if (
-    startParts.length !== 3 ||
-    endParts.length !== 3
-  ) {
-
-    return (
-      startDateString +
-      " – " +
-      endDateString
-    );
-
+  if (a.length !== 3 || b.length !== 3) {
+    return start + " – " + end;
   }
 
+  const m1 = Number(a[0]), d1 = Number(a[1]);
+  const m2 = Number(b[0]), d2 = Number(b[1]);
 
-  const startMonth =
-    Number(
-      startParts[0]
-    );
-
-
-  const startDay =
-    Number(
-      startParts[1]
-    );
-
-
-  const endMonth =
-    Number(
-      endParts[0]
-    );
-
-
-  const endDay =
-    Number(
-      endParts[1]
-    );
-
-
-  if (
-    startMonth ===
-    endMonth
-  ) {
-
-    return (
-      getShortMonth(
-        startMonth
-      ) +
-      " " +
-      startDay +
-      "–" +
-      endDay
-    );
-
+  if (m1 === m2) {
+    return getShortMonth(m1) + " " + d1 + "–" + d2;
   }
 
-
-  return (
-
-    getShortMonth(
-      startMonth
-    ) +
-
-    " " +
-
-    startDay +
-
-    " – " +
-
-    getShortMonth(
-      endMonth
-    ) +
-
-    " " +
-
-    endDay
-
-  );
-
+  return getShortMonth(m1) + " " + d1 +
+    " – " + getShortMonth(m2) + " " + d2;
 }
 
-
-
-/*
-=========================================
-SAFE HTML
-=========================================
-*/
-
-function escapeHTML(
-  value
-) {
-
-  return String(
-    value ?? ""
-  )
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
+function isFinalGame(game) {
+  return String(game["Status"] || "")
+    .toLowerCase().includes("final");
 }
 
+function hasValidScores(game) {
+  const away = String(game["Away Score"] || "").trim();
+  const home = String(game["Home Score"] || "").trim();
 
-
-/*
-=========================================
-NORMALIZE TEAM NAME
-=========================================
-*/
-
-function normalizeTeamName(
-  name
-) {
-
-  return String(
-    name || ""
-  )
-
-    .toLowerCase()
-
-    .replace(
-      /[.’']/g,
-      ""
-    )
-
-    .replace(
-      /&/g,
-      "and"
-    )
-
-    .replace(
-      /-/g,
-      " "
-    )
-
-    .replace(
-      /\s+/g,
-      " "
-    )
-
-    .trim();
-
+  return away !== "" && home !== "" &&
+    Number.isFinite(Number(away)) &&
+    Number.isFinite(Number(home));
 }
 
+function formatRecord(record) {
+  if (!record) return "0-0";
 
+  let result = record.wins + "-" + record.losses;
+  if (record.ties > 0) result += "-" + record.ties;
 
-/*
-=========================================
-NORMALIZE ASSOCIATION
-=========================================
-*/
-
-function normalizeAssociation(
-  association
-) {
-
-  return String(
-    association || ""
-  )
-
-    .toUpperCase()
-
-    .replace(
-      /\s+/g,
-      " "
-    )
-
-    .trim();
-
+  return result;
 }
 
+function loadRankings(csv) {
+  const rows = parseCSV(csv);
+  rankings = {};
 
+  if (rows.length < 2) return;
 
-/*
-=========================================
-TEAM KEY
+  const headers = rows[0].map(x => x.trim().toLowerCase());
+  const rankIndex = headers.indexOf("rank");
+  const teamIndex = headers.indexOf("team");
+  const associationIndex = headers.indexOf("association");
+  const categoryIndex = headers.indexOf("category");
+  const dateIndex = headers.indexOf("date");
 
-Using BOTH association and team name
-prevents similarly named programs from
-being treated as the same team.
-=========================================
-*/
+  if (
+    rankIndex < 0 ||
+    teamIndex < 0 ||
+    associationIndex < 0
+  ) return;
 
-function teamKey(
-  team,
-  association
-) {
+  let latestDate = -Infinity;
 
-  return (
-    normalizeAssociation(
-      association
-    ) +
-    "|" +
-    normalizeTeamName(
-      team
-    )
-  );
+  if (dateIndex >= 0) {
+    rows.slice(1).forEach(row => {
+      const category = categoryIndex >= 0
+        ? String(row[categoryIndex] || "").trim().toLowerCase()
+        : "overall";
 
+      if (category !== "overall") return;
+
+      const date = getDateValue(row[dateIndex]);
+      if (date > latestDate) latestDate = date;
+    });
+  }
+
+  rows.slice(1).forEach(row => {
+    const category = categoryIndex >= 0
+      ? String(row[categoryIndex] || "").trim().toLowerCase()
+      : "overall";
+
+    if (category !== "overall") return;
+
+    if (
+      dateIndex >= 0 &&
+      getDateValue(row[dateIndex]) !== latestDate
+    ) return;
+
+    const rank = String(row[rankIndex] || "").trim();
+    const team = String(row[teamIndex] || "").trim();
+    const association = String(row[associationIndex] || "").trim();
+
+    if (!rank || !team || !association) return;
+
+    rankings[teamKey(team, association)] = rank;
+  });
 }
 
-
-
-/*
-=========================================
-GET TEAM RANK
-=========================================
-*/
-
-function getTeamRank(
-  team,
-  association
-) {
-
-  const key =
-    teamKey(
-      team,
-      association
-    );
-
-
-  return (
-    rankings[key] ||
-    ""
-  );
-
+function getTeamRank(team, association) {
+  return rankings[teamKey(team, association)] || "";
 }
 
-
-
-/*
-=========================================
-IS RANKED GAME
-
-A game is considered ranked if
-AT LEAST ONE team is ranked.
-=========================================
-*/
-
-function isRankedGame(
-  game
-) {
-
-  const awayRank =
-    getTeamRank(
-      game["Away Team"],
-      game["Away Association"]
-    );
-
-
-  const homeRank =
-    getTeamRank(
-      game["Home Team"],
-      game["Home Association"]
-    );
-
-
+function isRankedGame(game) {
   return Boolean(
-    awayRank ||
-    homeRank
+    getTeamRank(game["Away Team"],game["Away Association"]) ||
+    getTeamRank(game["Home Team"],game["Home Association"])
   );
-
 }
 
-
-
-/*
-=========================================
-BOTH TEAMS RANKED
-=========================================
-*/
-
-function isRankedMatchup(
-  game
-) {
-
-  const awayRank =
-    getTeamRank(
-      game["Away Team"],
-      game["Away Association"]
-    );
-
-
-  const homeRank =
-    getTeamRank(
-      game["Home Team"],
-      game["Home Association"]
-    );
-
-
+function isRankedMatchup(game) {
   return Boolean(
-    awayRank &&
-    homeRank
+    getTeamRank(game["Away Team"],game["Away Association"]) &&
+    getTeamRank(game["Home Team"],game["Home Association"])
   );
-
 }
-
-
-
-/*
-=========================================
-CHECK IF GAME IS FINAL
-=========================================
-*/
-
-function isFinalGame(
-  game
-) {
-
-  return String(
-    game["Status"] || ""
-  )
-
-    .toLowerCase()
-
-    .includes(
-      "final"
-    );
-
-}
-
-
-
-/*
-=========================================
-VALID SCORE
-=========================================
-*/
-
-function hasValidScores(
-  game
-) {
-
-  const awayScoreText =
-    String(
-      game["Away Score"] || ""
-    ).trim();
-
-
-  const homeScoreText =
-    String(
-      game["Home Score"] || ""
-    ).trim();
-
-
-  if (
-    awayScoreText === "" ||
-    homeScoreText === ""
-  ) {
-
-    return false;
-
-  }
-
-
-  return (
-    Number.isFinite(
-      Number(
-        awayScoreText
-      )
-    ) &&
-    Number.isFinite(
-      Number(
-        homeScoreText
-      )
-    )
-  );
-
-}
-
-
-
-/*
-=========================================
-CALCULATE TEAM RECORDS
-
-Record shown is the team's record
-AFTER that game.
-
-Uses Association + Team identity.
-=========================================
-*/
 
 function prepareGames() {
-
-  const chronologicalGames =
-    [...allGames]
-
-      .sort(
-        (a, b) => {
-
-          const dateDifference =
-
-            getDateValue(
-              a["Date"]
-            )
-
-            -
-
-            getDateValue(
-              b["Date"]
-            );
-
-
-          if (
-            dateDifference !== 0
-          ) {
-
-            return dateDifference;
-
-          }
-
-
-          return (
-            a._originalIndex -
-            b._originalIndex
-          );
-
-        }
-      );
-
+  const chronological = [...allGames].sort((a,b) =>
+    getDateValue(a["Date"]) - getDateValue(b["Date"]) ||
+    a._originalIndex - b._originalIndex
+  );
 
   const records = {};
+  const seenGames = new Set();
 
-
-  chronologicalGames.forEach(
-    game => {
-
-      const awayTeamKey =
-        teamKey(
-          game["Away Team"],
-          game["Away Association"]
-        );
-
-
-      const homeTeamKey =
-        teamKey(
-          game["Home Team"],
-          game["Home Association"]
-        );
-
-
-      if (
-        !records[
-          awayTeamKey
-        ]
-      ) {
-
-        records[
-          awayTeamKey
-        ] = {
-
-          wins: 0,
-          losses: 0,
-          ties: 0
-
-        };
-
-      }
-
-
-      if (
-        !records[
-          homeTeamKey
-        ]
-      ) {
-
-        records[
-          homeTeamKey
-        ] = {
-
-          wins: 0,
-          losses: 0,
-          ties: 0
-
-        };
-
-      }
-
-
-      if (
-        isFinalGame(
-          game
-        ) &&
-        hasValidScores(
-          game
-        )
-      ) {
-
-        const awayScore =
-          Number(
-            game[
-              "Away Score"
-            ]
-          );
-
-
-        const homeScore =
-          Number(
-            game[
-              "Home Score"
-            ]
-          );
-
-
-        if (
-          awayScore >
-          homeScore
-        ) {
-
-          records[
-            awayTeamKey
-          ].wins++;
-
-
-          records[
-            homeTeamKey
-          ].losses++;
-
-        }
-
-
-        else if (
-          homeScore >
-          awayScore
-        ) {
-
-          records[
-            homeTeamKey
-          ].wins++;
-
-
-          records[
-            awayTeamKey
-          ].losses++;
-
-        }
-
-
-        else {
-
-          records[
-            awayTeamKey
-          ].ties++;
-
-
-          records[
-            homeTeamKey
-          ].ties++;
-
-        }
-
-      }
-
-
-      game._awayRecord =
-        formatRecord(
-          records[
-            awayTeamKey
-          ]
-        );
-
-
-      game._homeRecord =
-        formatRecord(
-          records[
-            homeTeamKey
-          ]
-        );
-
-    }
-  );
-
-}
-
-
-
-/*
-=========================================
-FORMAT RECORD
-=========================================
-*/
-
-function formatRecord(
-  record
-) {
-
-  if (
-    !record
-  ) {
-
-    return "0-0";
-
-  }
-
-
-  if (
-    record.ties > 0
-  ) {
-
-    return (
-
-      record.wins +
-
-      "-" +
-
-      record.losses +
-
-      "-" +
-
-      record.ties
-
+  chronological.forEach(game => {
+    const awayKey = teamKey(
+      game["Away Team"],game["Away Association"]
+    );
+    const homeKey = teamKey(
+      game["Home Team"],game["Home Association"]
     );
 
-  }
+    if (!records[awayKey]) {
+      records[awayKey] = {wins:0,losses:0,ties:0};
+    }
+    if (!records[homeKey]) {
+      records[homeKey] = {wins:0,losses:0,ties:0};
+    }
 
+    if (isFinalGame(game) && hasValidScores(game)) {
+      const away = Number(game["Away Score"]);
+      const home = Number(game["Home Score"]);
 
-  return (
+      const uniqueKey = [
+        game["Date"],awayKey,homeKey,away,home
+      ].join("|");
 
-    record.wins +
+      if (!seenGames.has(uniqueKey)) {
+        seenGames.add(uniqueKey);
 
-    "-" +
+        if (away > home) {
+          records[awayKey].wins++;
+          records[homeKey].losses++;
+        } else if (home > away) {
+          records[homeKey].wins++;
+          records[awayKey].losses++;
+        } else {
+          records[awayKey].ties++;
+          records[homeKey].ties++;
+        }
+      }
+    }
 
-    record.losses
-
-  );
-
+    game._awayRecord = formatRecord(records[awayKey]);
+    game._homeRecord = formatRecord(records[homeKey]);
+  });
 }
-
-
-
-/*
-=========================================
-AUTOMATIC DATE RANGE FILTER
-=========================================
-*/
 
 function buildWeekFilter() {
-
-  const weekFilter =
-    document.getElementById(
-      "weekFilter"
-    );
-
-
+  const filter = document.getElementById("weekFilter");
   const weeks = {};
 
+  allGames.forEach(game => {
+    const week = normalizeWeek(game["Week"]);
+    const date = game["Date"];
+    if (!week || !date) return;
 
-  allGames.forEach(
-    game => {
+    if (!weeks[week]) weeks[week] = [];
+    weeks[week].push(date);
+  });
 
-      const week =
-        normalizeWeek(
-          game["Week"]
-        );
-
-
-      const date =
-        game["Date"];
-
-
-      if (
-        !week ||
-        !date
-      ) {
-
-        return;
-
-      }
-
-
-      if (
-        !weeks[
-          week
-        ]
-      ) {
-
-        weeks[
-          week
-        ] = [];
-
-      }
-
-
-      weeks[
-        week
-      ].push(
-        date
+  Object.keys(weeks)
+    .sort((a,b) => Number(a)-Number(b))
+    .forEach(week => {
+      const dates = weeks[week].sort(
+        (a,b) => getDateValue(a)-getDateValue(b)
       );
 
-    }
-  );
-
-
-  const weekNumbers =
-    Object.keys(
-      weeks
-    )
-
-      .sort(
-        (a, b) => {
-
-          const numberA =
-            Number(
-              a
-            );
-
-          const numberB =
-            Number(
-              b
-            );
-
-
-          if (
-            Number.isFinite(
-              numberA
-            ) &&
-            Number.isFinite(
-              numberB
-            )
-          ) {
-
-            return (
-              numberA -
-              numberB
-            );
-
-          }
-
-
-          return (
-            a.localeCompare(
-              b
-            )
-          );
-
-        }
+      const option = document.createElement("option");
+      option.value = week;
+      option.textContent = createDateRange(
+        dates[0],dates[dates.length-1]
       );
-
-
-  weekNumbers.forEach(
-    week => {
-
-      const dates =
-        weeks[
-          week
-        ]
-
-          .sort(
-            (a, b) =>
-
-              getDateValue(
-                a
-              )
-
-              -
-
-              getDateValue(
-                b
-              )
-
-          );
-
-
-      const firstDate =
-        dates[
-          0
-        ];
-
-
-      const lastDate =
-        dates[
-          dates.length - 1
-        ];
-
-
-      const label =
-        createDateRange(
-          firstDate,
-          lastDate
-        );
-
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        week;
-
-
-      option.textContent =
-        label;
-
-
-      weekFilter.appendChild(
-        option
-      );
-
-    }
-  );
-
+      filter.appendChild(option);
+    });
 }
-
-
-
-/*
-=========================================
-ASSOCIATION FILTER
-=========================================
-*/
 
 function buildAssociationFilter() {
+  const filter = document.getElementById("associationFilter");
 
-  const associationFilter =
-    document.getElementById(
-      "associationFilter"
-    );
-
-
-  const associations = [
-
-    "MIAA",
-    "CIAC",
-    "RIIL",
-    "NHIAA",
-    "MPA",
-    "VPA",
-    "NEPSAC"
-
-  ];
-
-
-  associations.forEach(
-    association => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        association;
-
-
-      option.textContent =
-        association;
-
-
-      associationFilter
-        .appendChild(
-          option
-        );
-
-    }
-  );
-
+  [
+    "MIAA","CIAC","RIIL","NHIAA","MPA","VPA","NEPSAC"
+  ].forEach(association => {
+    const option = document.createElement("option");
+    option.value = association;
+    option.textContent = association;
+    filter.appendChild(option);
+  });
 }
 
-
-
-/*
-=========================================
-DISPLAY SCORES
-=========================================
-*/
-
 function renderScores() {
-
-  const scoresContainer =
-    document.getElementById(
-      "scores"
-    );
-
-
-  const selectedWeek =
-    document.getElementById(
-      "weekFilter"
-    ).value;
-
-
+  const container = document.getElementById("scores");
+  const selectedWeek = document.getElementById("weekFilter").value;
   const selectedAssociation =
-    document.getElementById(
-      "associationFilter"
-    ).value;
-
-
+    document.getElementById("associationFilter").value;
   const selectedRanked =
-    document.getElementById(
-      "rankedFilter"
-    ).value;
+    document.getElementById("rankedFilter").value;
 
+  const games = allGames.filter(game => {
+    const weekMatches =
+      selectedWeek === "all" ||
+      normalizeWeek(game["Week"]) === selectedWeek;
 
-  let games =
-    allGames.filter(
-      game => {
+    const associationMatches =
+      selectedAssociation === "all" ||
+      game["Away Association"] === selectedAssociation ||
+      game["Home Association"] === selectedAssociation;
 
-        const weekMatches =
+    const rankedMatches =
+      selectedRanked === "all" ||
+      isRankedGame(game);
 
-          selectedWeek ===
-            "all"
-
-          ||
-
-          normalizeWeek(
-            game["Week"]
-          ) ===
-            selectedWeek;
-
-
-        const associationMatches =
-
-          selectedAssociation ===
-            "all"
-
-          ||
-
-          game[
-            "Away Association"
-          ] ===
-            selectedAssociation
-
-          ||
-
-          game[
-            "Home Association"
-          ] ===
-            selectedAssociation;
-
-
-        const rankedMatches =
-
-          selectedRanked ===
-            "all"
-
-          ||
-
-          (
-            selectedRanked ===
-              "ranked"
-
-            &&
-
-            isRankedGame(
-              game
-            )
-          );
-
-
-        return (
-
-          weekMatches &&
-
-          associationMatches &&
-
-          rankedMatches
-
-        );
-
-      }
-    );
-
-
-  games.sort(
-    (a, b) => {
-
-      const dateDifference =
-
-        getDateValue(
-          a["Date"]
-        )
-
-        -
-
-        getDateValue(
-          b["Date"]
-        );
-
-
-      if (
-        dateDifference !== 0
-      ) {
-
-        return dateDifference;
-
-      }
-
-
-      return (
-        a._originalIndex -
-        b._originalIndex
-      );
-
-    }
+    return weekMatches && associationMatches && rankedMatches;
+  }).sort((a,b) =>
+    getDateValue(a["Date"]) - getDateValue(b["Date"]) ||
+    a._originalIndex - b._originalIndex
   );
 
-
-  if (
-    !games.length
-  ) {
-
-    scoresContainer.innerHTML =
-
+  if (!games.length) {
+    container.innerHTML =
       '<div class="no-games">No games found for these filters.</div>';
-
-
     return;
-
   }
 
+  const grouped = {};
 
-  const groupedGames = {};
-
-
-  games.forEach(
-    game => {
-
-      const date =
-
-        game["Date"] ||
-
-        "Unknown Date";
-
-
-      if (
-        !groupedGames[
-          date
-        ]
-      ) {
-
-        groupedGames[
-          date
-        ] = [];
-
-      }
-
-
-      groupedGames[
-        date
-      ].push(
-        game
-      );
-
-    }
-  );
-
+  games.forEach(game => {
+    const date = game["Date"] || "Unknown Date";
+    if (!grouped[date]) grouped[date] = [];
+    grouped[date].push(game);
+  });
 
   let html = "";
 
+  Object.keys(grouped).forEach(date => {
+    html += `
+      <section class="date-section">
+        <div class="date-title">${escapeHTML(formatDate(date))}</div>
+    `;
 
-  Object
-    .keys(
-      groupedGames
-    )
+    grouped[date].forEach(game => {
+      const awayScoreText =
+        String(game["Away Score"] || "").trim();
+      const homeScoreText =
+        String(game["Home Score"] || "").trim();
 
-    .forEach(
-      date => {
+      const awayScore = Number(awayScoreText);
+      const homeScore = Number(homeScoreText);
+      const validScores = hasValidScores(game);
+      const final = isFinalGame(game);
 
-        html += `
+      const awayWinner =
+        final && validScores && awayScore > homeScore;
+      const homeWinner =
+        final && validScores && homeScore > awayScore;
 
-          <section class="date-section">
+      const awayAssociation = game["Away Association"] || "";
+      const homeAssociation = game["Home Association"] || "";
 
-            <div class="date-title">
+      const awayRank = getTeamRank(
+        game["Away Team"],awayAssociation
+      );
+      const homeRank = getTeamRank(
+        game["Home Team"],homeAssociation
+      );
 
-              ${escapeHTML(
-                formatDate(
-                  date
-                )
-              )}
+      const rankedGame = isRankedGame(game);
+      const rankedMatchup = isRankedMatchup(game);
 
+      const associationLabel =
+        awayAssociation === homeAssociation
+          ? awayAssociation
+          : [awayAssociation,homeAssociation]
+              .filter(Boolean).join(" vs ");
+
+      html += `
+        <div class="game ${rankedGame ? "ranked-game" : ""}">
+
+          ${rankedMatchup ? `
+            <div class="ranked-matchup-banner">
+              Ranked Matchup
             </div>
-
-        `;
-
-
-        groupedGames[
-          date
-        ]
-
-          .forEach(
-            game => {
-
-
-              const awayScoreText =
-                String(
-                  game[
-                    "Away Score"
-                  ] || ""
-                ).trim();
-
-
-              const homeScoreText =
-                String(
-                  game[
-                    "Home Score"
-                  ] || ""
-                ).trim();
-
-
-              const awayScore =
-                Number(
-                  awayScoreText
-                );
-
-
-              const homeScore =
-                Number(
-                  homeScoreText
-                );
-
-
-              const validScores =
-                hasValidScores(
-                  game
-                );
-
-
-              const awayWinner =
-
-                isFinalGame(
-                  game
-                )
-
-                &&
-
-                validScores
-
-                &&
-
-                awayScore >
-                  homeScore;
-
-
-              const homeWinner =
-
-                isFinalGame(
-                  game
-                )
-
-                &&
-
-                validScores
-
-                &&
-
-                homeScore >
-                  awayScore;
-
-
-              const awayAssociation =
-
-                game[
-                  "Away Association"
-                ]
-
-                || "";
-
-
-              const homeAssociation =
-
-                game[
-                  "Home Association"
-                ]
-
-                || "";
-
-
-              const awayRank =
-                getTeamRank(
-                  game[
-                    "Away Team"
-                  ],
-                  awayAssociation
-                );
-
-
-              const homeRank =
-                getTeamRank(
-                  game[
-                    "Home Team"
-                  ],
-                  homeAssociation
-                );
-
-
-              const rankedGame =
-                isRankedGame(
-                  game
-                );
-
-
-              const rankedMatchup =
-                isRankedMatchup(
-                  game
-                );
-
-
-              let associationLabel =
-                "";
-
-
-              if (
-                awayAssociation ===
-                  homeAssociation
-
-                &&
-
-                awayAssociation
-              ) {
-
-                associationLabel =
-                  awayAssociation;
-
-              }
-
-
-              else if (
-                awayAssociation ||
-                homeAssociation
-              ) {
-
-                associationLabel =
-
-                  [
-                    awayAssociation,
-                    homeAssociation
-                  ]
-
-                    .filter(
-                      Boolean
-                    )
-
-                    .join(
-                      " vs "
-                    );
-
-              }
-
-
-              html += `
-
-
-                <div class="game ${
-                  rankedGame
-                    ? "ranked-game"
-                    : ""
-                }">
-
-
-                  ${
-                    rankedMatchup
-
-                      ? `
-
-                        <div class="ranked-matchup-banner">
-                          Ranked Matchup
-                        </div>
-
-                      `
-
-                      : ""
-                  }
-
-
-                  <div
-                    class="team ${
-                      awayWinner
-                        ? "winner"
-                        : ""
-                    }"
-                  >
-
-
-                    <div class="association">
-
-                      ${escapeHTML(
-                        awayAssociation
-                      )}
-
-                    </div>
-
-
-                    <div class="team-name">
-
-                      ${
-                        awayRank
-
-                          ? `
-
-                            <span class="rank-number">
-                              #${escapeHTML(
-                                awayRank
-                              )}
-                            </span>
-
-                          `
-
-                          : ""
-                      }
-
-                      ${escapeHTML(
-                        game[
-                          "Away Team"
-                        ]
-                      )}
-
-                    </div>
-
-
-                    <div class="record">
-
-                      (${escapeHTML(
-                        game._awayRecord
-                          || "0-0"
-                      )})
-
-                    </div>
-
-
-                    <div class="score">
-
-                      ${escapeHTML(
-                        awayScoreText
-                      )}
-
-                    </div>
-
-
-                  </div>
-
-
-
-                  <div
-                    class="team ${
-                      homeWinner
-                        ? "winner"
-                        : ""
-                    }"
-                  >
-
-
-                    <div class="association">
-
-                      ${escapeHTML(
-                        homeAssociation
-                      )}
-
-                    </div>
-
-
-                    <div class="team-name">
-
-                      ${
-                        homeRank
-
-                          ? `
-
-                            <span class="rank-number">
-                              #${escapeHTML(
-                                homeRank
-                              )}
-                            </span>
-
-                          `
-
-                          : ""
-                      }
-
-                      ${escapeHTML(
-                        game[
-                          "Home Team"
-                        ]
-                      )}
-
-                    </div>
-
-
-                    <div class="record">
-
-                      (${escapeHTML(
-                        game._homeRecord
-                          || "0-0"
-                      )})
-
-                    </div>
-
-
-                    <div class="score">
-
-                      ${escapeHTML(
-                        homeScoreText
-                      )}
-
-                    </div>
-
-
-                  </div>
-
-
-
-                  <div class="game-footer">
-
-
-                    ${escapeHTML(
-
-                      game[
-                        "Status"
-                      ]
-
-                      ||
-
-                      "Final"
-
-                    )}
-
-
-                    &nbsp; • &nbsp;
-
-
-                    ${escapeHTML(
-
-                      formatDate(
-                        game[
-                          "Date"
-                        ]
-                      )
-
-                    )}
-
-
-                    ${
-                      associationLabel
-
-                        ? `
-
-                          <span class="association-label">
-
-                            ${escapeHTML(
-                              associationLabel
-                            )}
-
-                          </span>
-
-                        `
-
-                        : ""
-                    }
-
-
-                  </div>
-
-
-                </div>
-
-
-              `;
-
-            }
-          );
-
-
-        html +=
-          `</section>`;
-
-      }
-    );
-
-
-  scoresContainer.innerHTML =
-    html;
-
+          ` : ""}
+
+          <div class="team ${awayWinner ? "winner" : ""}">
+            <div class="association">
+              ${escapeHTML(awayAssociation)}
+            </div>
+            <div class="team-name">
+              ${awayRank ? `
+                <span class="rank-number">
+                  #${escapeHTML(awayRank)}
+                </span>
+              ` : ""}
+              ${escapeHTML(game["Away Team"])}
+            </div>
+            <div class="record">
+              (${escapeHTML(game._awayRecord || "0-0")})
+            </div>
+            <div class="score">
+              ${escapeHTML(awayScoreText)}
+            </div>
+          </div>
+
+          <div class="team ${homeWinner ? "winner" : ""}">
+            <div class="association">
+              ${escapeHTML(homeAssociation)}
+            </div>
+            <div class="team-name">
+              ${homeRank ? `
+                <span class="rank-number">
+                  #${escapeHTML(homeRank)}
+                </span>
+              ` : ""}
+              ${escapeHTML(game["Home Team"])}
+            </div>
+            <div class="record">
+              (${escapeHTML(game._homeRecord || "0-0")})
+            </div>
+            <div class="score">
+              ${escapeHTML(homeScoreText)}
+            </div>
+          </div>
+
+          <div class="game-footer">
+            ${escapeHTML(game["Status"] || "Final")}
+            &nbsp; • &nbsp;
+            ${escapeHTML(formatDate(game["Date"]))}
+
+            ${associationLabel ? `
+              <span class="association-label">
+                ${escapeHTML(associationLabel)}
+              </span>
+            ` : ""}
+          </div>
+        </div>
+      `;
+    });
+
+    html += "</section>";
+  });
+
+  container.innerHTML = html;
 }
 
+async function loadScores() {
+  try {
+    const [scoresResponse,rankingsResponse] = await Promise.all([
+      fetch(SHEET_URL,{cache:"no-store"}),
+      fetch(RANKINGS_SHEET_URL,{cache:"no-store"})
+    ]);
 
+    if (!scoresResponse.ok) {
+      throw new Error("Could not load scores spreadsheet");
+    }
 
-/*
-=========================================
-FILTER EVENTS
-=========================================
-*/
+    const scoresCSV = await scoresResponse.text();
 
-document
-  .getElementById(
-    "weekFilter"
-  )
-  .addEventListener(
-    "change",
-    renderScores
-  );
+    if (rankingsResponse.ok) {
+      try {
+        loadRankings(await rankingsResponse.text());
+      } catch(error) {
+        console.warn("Rankings unavailable:",error);
+      }
+    }
 
+    const rows = parseCSV(scoresCSV);
 
-document
-  .getElementById(
-    "associationFilter"
-  )
-  .addEventListener(
-    "change",
-    renderScores
-  );
+    if (rows.length < 2) {
+      throw new Error("Scores spreadsheet is empty");
+    }
 
+    const headers = rows[0].map(header => header.trim());
 
-document
-  .getElementById(
-    "rankedFilter"
-  )
-  .addEventListener(
-    "change",
-    renderScores
-  );
+    allGames = rows.slice(1)
+      .filter(row => row.some(cell => String(cell || "").trim()))
+      .map((row,index) => {
+        const game = {};
 
+        headers.forEach((header,columnIndex) => {
+          game[header] =
+            String(row[columnIndex] ?? "").trim();
+        });
 
+        game._originalIndex = index;
+        return game;
+      });
 
-/*
-=========================================
-START WEBSITE
-=========================================
-*/
+    prepareGames();
+    buildWeekFilter();
+    buildAssociationFilter();
+
+    document.getElementById("loading").style.display = "none";
+    renderScores();
+
+  } catch(error) {
+    console.error(error);
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("error").style.display = "block";
+  }
+}
+
+document.getElementById("weekFilter")
+  .addEventListener("change",renderScores);
+
+document.getElementById("associationFilter")
+  .addEventListener("change",renderScores);
+
+document.getElementById("rankedFilter")
+  .addEventListener("change",renderScores);
 
 loadScores();
-
-
 </script>
 
-
 </body>
-
 </html>
