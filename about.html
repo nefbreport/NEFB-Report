@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,6 +50,7 @@
     .brand {
       display: flex;
       align-items: center;
+      flex-shrink: 0;
     }
 
     .brand img {
@@ -62,7 +64,8 @@
     nav {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
+      flex-wrap: wrap;
     }
 
     nav a {
@@ -76,10 +79,10 @@
       letter-spacing: .4px;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a.active {
       color: #aeb3b8;
     }
-
 
     /* HERO */
 
@@ -130,13 +133,11 @@
       line-height: 1.65;
     }
 
-
     /* MAIN */
 
     .container {
       max-width: 1100px;
       margin: auto;
-
       padding: 55px 20px 80px;
     }
 
@@ -166,7 +167,6 @@
     .section h2 {
       font-size: 32px;
       line-height: 1.05;
-
       letter-spacing: -1px;
 
       margin-bottom: 18px;
@@ -181,7 +181,6 @@
       margin-bottom: 17px;
     }
 
-
     /* COVERAGE */
 
     .coverage-grid {
@@ -194,7 +193,6 @@
 
     .coverage-item {
       background: white;
-
       border: 1px solid #ddd;
       border-radius: 4px;
 
@@ -203,19 +201,15 @@
 
     .coverage-item strong {
       display: block;
-
       font-size: 14px;
-
       margin-bottom: 4px;
     }
 
     .coverage-item span {
       color: #888;
-
       font-size: 11px;
       font-weight: 700;
     }
-
 
     /* SIDEBAR */
 
@@ -226,7 +220,6 @@
       border-radius: 5px;
 
       padding: 25px;
-
       margin-bottom: 20px;
     }
 
@@ -257,7 +250,6 @@
 
     .contact-button {
       display: block;
-
       width: 100%;
 
       background: #111;
@@ -267,21 +259,18 @@
       text-align: center;
 
       padding: 12px 15px;
-
       border-radius: 3px;
 
       font-size: 10px;
       font-weight: 900;
 
       text-transform: uppercase;
-
       margin-top: 16px;
     }
 
     .contact-button:hover {
       background: #333;
     }
-
 
     /* MISSION */
 
@@ -290,7 +279,6 @@
       color: white;
 
       border-radius: 5px;
-
       padding: 38px;
 
       margin-top: 15px;
@@ -302,7 +290,6 @@
 
     .mission h2 {
       font-size: 30px;
-
       margin-bottom: 15px;
     }
 
@@ -313,7 +300,6 @@
       line-height: 1.7;
     }
 
-
     /* FOOTER */
 
     footer {
@@ -321,7 +307,6 @@
       color: #858585;
 
       border-top: 1px solid #222;
-
       padding: 45px 24px;
     }
 
@@ -343,7 +328,6 @@
       font-size: 12px;
       line-height: 1.6;
     }
-
 
     /* MOBILE */
 
@@ -368,7 +352,6 @@
 
       nav {
         width: 100%;
-
         gap: 14px;
         flex-wrap: wrap;
       }
@@ -394,23 +377,18 @@
   </style>
 </head>
 
-
 <body>
-
 
 <header>
 
   <div class="topbar">
 
     <a class="brand" href="index.html">
-
       <img
         src="nefb-logo.jpg"
         alt="NEFB Report"
       >
-
     </a>
-
 
     <nav>
 
@@ -420,6 +398,10 @@
 
       <a href="scores.html">
         Scores
+      </a>
+
+      <a href="standings.html">
+        Standings
       </a>
 
       <a href="teams.html">
@@ -438,7 +420,7 @@
         News
       </a>
 
-      <a href="about.html">
+      <a href="about.html" class="active">
         About
       </a>
 
@@ -447,8 +429,6 @@
   </div>
 
 </header>
-
-
 
 <section class="hero">
 
@@ -474,17 +454,13 @@
 
 </section>
 
-
-
 <main class="container">
 
   <div class="about-grid">
 
-
     <!-- MAIN CONTENT -->
 
     <div>
-
 
       <section class="section">
 
@@ -513,8 +489,6 @@
 
       </section>
 
-
-
       <section class="section">
 
         <div class="section-label">
@@ -530,57 +504,46 @@
           state association as well as New England prep football.
         </p>
 
-
         <div class="coverage-grid">
-
 
           <div class="coverage-item">
             <strong>Massachusetts</strong>
             <span>MIAA</span>
           </div>
 
-
           <div class="coverage-item">
             <strong>Connecticut</strong>
             <span>CIAC</span>
           </div>
-
 
           <div class="coverage-item">
             <strong>Rhode Island</strong>
             <span>RIIL</span>
           </div>
 
-
           <div class="coverage-item">
             <strong>New Hampshire</strong>
             <span>NHIAA</span>
           </div>
-
 
           <div class="coverage-item">
             <strong>Maine</strong>
             <span>MPA</span>
           </div>
 
-
           <div class="coverage-item">
             <strong>Vermont</strong>
             <span>VPA</span>
           </div>
-
 
           <div class="coverage-item">
             <strong>Prep Football</strong>
             <span>NEPSAC</span>
           </div>
 
-
         </div>
 
       </section>
-
-
 
       <div class="mission">
 
@@ -602,15 +565,11 @@
 
       </div>
 
-
     </div>
-
-
 
     <!-- SIDEBAR -->
 
     <aside>
-
 
       <div class="sidebar-card">
 
@@ -644,8 +603,6 @@
 
       </div>
 
-
-
       <div class="sidebar-card">
 
         <h3>
@@ -661,15 +618,13 @@
         <p>
           Get in touch with NEFB Report through our
           social media channels.
-          
+
           Instagram: @NEFBReport
           TikTok: @NEFBReport
           X: @NEFBReport
         </p>
 
       </div>
-
-
 
       <div class="sidebar-card">
 
@@ -692,15 +647,11 @@
 
       </div>
 
-
     </aside>
-
 
   </div>
 
 </main>
-
-
 
 <footer>
 
@@ -724,7 +675,5 @@
 
 </footer>
 
-
 </body>
-
 </html>
