@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="NEFB Report Games of the Week - featured New England high school football matchups.">
+<meta name="description" content="NEFB Report Games of the Week - New England high school football matchups.">
 <title>Games of the Week | NEFB Report</title>
 
 <style>
@@ -20,9 +20,7 @@ body {
   color: #111;
 }
 
-a {
-  color: inherit;
-}
+a { color: inherit; }
 
 /* HEADER */
 
@@ -66,11 +64,9 @@ nav a {
   letter-spacing: .4px;
 }
 
-nav a:hover {
-  color: #aeb3b8;
-}
+nav a:hover { color: #aeb3b8; }
 
-/* PAGE HEADER */
+/* HERO */
 
 .page-hero {
   background: radial-gradient(
@@ -142,7 +138,7 @@ nav a:hover {
   text-transform: uppercase;
 }
 
-/* FEATURED GAME TEASER */
+/* FEATURED GAME */
 
 .featured-game {
   position: relative;
@@ -269,9 +265,7 @@ nav a:hover {
   letter-spacing: .5px;
 }
 
-.game-content {
-  padding: 20px;
-}
+.game-content { padding: 20px; }
 
 .team-row {
   display: grid;
@@ -285,9 +279,42 @@ nav a:hover {
   border-top: 1px solid #eee;
 }
 
+/* TEAM NAME AND RANKING BADGE */
+
+.team-name-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .team-name {
   font-size: 17px;
   font-weight: 900;
+  line-height: 1.35;
+}
+
+/*
+  Ranking badge is displayed only for
+  teams in the latest Overall Top 20.
+*/
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 29px;
+  height: 25px;
+  padding: 0 6px;
+  background: #111;
+  color: #fff;
+  border: 1px solid #111;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .association {
@@ -295,7 +322,7 @@ nav a:hover {
   font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .away-home {
@@ -331,7 +358,7 @@ nav a:hover {
   padding: 22px;
   color: #777;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.6;
   grid-column: 1 / -1;
 }
 
@@ -383,9 +410,7 @@ footer p {
     flex-wrap: wrap;
   }
 
-  nav a {
-    font-size: 11px;
-  }
+  nav a { font-size: 11px; }
 
   .games-grid {
     grid-template-columns: 1fr;
@@ -404,6 +429,10 @@ footer p {
 
   .featured-game::after {
     font-size: 180px;
+  }
+
+  .team-name {
+    font-size: 16px;
   }
 }
 </style>
@@ -447,9 +476,8 @@ footer p {
     <span id="weekDates">Loading dates...</span>
   </div>
 
-  <!-- FEATURED GAME OF THE WEEK -->
-
   <article class="featured-game">
+
     <div class="featured-label">
       NEFB Game of the Week
     </div>
@@ -472,9 +500,8 @@ footer p {
     <div class="featured-details" id="featuredDates">
       Loading this week's dates...
     </div>
-  </article>
 
-  <!-- AUTOMATIC GAMES OF THE WEEK -->
+  </article>
 
   <div class="games-grid" id="gamesGrid">
     <div class="message">
@@ -486,6 +513,8 @@ footer p {
     Games of the Week are selected by NEFB Report
     and feature notable matchups from across
     New England and prep football.
+    Rankings are based on the latest NEFB Report
+    Overall Top 20.
   </div>
 
 </main>
@@ -504,43 +533,49 @@ footer p {
 <script>
 
 /*
-  NEFB REPORT - GAMES OF THE WEEK
+  NEFB REPORT
+  GAMES OF THE WEEK + OVERALL RANKINGS
 
-  Spreadsheet columns:
+  Games tab:
+  Week | Date | Time | Away Team |
+  Away Association | Home Team |
+  Home Association | Location |
+  Order | Game of the Week
 
-  Week
-  Date
-  Time
-  Away Team
-  Away Association
-  Home Team
-  Home Association
-  Location
-  Order
-  Game of the Week
-
-  Only rows with a positive numeric Order
-  are displayed.
+  Rankings tab:
+  Category | Date | Rank | Team |
+  Association
 */
 
 const SHEET_ID =
   "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
 
-const SHEET_GID = "1989788915";
+const PUBLISHED_ID =
+  "2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8";
 
-const PUBLISHED_CSV =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=1989788915&single=true&output=csv";
+const GAMES_GID = "1989788915";
+const RANKINGS_GID = "1805915467";
 
-/*
-  Backup Google Sheets CSV endpoint.
-  This uses the original spreadsheet ID.
-*/
+/* SPREADSHEET URLS */
 
-const BACKUP_CSV =
-  "https://docs.google.com/spreadsheets/d/" +
-  SHEET_ID +
-  "/export?format=csv&gid=" +
-  SHEET_GID;
+function publishedURL(gid) {
+  return (
+    "https://docs.google.com/spreadsheets/d/e/" +
+    PUBLISHED_ID +
+    "/pub?gid=" +
+    gid +
+    "&single=true&output=csv"
+  );
+}
+
+function backupURL(gid) {
+  return (
+    "https://docs.google.com/spreadsheets/d/" +
+    SHEET_ID +
+    "/export?format=csv&gid=" +
+    gid
+  );
+}
 
 /* CSV PARSER */
 
@@ -571,7 +606,10 @@ function parseCSV(text) {
       (c === "\n" || c === "\r") &&
       !quoted
     ) {
-      if (c === "\r" && text[i + 1] === "\n") {
+      if (
+        c === "\r" &&
+        text[i + 1] === "\n"
+      ) {
         i++;
       }
 
@@ -602,22 +640,14 @@ function csvToObjects(text) {
   const rows = parseCSV(text);
 
   if (rows.length < 2) {
-    throw new Error("Spreadsheet has no data rows.");
+    throw new Error(
+      "Spreadsheet contains no data rows."
+    );
   }
 
   const headers = rows[0].map(
     value => value.trim()
   );
-
-  if (
-    !headers.includes("Order") ||
-    !headers.includes("Away Team") ||
-    !headers.includes("Home Team")
-  ) {
-    throw new Error(
-      "Spreadsheet columns could not be recognized."
-    );
-  }
 
   return rows.slice(1).map(row =>
     Object.fromEntries(
@@ -629,7 +659,7 @@ function csvToObjects(text) {
   );
 }
 
-/* FETCH WITH TIMEOUT */
+/* FETCH CSV */
 
 async function fetchCSV(url) {
   const controller = new AbortController();
@@ -640,7 +670,8 @@ async function fetchCSV(url) {
   );
 
   try {
-    const separator = url.includes("?") ? "&" : "?";
+    const separator =
+      url.includes("?") ? "&" : "?";
 
     const response = await fetch(
       url + separator + "_=" + Date.now(),
@@ -659,11 +690,10 @@ async function fetchCSV(url) {
     const text = await response.text();
 
     if (
-      text.trim().startsWith("<!DOCTYPE") ||
-      text.trim().startsWith("<html")
+      /^\s*</.test(text)
     ) {
       throw new Error(
-        "Google returned an HTML page instead of CSV."
+        "Google returned HTML instead of CSV."
       );
     }
 
@@ -674,12 +704,12 @@ async function fetchCSV(url) {
   }
 }
 
-/* LOAD SHEET WITH BACKUP */
+/* LOAD A GOOGLE SHEET TAB */
 
-async function getSheetRows() {
+async function getSheetRows(gid, requiredColumns) {
   const urls = [
-    PUBLISHED_CSV,
-    BACKUP_CSV
+    publishedURL(gid),
+    backupURL(gid)
   ];
 
   const errors = [];
@@ -688,8 +718,27 @@ async function getSheetRows() {
     try {
       const rows = await fetchCSV(url);
 
+      /*
+        Check that we received the correct tab.
+      */
+
+      if (rows.length) {
+        const headers = Object.keys(rows[0]);
+
+        const valid = requiredColumns.every(
+          column => headers.includes(column)
+        );
+
+        if (!valid) {
+          throw new Error(
+            "Unexpected spreadsheet columns."
+          );
+        }
+      }
+
       console.log(
-        "NEFB Games loaded successfully:",
+        "NEFB sheet loaded:",
+        gid,
         rows.length,
         "rows"
       );
@@ -698,7 +747,8 @@ async function getSheetRows() {
 
     } catch (error) {
       console.warn(
-        "NEFB feed attempt failed:",
+        "Sheet feed failed:",
+        gid,
         error
       );
 
@@ -707,12 +757,14 @@ async function getSheetRows() {
   }
 
   throw new Error(
-    "Both Google Sheets feeds failed: " +
+    "Could not load sheet " +
+    gid +
+    ": " +
     errors.join(" | ")
   );
 }
 
-/* HTML ESCAPING */
+/* HTML SAFETY */
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -723,7 +775,170 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/* DATE PARSER */
+/* NORMALIZE TEAM NAMES */
+
+/*
+  Helps match team names when the
+  Games tab and Rankings tab use
+  slightly different wording.
+*/
+
+function normalizeTeam(name) {
+  let value = String(name || "")
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[.'’()\-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  const aliases = {
+    "st john s shrewsbury":
+      "st johns shrewsbury",
+
+    "st johns shrewsbury":
+      "st johns shrewsbury",
+
+    "st john s prep":
+      "st johns prep",
+
+    "st johns prep":
+      "st johns prep",
+
+    "choate":
+      "choate rosemary hall",
+
+    "brunswick":
+      "brunswick school",
+
+    "tabor":
+      "tabor academy",
+
+    "taft":
+      "taft school",
+
+    "milton":
+      "milton academy",
+
+    "cm":
+      "catholic memorial",
+
+    "sjp":
+      "st johns prep",
+
+    "bb and n":
+      "buckingham browne and nichols",
+
+    "b b and n":
+      "buckingham browne and nichols",
+
+    "phillips andover":
+      "phillips academy",
+
+    "andover":
+      "phillips academy",
+
+    "phillips academy andover":
+      "phillips academy",
+
+    "lo omis chaffee":
+      "loomis chaffee"
+  };
+
+  return aliases[value] || value;
+}
+
+/* LOAD LATEST OVERALL RANKINGS */
+
+function buildRankingsMap(rows) {
+  const overallRows = rows.filter(
+    row =>
+      String(row["Category"] || "")
+        .trim()
+        .toLowerCase() === "overall"
+  );
+
+  if (!overallRows.length) {
+    console.warn(
+      "No Overall rankings found."
+    );
+
+    return new Map();
+  }
+
+  /*
+    Use only the newest ranking date.
+    Older rankings are ignored.
+  */
+
+  const latestDate = overallRows
+    .map(row => dateKey(row["Date"]))
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+
+  if (!latestDate) {
+    return new Map();
+  }
+
+  const rankings = new Map();
+
+  overallRows
+    .filter(row =>
+      dateKey(row["Date"]) === latestDate
+    )
+    .forEach(row => {
+      const rank = Number(row["Rank"]);
+
+      if (
+        Number.isInteger(rank) &&
+        rank >= 1 &&
+        rank <= 20 &&
+        row["Team"]
+      ) {
+        rankings.set(
+          normalizeTeam(row["Team"]),
+          rank
+        );
+      }
+    });
+
+  console.log(
+    "NEFB Overall rankings date:",
+    latestDate
+  );
+
+  console.log(
+    "NEFB ranked teams:",
+    rankings.size
+  );
+
+  return rankings;
+}
+
+/* CREATE RANKING BADGE */
+
+function rankingBadge(teamName, rankings) {
+  const key = normalizeTeam(teamName);
+
+  const rank = rankings.get(key);
+
+  if (!rank) {
+    return "";
+  }
+
+  return `
+    <span
+      class="rank-badge"
+      title="NEFB Overall Ranking #${rank}"
+      aria-label="Overall rank ${rank}"
+    >
+      #${rank}
+    </span>
+  `;
+}
+
+/* DATE HELPERS */
 
 function dateKey(value) {
   const text = String(value || "").trim();
@@ -769,8 +984,6 @@ function dateKey(value) {
 
   return date.toISOString().slice(0, 10);
 }
-
-/* DATE FORMATTING */
 
 function formatDate(key, options) {
   return new Date(
@@ -847,7 +1060,7 @@ function dateRange(games) {
   );
 }
 
-/* SHOW MESSAGE */
+/* SHOW STATUS MESSAGE */
 
 function showMessage(message) {
   document.getElementById("gamesGrid")
@@ -863,14 +1076,64 @@ async function loadGames() {
   const grid = document.getElementById("gamesGrid");
 
   try {
-    const rows = await getSheetRows();
-
     /*
-      Select only rows where Order is a
-      positive whole number.
+      Load Games and Rankings independently.
+
+      If rankings fail, games can still
+      display without badges.
     */
 
-    const ordered = rows
+    const results = await Promise.allSettled([
+      getSheetRows(GAMES_GID, [
+        "Week",
+        "Date",
+        "Away Team",
+        "Home Team",
+        "Order"
+      ]),
+
+      getSheetRows(RANKINGS_GID, [
+        "Category",
+        "Date",
+        "Rank",
+        "Team"
+      ])
+    ]);
+
+    /*
+      Games are required.
+    */
+
+    if (results[0].status !== "fulfilled") {
+      throw results[0].reason;
+    }
+
+    const gameRows = results[0].value;
+
+    /*
+      Rankings are optional.
+    */
+
+    let rankings = new Map();
+
+    if (results[1].status === "fulfilled") {
+      rankings = buildRankingsMap(
+        results[1].value
+      );
+    } else {
+      console.warn(
+        "Rankings unavailable. " +
+        "Displaying games without badges.",
+        results[1].reason
+      );
+    }
+
+    /*
+      Only games with a positive
+      number in Order are shown.
+    */
+
+    const ordered = gameRows
       .map(row => ({
         ...row,
 
@@ -888,11 +1151,6 @@ async function loadGames() {
         row["Home Team"]
       );
 
-    console.log(
-      "NEFB ordered matchups:",
-      ordered.length
-    );
-
     if (!ordered.length) {
       document.getElementById("weekDates")
         .textContent = "To be announced";
@@ -908,11 +1166,7 @@ async function loadGames() {
     }
 
     /*
-      Find the latest set of games by date.
-
-      This is more reliable than choosing
-      the highest week number because
-      week numbers reset each season.
+      Select the newest set of games.
     */
 
     const latestDate = ordered
@@ -928,13 +1182,6 @@ async function loadGames() {
       latestGame["Week"] || ""
     ).trim();
 
-    /*
-      Match the latest week and season.
-
-      Prevents Week 7 from an older year
-      being mixed with Week 7 next year.
-    */
-
     const latestYear = latestDate.slice(0, 4);
 
     const games = ordered
@@ -949,6 +1196,10 @@ async function loadGames() {
         a.dateKey.localeCompare(b.dateKey)
       );
 
+    /*
+      Update date labels.
+    */
+
     const label = dateRange(games);
 
     document.getElementById("weekDates")
@@ -958,7 +1209,8 @@ async function loadGames() {
       .textContent = label;
 
     /*
-      Generate all game cards.
+      Generate game cards
+      with ranking badges.
     */
 
     grid.innerHTML = games.map(game => {
@@ -976,6 +1228,16 @@ async function loadGames() {
 
       const homeAssoc = escapeHTML(
         game["Home Association"] || ""
+      );
+
+      const awayBadge = rankingBadge(
+        game["Away Team"],
+        rankings
+      );
+
+      const homeBadge = rankingBadge(
+        game["Home Team"],
+        rankings
       );
 
       const gameDate = formatDate(
@@ -1012,49 +1274,76 @@ async function loadGames() {
 
           <div class="game-content">
 
+            <!-- AWAY TEAM -->
+
             <div class="team-row">
+
               <div>
-                <div class="team-name">
-                  ${away}
+
+                <div class="team-name-line">
+
+                  ${awayBadge}
+
+                  <div class="team-name">
+                    ${away}
+                  </div>
+
                 </div>
 
                 <div class="association">
                   ${awayAssoc}
                 </div>
+
               </div>
 
               <div class="away-home">
                 Away
               </div>
+
             </div>
 
+            <!-- HOME TEAM -->
+
             <div class="team-row">
+
               <div>
-                <div class="team-name">
-                  ${home}
+
+                <div class="team-name-line">
+
+                  ${homeBadge}
+
+                  <div class="team-name">
+                    ${home}
+                  </div>
+
                 </div>
 
                 <div class="association">
                   ${homeAssoc}
                 </div>
+
               </div>
 
               <div class="away-home">
                 Home
               </div>
+
             </div>
+
+            <!-- GAME DETAILS -->
 
             <div class="game-meta">
               ${gameDate} · ${time}${location}
             </div>
 
           </div>
+
         </article>
       `;
     }).join("");
 
     console.log(
-      "NEFB displayed games:",
+      "NEFB displayed matchups:",
       games.length
     );
 
@@ -1072,9 +1361,9 @@ async function loadGames() {
 
     showMessage(
       "Games of the Week could not be loaded. " +
-      "Please try refreshing the page. " +
-      "If this continues, the Google Sheets " +
-      "connection may need to be updated."
+      "Please refresh the page. " +
+      "If this continues, check the published " +
+      "Google Sheets CSV connection."
     );
   }
 }
