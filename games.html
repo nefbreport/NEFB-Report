@@ -179,7 +179,7 @@ nav a:hover {
   position: absolute;
   right: 25px;
   bottom: -35px;
-  color: rgba(255, 255, 255, .035);
+  color: rgba(255,255,255,.035);
   font-size: 230px;
   line-height: 1;
   font-weight: 900;
@@ -331,6 +331,7 @@ nav a:hover {
   padding: 22px;
   color: #777;
   font-size: 13px;
+  line-height: 1.7;
   grid-column: 1 / -1;
 }
 
@@ -449,13 +450,11 @@ footer p {
   <!-- FEATURED GAME OF THE WEEK -->
 
   <article class="featured-game">
-
     <div class="featured-label">
       NEFB Game of the Week
     </div>
 
     <div class="reveal-content">
-
       <div class="reveal-kicker">
         Every Thursday
       </div>
@@ -468,13 +467,11 @@ footer p {
         NEFB Report's featured Game of the Week
         will be announced every Thursday.
       </div>
-
     </div>
 
     <div class="featured-details" id="featuredDates">
       Loading this week's dates...
     </div>
-
   </article>
 
   <!-- AUTOMATIC GAMES OF THE WEEK -->
@@ -506,10 +503,44 @@ footer p {
 
 <script>
 
-/* GOOGLE SHEETS GAMES OF THE WEEK FEED */
+/*
+  NEFB REPORT - GAMES OF THE WEEK
 
-const GAMES_SHEET_URL =
+  Spreadsheet columns:
+
+  Week
+  Date
+  Time
+  Away Team
+  Away Association
+  Home Team
+  Home Association
+  Location
+  Order
+  Game of the Week
+
+  Only rows with a positive numeric Order
+  are displayed.
+*/
+
+const SHEET_ID =
+  "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
+
+const SHEET_GID = "1989788915";
+
+const PUBLISHED_CSV =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=1989788915&single=true&output=csv";
+
+/*
+  Backup Google Sheets CSV endpoint.
+  This uses the original spreadsheet ID.
+*/
+
+const BACKUP_CSV =
+  "https://docs.google.com/spreadsheets/d/" +
+  SHEET_ID +
+  "/export?format=csv&gid=" +
+  SHEET_GID;
 
 /* CSV PARSER */
 
@@ -531,9 +562,11 @@ function parseCSV(text) {
       } else {
         quoted = !quoted;
       }
+
     } else if (c === "," && !quoted) {
       row.push(cell);
       cell = "";
+
     } else if (
       (c === "\n" || c === "\r") &&
       !quoted
@@ -550,6 +583,7 @@ function parseCSV(text) {
 
       row = [];
       cell = "";
+
     } else {
       cell += c;
     }
@@ -568,10 +602,22 @@ function csvToObjects(text) {
   const rows = parseCSV(text);
 
   if (rows.length < 2) {
-    return [];
+    throw new Error("Spreadsheet has no data rows.");
   }
 
-  const headers = rows[0].map(v => v.trim());
+  const headers = rows[0].map(
+    value => value.trim()
+  );
+
+  if (
+    !headers.includes("Order") ||
+    !headers.includes("Away Team") ||
+    !headers.includes("Home Team")
+  ) {
+    throw new Error(
+      "Spreadsheet columns could not be recognized."
+    );
+  }
 
   return rows.slice(1).map(row =>
     Object.fromEntries(
@@ -583,7 +629,90 @@ function csvToObjects(text) {
   );
 }
 
-/* SAFELY DISPLAY SHEET CONTENT */
+/* FETCH WITH TIMEOUT */
+
+async function fetchCSV(url) {
+  const controller = new AbortController();
+
+  const timeout = setTimeout(
+    () => controller.abort(),
+    12000
+  );
+
+  try {
+    const separator = url.includes("?") ? "&" : "?";
+
+    const response = await fetch(
+      url + separator + "_=" + Date.now(),
+      {
+        cache: "no-store",
+        signal: controller.signal
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "HTTP " + response.status
+      );
+    }
+
+    const text = await response.text();
+
+    if (
+      text.trim().startsWith("<!DOCTYPE") ||
+      text.trim().startsWith("<html")
+    ) {
+      throw new Error(
+        "Google returned an HTML page instead of CSV."
+      );
+    }
+
+    return csvToObjects(text);
+
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+/* LOAD SHEET WITH BACKUP */
+
+async function getSheetRows() {
+  const urls = [
+    PUBLISHED_CSV,
+    BACKUP_CSV
+  ];
+
+  const errors = [];
+
+  for (const url of urls) {
+    try {
+      const rows = await fetchCSV(url);
+
+      console.log(
+        "NEFB Games loaded successfully:",
+        rows.length,
+        "rows"
+      );
+
+      return rows;
+
+    } catch (error) {
+      console.warn(
+        "NEFB feed attempt failed:",
+        error
+      );
+
+      errors.push(error.message);
+    }
+  }
+
+  throw new Error(
+    "Both Google Sheets feeds failed: " +
+    errors.join(" | ")
+  );
+}
+
+/* HTML ESCAPING */
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -594,7 +723,7 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/* DATE HELPERS */
+/* DATE PARSER */
 
 function dateKey(value) {
   const text = String(value || "").trim();
@@ -611,6 +740,7 @@ function dateKey(value) {
     month = Number(match[1]);
     day = Number(match[2]);
     year = Number(match[3]);
+
   } else {
     match = text.match(
       /^(\d{4})-(\d{1,2})-(\d{1,2})$/
@@ -640,6 +770,8 @@ function dateKey(value) {
   return date.toISOString().slice(0, 10);
 }
 
+/* DATE FORMATTING */
+
 function formatDate(key, options) {
   return new Date(
     key + "T12:00:00Z"
@@ -649,16 +781,16 @@ function formatDate(key, options) {
   });
 }
 
-/* AUTOMATIC DATE RANGE */
-
 function dateRange(games) {
   const dates = [
     ...new Set(
-      games.map(game => game.dateKey).filter(Boolean)
+      games
+        .map(game => game.dateKey)
+        .filter(Boolean)
     )
   ].sort();
 
-  if (dates.length === 0) {
+  if (!dates.length) {
     return "Date to be announced";
   }
 
@@ -673,47 +805,69 @@ function dateRange(games) {
     });
   }
 
-  const start = formatDate(first, {
-    month: "long",
-    day: "numeric"
-  });
+  const firstDate = new Date(
+    first + "T12:00:00Z"
+  );
 
-  const end = formatDate(last, {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
+  const lastDate = new Date(
+    last + "T12:00:00Z"
+  );
 
-  return start + " – " + end;
+  if (
+    firstDate.getUTCFullYear() ===
+      lastDate.getUTCFullYear() &&
+    firstDate.getUTCMonth() ===
+      lastDate.getUTCMonth()
+  ) {
+    return (
+      formatDate(first, {
+        month: "long",
+        day: "numeric"
+      }) +
+      " – " +
+      formatDate(last, {
+        day: "numeric",
+        year: "numeric"
+      })
+    );
+  }
+
+  return (
+    formatDate(first, {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    }) +
+    " – " +
+    formatDate(last, {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    })
+  );
 }
 
-/* LOAD GAMES OF THE WEEK */
+/* SHOW MESSAGE */
+
+function showMessage(message) {
+  document.getElementById("gamesGrid")
+    .innerHTML =
+      '<div class="message">' +
+      escapeHTML(message) +
+      '</div>';
+}
+
+/* MAIN LOADER */
 
 async function loadGames() {
   const grid = document.getElementById("gamesGrid");
 
   try {
-    const response = await fetch(
-      GAMES_SHEET_URL,
-      { cache: "no-store" }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        "Could not load Games of the Week spreadsheet"
-      );
-    }
-
-    const rows = csvToObjects(
-      await response.text()
-    );
+    const rows = await getSheetRows();
 
     /*
-      ONLY INCLUDE GAMES WITH A VALID ORDER.
-
-      Order = 1, 2, 3, etc. -> Show game.
-      Order is blank -> Hide game.
-      Order = 0 or non-numeric -> Hide game.
+      Select only rows where Order is a
+      positive whole number.
     */
 
     const ordered = rows
@@ -734,65 +888,66 @@ async function loadGames() {
         row["Home Team"]
       );
 
-    /* NO FEATURED GAMES */
+    console.log(
+      "NEFB ordered matchups:",
+      ordered.length
+    );
 
-    if (ordered.length === 0) {
+    if (!ordered.length) {
       document.getElementById("weekDates")
         .textContent = "To be announced";
 
       document.getElementById("featuredDates")
         .textContent = "Date to be announced";
 
-      grid.innerHTML = `
-        <div class="message">
-          Games of the Week have not been selected yet.
-        </div>
-      `;
+      showMessage(
+        "Games of the Week have not been selected yet."
+      );
 
       return;
     }
 
     /*
-      SELECT THE LATEST WEEK WITH ORDERED GAMES
+      Find the latest set of games by date.
+
+      This is more reliable than choosing
+      the highest week number because
+      week numbers reset each season.
     */
 
-    const weeks = [
-      ...new Set(
-        ordered.map(row =>
-          String(row["Week"] || "").trim()
-        )
-      )
-    ];
+    const latestDate = ordered
+      .map(game => game.dateKey)
+      .sort()
+      .at(-1);
 
-    const weekRank = week => {
-      const number = Number(week);
-
-      return (
-        Number.isFinite(number) &&
-        week !== ""
-      ) ? number : -1;
-    };
-
-    weeks.sort(
-      (a, b) => weekRank(b) - weekRank(a)
+    const latestGame = ordered.find(
+      game => game.dateKey === latestDate
     );
 
-    const latestWeek = weeks[0];
+    const latestWeek = String(
+      latestGame["Week"] || ""
+    ).trim();
 
     /*
-      SHOW ONLY ORDERED GAMES FROM THAT WEEK
+      Match the latest week and season.
+
+      Prevents Week 7 from an older year
+      being mixed with Week 7 next year.
     */
 
+    const latestYear = latestDate.slice(0, 4);
+
     const games = ordered
-      .filter(row =>
-        String(row["Week"] || "").trim() === latestWeek
+      .filter(game =>
+        String(game["Week"] || "").trim() ===
+          latestWeek &&
+        game.dateKey.startsWith(latestYear)
       )
       .sort((a, b) =>
-        Number(a.orderText) - Number(b.orderText) ||
+        Number(a.orderText) -
+          Number(b.orderText) ||
         a.dateKey.localeCompare(b.dateKey)
       );
-
-    /* UPDATE DATES */
 
     const label = dateRange(games);
 
@@ -802,7 +957,9 @@ async function loadGames() {
     document.getElementById("featuredDates")
       .textContent = label;
 
-    /* DISPLAY GAMES */
+    /*
+      Generate all game cards.
+    */
 
     grid.innerHTML = games.map(game => {
       const away = escapeHTML(
@@ -835,7 +992,9 @@ async function loadGames() {
       );
 
       const location = game["Location"]
-        ? " · " + escapeHTML(game["Location"])
+        ? " · " + escapeHTML(
+            game["Location"]
+          )
         : "";
 
       return `
@@ -847,16 +1006,13 @@ async function loadGames() {
             </span>
 
             <span>
-              ${escapeHTML(
-                game["Home Association"] || "NEFB"
-              )}
+              ${homeAssoc || "NEFB"}
             </span>
           </div>
 
           <div class="game-content">
 
             <div class="team-row">
-
               <div>
                 <div class="team-name">
                   ${away}
@@ -870,11 +1026,9 @@ async function loadGames() {
               <div class="away-home">
                 Away
               </div>
-
             </div>
 
             <div class="team-row">
-
               <div>
                 <div class="team-name">
                   ${home}
@@ -888,7 +1042,6 @@ async function loadGames() {
               <div class="away-home">
                 Home
               </div>
-
             </div>
 
             <div class="game-meta">
@@ -896,32 +1049,37 @@ async function loadGames() {
             </div>
 
           </div>
-
         </article>
       `;
     }).join("");
 
-  } catch (error) {
-    console.error(
-      "Games of the Week error:",
-      error
+    console.log(
+      "NEFB displayed games:",
+      games.length
     );
 
-    grid.innerHTML = `
-      <div class="message">
-        Games of the Week could not be loaded right now.
-      </div>
-    `;
+  } catch (error) {
+    console.error(
+      "NEFB Games of the Week error:",
+      error
+    );
 
     document.getElementById("weekDates")
       .textContent = "Unavailable";
 
     document.getElementById("featuredDates")
       .textContent = "Date unavailable";
+
+    showMessage(
+      "Games of the Week could not be loaded. " +
+      "Please try refreshing the page. " +
+      "If this continues, the Google Sheets " +
+      "connection may need to be updated."
+    );
   }
 }
 
-/* INITIAL LOAD */
+/* START */
 
 loadGames();
 
