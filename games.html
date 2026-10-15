@@ -64,7 +64,9 @@ nav a {
   letter-spacing: .4px;
 }
 
-nav a:hover { color: #aeb3b8; }
+nav a:hover {
+  color: #aeb3b8;
+}
 
 /* HERO */
 
@@ -250,6 +252,12 @@ nav a:hover { color: #aeb3b8; }
   border: 1px solid #ddd;
   border-radius: 5px;
   overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.game-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.07);
 }
 
 .game-top {
@@ -265,7 +273,9 @@ nav a:hover { color: #aeb3b8; }
   letter-spacing: .5px;
 }
 
-.game-content { padding: 20px; }
+.game-content {
+  padding: 20px;
+}
 
 .team-row {
   display: grid;
@@ -293,11 +303,6 @@ nav a:hover { color: #aeb3b8; }
   font-weight: 900;
   line-height: 1.35;
 }
-
-/*
-  Ranking badge is displayed only for
-  teams in the latest Overall Top 20.
-*/
 
 .rank-badge {
   display: inline-flex;
@@ -410,7 +415,9 @@ footer p {
     flex-wrap: wrap;
   }
 
-  nav a { font-size: 11px; }
+  nav a {
+    font-size: 11px;
+  }
 
   .games-grid {
     grid-template-columns: 1fr;
@@ -547,6 +554,8 @@ footer p {
   Association
 */
 
+/* GOOGLE SHEETS CONFIGURATION */
+
 const SHEET_ID =
   "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
 
@@ -556,7 +565,7 @@ const PUBLISHED_ID =
 const GAMES_GID = "1989788915";
 const RANKINGS_GID = "1805915467";
 
-/* SPREADSHEET URLS */
+/* BUILD GOOGLE SHEETS URLS */
 
 function publishedURL(gid) {
   return (
@@ -577,7 +586,7 @@ function backupURL(gid) {
   );
 }
 
-/* CSV PARSER */
+/* PARSE CSV */
 
 function parseCSV(text) {
   const rows = [];
@@ -606,10 +615,7 @@ function parseCSV(text) {
       (c === "\n" || c === "\r") &&
       !quoted
     ) {
-      if (
-        c === "\r" &&
-        text[i + 1] === "\n"
-      ) {
+      if (c === "\r" && text[i + 1] === "\n") {
         i++;
       }
 
@@ -640,9 +646,7 @@ function csvToObjects(text) {
   const rows = parseCSV(text);
 
   if (rows.length < 2) {
-    throw new Error(
-      "Spreadsheet contains no data rows."
-    );
+    throw new Error("Spreadsheet contains no data rows.");
   }
 
   const headers = rows[0].map(
@@ -659,7 +663,7 @@ function csvToObjects(text) {
   );
 }
 
-/* FETCH CSV */
+/* FETCH GOOGLE SHEETS CSV */
 
 async function fetchCSV(url) {
   const controller = new AbortController();
@@ -689,9 +693,7 @@ async function fetchCSV(url) {
 
     const text = await response.text();
 
-    if (
-      /^\s*</.test(text)
-    ) {
+    if (/^\s*</.test(text)) {
       throw new Error(
         "Google returned HTML instead of CSV."
       );
@@ -704,7 +706,7 @@ async function fetchCSV(url) {
   }
 }
 
-/* LOAD A GOOGLE SHEET TAB */
+/* LOAD GOOGLE SHEET TAB */
 
 async function getSheetRows(gid, requiredColumns) {
   const urls = [
@@ -717,10 +719,6 @@ async function getSheetRows(gid, requiredColumns) {
   for (const url of urls) {
     try {
       const rows = await fetchCSV(url);
-
-      /*
-        Check that we received the correct tab.
-      */
 
       if (rows.length) {
         const headers = Object.keys(rows[0]);
@@ -775,12 +773,11 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-/* NORMALIZE TEAM NAMES */
+/* TEAM NAME MATCHING */
 
 /*
-  Helps match team names when the
-  Games tab and Rankings tab use
-  slightly different wording.
+  Ensures slightly different team names
+  in the Games and Rankings tabs match.
 */
 
 function normalizeTeam(name) {
@@ -841,6 +838,9 @@ function normalizeTeam(name) {
     "phillips academy andover":
       "phillips academy",
 
+    "phillips exeter academy":
+      "phillips exeter",
+
     "lo omis chaffee":
       "loomis chaffee"
   };
@@ -848,97 +848,7 @@ function normalizeTeam(name) {
   return aliases[value] || value;
 }
 
-/* LOAD LATEST OVERALL RANKINGS */
-
-function buildRankingsMap(rows) {
-  const overallRows = rows.filter(
-    row =>
-      String(row["Category"] || "")
-        .trim()
-        .toLowerCase() === "overall"
-  );
-
-  if (!overallRows.length) {
-    console.warn(
-      "No Overall rankings found."
-    );
-
-    return new Map();
-  }
-
-  /*
-    Use only the newest ranking date.
-    Older rankings are ignored.
-  */
-
-  const latestDate = overallRows
-    .map(row => dateKey(row["Date"]))
-    .filter(Boolean)
-    .sort()
-    .at(-1);
-
-  if (!latestDate) {
-    return new Map();
-  }
-
-  const rankings = new Map();
-
-  overallRows
-    .filter(row =>
-      dateKey(row["Date"]) === latestDate
-    )
-    .forEach(row => {
-      const rank = Number(row["Rank"]);
-
-      if (
-        Number.isInteger(rank) &&
-        rank >= 1 &&
-        rank <= 20 &&
-        row["Team"]
-      ) {
-        rankings.set(
-          normalizeTeam(row["Team"]),
-          rank
-        );
-      }
-    });
-
-  console.log(
-    "NEFB Overall rankings date:",
-    latestDate
-  );
-
-  console.log(
-    "NEFB ranked teams:",
-    rankings.size
-  );
-
-  return rankings;
-}
-
-/* CREATE RANKING BADGE */
-
-function rankingBadge(teamName, rankings) {
-  const key = normalizeTeam(teamName);
-
-  const rank = rankings.get(key);
-
-  if (!rank) {
-    return "";
-  }
-
-  return `
-    <span
-      class="rank-badge"
-      title="NEFB Overall Ranking #${rank}"
-      aria-label="Overall rank ${rank}"
-    >
-      #${rank}
-    </span>
-  `;
-}
-
-/* DATE HELPERS */
+/* DATE PARSING */
 
 function dateKey(value) {
   const text = String(value || "").trim();
@@ -1060,7 +970,93 @@ function dateRange(games) {
   );
 }
 
-/* SHOW STATUS MESSAGE */
+/* LATEST OVERALL RANKINGS */
+
+function buildRankingsMap(rows) {
+  const overallRows = rows.filter(
+    row =>
+      String(row["Category"] || "")
+        .trim()
+        .toLowerCase() === "overall"
+  );
+
+  if (!overallRows.length) {
+    console.warn("No Overall rankings found.");
+    return new Map();
+  }
+
+  /*
+    Only use the most recent Overall
+    Top 20 ranking date.
+  */
+
+  const latestDate = overallRows
+    .map(row => dateKey(row["Date"]))
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+
+  if (!latestDate) {
+    return new Map();
+  }
+
+  const rankings = new Map();
+
+  overallRows
+    .filter(row =>
+      dateKey(row["Date"]) === latestDate
+    )
+    .forEach(row => {
+      const rank = Number(row["Rank"]);
+
+      if (
+        Number.isInteger(rank) &&
+        rank >= 1 &&
+        rank <= 20 &&
+        row["Team"]
+      ) {
+        rankings.set(
+          normalizeTeam(row["Team"]),
+          rank
+        );
+      }
+    });
+
+  console.log(
+    "NEFB Overall rankings date:",
+    latestDate
+  );
+
+  console.log(
+    "NEFB ranked teams:",
+    rankings.size
+  );
+
+  return rankings;
+}
+
+/* GENERATE RANKING BADGE */
+
+function rankingBadge(teamName, rankings) {
+  const key = normalizeTeam(teamName);
+  const rank = rankings.get(key);
+
+  if (!rank) {
+    return "";
+  }
+
+  return `
+    <span
+      class="rank-badge"
+      title="NEFB Overall Ranking #${rank}"
+      aria-label="Overall rank ${rank}"
+    >
+      #${rank}
+    </span>
+  `;
+}
+
+/* SHOW MESSAGE */
 
 function showMessage(message) {
   document.getElementById("gamesGrid")
@@ -1070,17 +1066,17 @@ function showMessage(message) {
       '</div>';
 }
 
-/* MAIN LOADER */
+/* LOAD GAMES AND RANKINGS */
 
 async function loadGames() {
   const grid = document.getElementById("gamesGrid");
 
   try {
     /*
-      Load Games and Rankings independently.
+      Fetch games and rankings separately.
 
-      If rankings fail, games can still
-      display without badges.
+      Games can still display even if
+      rankings temporarily fail.
     */
 
     const results = await Promise.allSettled([
@@ -1100,19 +1096,11 @@ async function loadGames() {
       ])
     ]);
 
-    /*
-      Games are required.
-    */
-
     if (results[0].status !== "fulfilled") {
       throw results[0].reason;
     }
 
     const gameRows = results[0].value;
-
-    /*
-      Rankings are optional.
-    */
 
     let rankings = new Map();
 
@@ -1122,15 +1110,14 @@ async function loadGames() {
       );
     } else {
       console.warn(
-        "Rankings unavailable. " +
-        "Displaying games without badges.",
+        "Rankings unavailable:",
         results[1].reason
       );
     }
 
     /*
-      Only games with a positive
-      number in Order are shown.
+      Select games with a valid
+      positive Order number.
     */
 
     const ordered = gameRows
@@ -1166,7 +1153,7 @@ async function loadGames() {
     }
 
     /*
-      Select the newest set of games.
+      Find the latest week of games.
     */
 
     const latestDate = ordered
@@ -1197,7 +1184,7 @@ async function loadGames() {
       );
 
     /*
-      Update date labels.
+      Update page date labels.
     */
 
     const label = dateRange(games);
@@ -1209,8 +1196,7 @@ async function loadGames() {
       .textContent = label;
 
     /*
-      Generate game cards
-      with ranking badges.
+      Create cards with ranking badges.
     */
 
     grid.innerHTML = games.map(game => {
@@ -1277,17 +1263,14 @@ async function loadGames() {
             <!-- AWAY TEAM -->
 
             <div class="team-row">
-
               <div>
 
                 <div class="team-name-line">
-
                   ${awayBadge}
 
                   <div class="team-name">
                     ${away}
                   </div>
-
                 </div>
 
                 <div class="association">
@@ -1299,23 +1282,19 @@ async function loadGames() {
               <div class="away-home">
                 Away
               </div>
-
             </div>
 
             <!-- HOME TEAM -->
 
             <div class="team-row">
-
               <div>
 
                 <div class="team-name-line">
-
                   ${homeBadge}
 
                   <div class="team-name">
                     ${home}
                   </div>
-
                 </div>
 
                 <div class="association">
@@ -1327,10 +1306,9 @@ async function loadGames() {
               <div class="away-home">
                 Home
               </div>
-
             </div>
 
-            <!-- GAME DETAILS -->
+            <!-- GAME DATE AND TIME -->
 
             <div class="game-meta">
               ${gameDate} · ${time}${location}
@@ -1362,13 +1340,12 @@ async function loadGames() {
     showMessage(
       "Games of the Week could not be loaded. " +
       "Please refresh the page. " +
-      "If this continues, check the published " +
-      "Google Sheets CSV connection."
+      "If this continues, check the Google Sheets connection."
     );
   }
 }
 
-/* START */
+/* INITIALIZE PAGE */
 
 loadGames();
 
