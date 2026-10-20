@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="NEFB Report season statistics and player leaderboards across New England high school football.">
+<meta name="description" content="NEFB Report player statistics and season leaders across New England high school football.">
 <title>Player Statistics | NEFB Report</title>
 
 <style>
@@ -21,8 +21,6 @@ body {
 }
 
 a { color: inherit; }
-
-/* HEADER */
 
 header {
   background: #050505;
@@ -73,8 +71,6 @@ nav a.active {
   color: #aeb3b8;
 }
 
-/* HERO */
-
 .hero {
   background: radial-gradient(
     circle at 80% 40%,
@@ -115,8 +111,6 @@ nav a.active {
   line-height: 1.65;
 }
 
-/* MAIN */
-
 .container {
   max-width: 1100px;
   margin: auto;
@@ -140,8 +134,6 @@ nav a.active {
   color: #777;
   font-size: 13px;
 }
-
-/* FILTERS */
 
 .filters {
   display: grid;
@@ -171,8 +163,6 @@ input:focus,
 select:focus {
   border-color: #111;
 }
-
-/* LEADER CARDS */
 
 .leader-grid {
   display: grid;
@@ -207,8 +197,6 @@ select:focus {
   color: #666;
   margin-top: 5px;
 }
-
-/* TABLES */
 
 .table-container {
   background: white;
@@ -281,8 +269,6 @@ tbody tr:hover {
   display: none !important;
 }
 
-/* PLAYER PROFILE */
-
 .profile {
   background: white;
   border: 1px solid #ddd;
@@ -308,6 +294,10 @@ tbody tr:hover {
   margin-bottom: 15px;
 }
 
+.profile-section {
+  margin-top: 26px;
+}
+
 .back-button {
   background: #111;
   color: white;
@@ -329,8 +319,6 @@ tbody tr:hover {
 .status.error {
   color: #b32626;
 }
-
-/* FOOTER */
 
 footer {
   background: #050505;
@@ -356,8 +344,6 @@ footer p {
   line-height: 1.6;
 }
 
-/* MOBILE */
-
 @media (max-width: 900px) {
   .topbar {
     min-height: auto;
@@ -379,7 +365,9 @@ footer p {
     flex-wrap: wrap;
   }
 
-  nav a { font-size: 11px; }
+  nav a {
+    font-size: 11px;
+  }
 
   .filters {
     grid-template-columns: 1fr 1fr;
@@ -395,20 +383,26 @@ footer p {
 }
 
 @media (max-width: 480px) {
-  .hero { padding: 48px 20px; }
+  .hero {
+    padding: 48px 20px;
+  }
 
-  .container { padding: 30px 15px 55px; }
+  .container {
+    padding: 30px 15px 55px;
+  }
 
-  .leader-card { padding: 16px; }
+  .leader-card {
+    padding: 16px;
+  }
 
-  .leader-value { font-size: 25px; }
+  .leader-value {
+    font-size: 25px;
+  }
 }
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <header>
   <div class="topbar">
@@ -430,27 +424,29 @@ footer p {
   </div>
 </header>
 
-<!-- HERO -->
-
 <section class="hero">
   <div class="hero-inner">
-    <div class="eyebrow">New England High School Football</div>
+    <div class="eyebrow">
+      New England High School Football
+    </div>
+
     <h1>Player Statistics.</h1>
+
     <p>
-      Explore season leaders and player statistics from across
-      New England high school football.
+      Explore 2026 season leaders and player statistics
+      from across New England high school football.
     </p>
   </div>
 </section>
 
-<!-- MAIN -->
-
 <main class="container">
+
   <div class="section-heading">
     <h2>2026 Season Statistics</h2>
+
     <p>
-      Explore season totals submitted to NEFB Report.
-      Individual game statistics are not yet available.
+      Season totals submitted to NEFB Report.
+      Statistics are updated as new data becomes available.
     </p>
   </div>
 
@@ -459,6 +455,7 @@ footer p {
   </div>
 
   <div id="browse">
+
     <div class="filters">
       <input
         id="search"
@@ -481,6 +478,7 @@ footer p {
     </div>
 
     <div class="filters secondary">
+
       <select id="category" aria-label="Stat category">
         <option value="passing">Passing</option>
         <option value="rushing" selected>Rushing</option>
@@ -489,7 +487,11 @@ footer p {
         <option value="kicking">Kicking</option>
       </select>
 
-      <select id="sort" aria-label="Sort statistic"></select>
+      <select
+        id="sort"
+        aria-label="Sort statistic"
+      ></select>
+
     </div>
 
     <div class="leader-grid" id="summary"></div>
@@ -500,58 +502,67 @@ footer p {
         <tbody id="seasonBody"></tbody>
       </table>
     </div>
+
   </div>
 
-  <!-- PLAYER PROFILE -->
-
   <section id="profile" class="profile hidden">
-    <button id="back" class="back-button" type="button">
+
+    <button
+      id="back"
+      class="back-button"
+      type="button"
+    >
       ← Back to Statistics
     </button>
 
     <h2 id="profileName"></h2>
     <p id="profileMeta" class="profile-meta"></p>
 
-    <h3>Season Statistics</h3>
+    <div id="profileSections"></div>
 
-    <div class="table-container">
-      <table>
-        <thead id="profileSeasonHead"></thead>
-        <tbody id="profileSeasonBody"></tbody>
-      </table>
-    </div>
   </section>
-</main>
 
-<!-- FOOTER -->
+</main>
 
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand">NEFB REPORT</div>
+
+    <div class="footer-brand">
+      NEFB REPORT
+    </div>
 
     <p>
       Independent coverage of New England high school football.
     </p>
 
     <p style="margin-top:12px">
-      Statistics are published from the NEFB Report Season Totals database.
+      Statistics are sourced from the NEFB Report
+      Season Totals database.
     </p>
 
     <p style="margin-top:12px">
       © 2026 NEFB Report. All rights reserved.
     </p>
+
   </div>
 </footer>
 
 <script>
 "use strict";
 
-/* GOOGLE SHEETS CONNECTION */
+/*
+  PUBLISHED GOOGLE SHEETS CSV
 
-const SHEET_ID =
-  "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
+  This URL points directly to your
+  published Season Totals tab.
 
-const SHEET_TAB = "Season Totals";
+  It does NOT load individual game statistics.
+*/
+
+const CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/" +
+  "2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/" +
+  "pub?gid=217853799&single=true&output=csv";
 
 const $ = id => document.getElementById(id);
 
@@ -601,23 +612,26 @@ const categories = {
 
 /* HELPERS */
 
-function clean(v) {
-  return String(v ?? "").trim();
+function clean(value) {
+  return String(value ?? "").trim();
 }
 
-function num(v) {
-  const n = Number(clean(v).replace(/,/g, ""));
+function num(value) {
+  const n = Number(
+    clean(value).replace(/,/g, "")
+  );
+
   return Number.isFinite(n) ? n : 0;
 }
 
-function fmt(v) {
-  return clean(v) === ""
+function fmt(value) {
+  return clean(value) === ""
     ? "—"
-    : num(v).toLocaleString();
+    : num(value).toLocaleString();
 }
 
-function esc(v) {
-  return String(v ?? "")
+function esc(value) {
+  return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
@@ -629,11 +643,13 @@ function esc(v) {
 
 function parseCSV(text) {
   const rows = [];
+
   let row = [];
   let cell = "";
   let quoted = false;
 
-  text = String(text || "").replace(/^\uFEFF/, "");
+  text = String(text || "")
+    .replace(/^\uFEFF/, "");
 
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
@@ -645,13 +661,21 @@ function parseCSV(text) {
       } else {
         quoted = !quoted;
       }
+
     } else if (c === "," && !quoted) {
       row.push(cell);
       cell = "";
+
     } else if (
-      (c === "\n" || c === "\r") && !quoted
+      (c === "\n" || c === "\r") &&
+      !quoted
     ) {
-      if (c === "\r" && text[i + 1] === "\n") i++;
+      if (
+        c === "\r" &&
+        text[i + 1] === "\n"
+      ) {
+        i++;
+      }
 
       row.push(cell);
 
@@ -661,6 +685,7 @@ function parseCSV(text) {
 
       row = [];
       cell = "";
+
     } else {
       cell += c;
     }
@@ -678,26 +703,39 @@ function parseCSV(text) {
 function csvToObjects(csv) {
   const rows = parseCSV(csv);
 
-  if (!rows.length) return [];
+  if (!rows.length) {
+    return [];
+  }
 
   const headers = rows.shift().map(h =>
-    clean(h).toLowerCase().replace(/\s+/g, "_")
+    clean(h)
+      .toLowerCase()
+      .replace(/\s+/g, "_")
   );
 
   return rows.map(row =>
     Object.fromEntries(
-      headers.map((h, i) => [h, row[i] ?? ""])
+      headers.map((h, i) => [
+        h,
+        row[i] ?? ""
+      ])
     )
-  ).filter(row => clean(row.player_name));
+  ).filter(row =>
+    clean(row.player_name)
+  );
 }
 
-/* FETCH SEASON TOTALS */
+/* LOAD PUBLISHED CSV */
 
 async function getTotals() {
+  const separator =
+    CSV_URL.includes("?") ? "&" : "?";
+
   const url =
-    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
-    `?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB)}` +
-    `&t=${Date.now()}`;
+    CSV_URL +
+    separator +
+    "t=" +
+    Date.now();
 
   const response = await fetch(url, {
     cache: "no-store"
@@ -705,7 +743,8 @@ async function getTotals() {
 
   if (!response.ok) {
     throw new Error(
-      "Google Sheets returned " + response.status
+      "Google Sheets returned " +
+      response.status
     );
   }
 
@@ -713,7 +752,29 @@ async function getTotals() {
 
   if (/^\s*</.test(csv)) {
     throw new Error(
-      "Spreadsheet not publicly readable"
+      "Google Sheets returned HTML instead of CSV."
+    );
+  }
+
+  const rows = parseCSV(csv);
+
+  if (!rows.length) {
+    throw new Error(
+      "The published CSV is empty."
+    );
+  }
+
+  const headers = rows[0].map(h =>
+    clean(h).toLowerCase().replace(/\s+/g, "_")
+  );
+
+  if (
+    !headers.includes("player_name") ||
+    !headers.includes("season") ||
+    !headers.includes("team")
+  ) {
+    throw new Error(
+      "The CSV does not contain the expected Season Totals headers."
     );
   }
 
@@ -723,12 +784,15 @@ async function getTotals() {
 /* PLAYER IDENTIFICATION */
 
 function playerKey(row) {
+  const id = clean(row.player_id);
+
   return [
     clean(row.season),
-    clean(row.player_id) ||
+    id || (
       clean(row.player_name).toLowerCase() +
       "|" +
       clean(row.team).toLowerCase()
+    )
   ].join("::");
 }
 
@@ -738,100 +802,99 @@ function fillSelect(id, values, label) {
   const select = $(id);
   const previous = select.value;
 
-  select.replaceChildren(new Option(label, ""));
+  select.replaceChildren(
+    new Option(label, "")
+  );
 
-  [...new Set(values.map(clean).filter(Boolean))]
+  [...new Set(
+    values.map(clean).filter(Boolean)
+  )]
     .sort((a, b) =>
       a.localeCompare(b, undefined, {
         numeric: true
       })
     )
-    .forEach(v =>
-      select.add(new Option(v, v))
+    .forEach(value =>
+      select.add(
+        new Option(value, value)
+      )
     );
 
-  if ([...select.options].some(o =>
-    o.value === previous
-  )) {
+  if (
+    [...select.options].some(
+      o => o.value === previous
+    )
+  ) {
     select.value = previous;
   }
 }
 
 function filtered(rows) {
-  const q = $("search").value.toLowerCase().trim();
-  const s = $("season").value;
-  const t = $("team").value;
-  const p = $("position").value;
+  const query =
+    $("search").value.toLowerCase().trim();
 
-  return rows.filter(r => {
-    const matchesSearch =
-      !q ||
-      `${r.player_name} ${r.team}`
-        .toLowerCase()
-        .includes(q);
+  const season = $("season").value;
+  const team = $("team").value;
+  const position = $("position").value;
 
-    const matchesSeason =
-      !s || r.season === s;
+  return rows.filter(row => {
+    const searchText =
+      `${row.player_name} ${row.team}`
+        .toLowerCase();
 
-    const matchesTeam =
-      !t || r.team === t;
-
-    const positions = clean(r.position)
-      .split(/[,/]/)
-      .map(x => x.trim());
-
-    const matchesPosition =
-      !p || positions.includes(p);
+    const positions =
+      clean(row.position)
+        .split(/[,/]/)
+        .map(p => p.trim());
 
     return (
-      matchesSearch &&
-      matchesSeason &&
-      matchesTeam &&
-      matchesPosition
+      (!query || searchText.includes(query)) &&
+      (!season || row.season === season) &&
+      (!team || row.team === team) &&
+      (!position || positions.includes(position))
     );
   });
 }
 
 /* TABLE HELPERS */
 
-function fields() {
-  return categories[$("category").value];
-}
-
 function headerHTML(columns, extras = []) {
   return "<tr>" +
-    extras.map(v =>
-      `<th>${esc(v)}</th>`
+    extras.map(label =>
+      `<th>${esc(label)}</th>`
     ).join("") +
-    columns.map(([k, label]) =>
+    columns.map(([key, label]) =>
       `<th class="num">${esc(label)}</th>`
     ).join("") +
     "</tr>";
 }
 
-function playerButton(r) {
+function playerButton(row) {
   return `
     <button
       class="player-link"
       type="button"
-      data-player="${esc(playerKey(r))}"
+      data-player="${esc(playerKey(row))}"
     >
-      ${esc(r.player_name)}
+      ${esc(row.player_name)}
     </button>
   `;
 }
 
-/* SEASON LEADERBOARDS */
+/* LEADERBOARDS */
 
 function renderSeason() {
-  const columns = fields();
-  const sortKey = $("sort").value || columns[0][0];
+  const category = $("category").value;
+  const columns = categories[category];
 
-  // Only include players with recorded
-  // statistics in the selected category.
+  const sortKey =
+    $("sort").value || columns[0][0];
+
   const rows = filtered(state.totals)
-    .filter(r =>
-      columns.some(([k]) => clean(r[k]) !== "")
+    .filter(row =>
+      columns.some(([key]) =>
+        clean(row[key]) !== ""
+      )
     )
     .sort((a, b) =>
       num(b[sortKey]) - num(a[sortKey]) ||
@@ -850,103 +913,135 @@ function renderSeason() {
     ]);
 
   $("seasonBody").innerHTML = rows.length
-    ? rows.map((r, i) => `
+    ? rows.map((row, i) => `
       <tr>
         <td>${i + 1}</td>
-        <td>${playerButton(r)}</td>
+        <td>${playerButton(row)}</td>
         <td class="team-name">
-          ${esc(r.team || "—")}
+          ${esc(row.team || "—")}
         </td>
-        <td>${esc(r.position || "—")}</td>
-        <td class="num">${fmt(r.games_played)}</td>
-        ${columns.map(([k]) =>
-          `<td class="num">${fmt(r[k])}</td>`
+        <td>${esc(row.position || "—")}</td>
+        <td class="num">
+          ${fmt(row.games_played)}
+        </td>
+        ${columns.map(([key]) =>
+          `<td class="num">${fmt(row[key])}</td>`
         ).join("")}
       </tr>
     `).join("")
     : `
       <tr>
-        <td class="empty" colspan="${columns.length + 5}">
+        <td
+          class="empty"
+          colspan="${columns.length + 5}"
+        >
           No season statistics found for these filters.
         </td>
       </tr>
     `;
 
   $("summary").innerHTML =
-    columns.slice(0, 4).map(([k, label]) => {
-      const leader = [...rows]
-        .filter(r => clean(r[k]) !== "")
-        .sort((a, b) =>
-          num(b[k]) - num(a[k])
-        )[0];
+    columns.slice(0, 4)
+      .map(([key, label]) => {
+        const leader = [...rows]
+          .filter(row =>
+            clean(row[key]) !== ""
+          )
+          .sort((a, b) =>
+            num(b[key]) - num(a[key])
+          )[0];
 
-      return `
-        <div class="leader-card">
-          <div class="leader-label">
-            ${esc(label)} Leader
+        return `
+          <div class="leader-card">
+            <div class="leader-label">
+              ${esc(label)} Leader
+            </div>
+            <div class="leader-value">
+              ${leader ? fmt(leader[key]) : "—"}
+            </div>
+            <div class="leader-name">
+              ${leader
+                ? esc(leader.player_name)
+                : "No data"}
+            </div>
           </div>
-          <div class="leader-value">
-            ${leader ? fmt(leader[k]) : "—"}
-          </div>
-          <div class="leader-name">
-            ${leader ? esc(leader.player_name) : "No data"}
-          </div>
-        </div>
-      `;
-    }).join("");
+        `;
+      })
+      .join("");
 }
 
 /* PLAYER PROFILES */
 
 function showProfile(id) {
-  const r = state.totals.find(
-    r => playerKey(r) === id
+  const player = state.totals.find(
+    row => playerKey(row) === id
   );
 
-  if (!r) return;
+  if (!player) {
+    return;
+  }
 
   state.profile = id;
 
-  $("profileName").textContent = r.player_name;
+  $("profileName").textContent =
+    player.player_name;
 
   $("profileMeta").textContent = [
-    r.team,
-    r.position,
-    r.graduation_year
-      ? `Class of ${r.graduation_year}`
+    player.team,
+    player.position,
+    player.graduation_year
+      ? `Class of ${player.graduation_year}`
       : "",
-    r.season
-      ? `${r.season} Season`
+    player.season
+      ? `${player.season} Season`
       : ""
   ].filter(Boolean).join(" • ");
 
-  const allColumns = [
-    ...new Map(
-      Object.values(categories)
-        .flat()
-        .map(pair => [pair[0], pair])
-    ).values()
-  ];
+  let html = "";
 
-  const columns = allColumns.filter(
-    ([k]) => clean(r[k]) !== ""
-  );
+  for (const [category, columns] of
+    Object.entries(categories)) {
 
-  $("profileSeasonHead").innerHTML =
-    headerHTML(columns, [
-      "Season",
-      "GP"
-    ]);
+    const available = columns.filter(
+      ([key]) =>
+        clean(player[key]) !== ""
+    );
 
-  $("profileSeasonBody").innerHTML = `
-    <tr>
-      <td>${esc(r.season)}</td>
-      <td class="num">${fmt(r.games_played)}</td>
-      ${columns.map(([k]) =>
-        `<td class="num">${fmt(r[k])}</td>`
-      ).join("")}
-    </tr>
-  `;
+    if (!available.length) {
+      continue;
+    }
+
+    const title =
+      category.charAt(0).toUpperCase() +
+      category.slice(1);
+
+    html += `
+      <div class="profile-section">
+        <h3>${esc(title)}</h3>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              ${headerHTML(available)}
+            </thead>
+            <tbody>
+              <tr>
+                ${available.map(([key]) =>
+                  `<td class="num">
+                    ${fmt(player[key])}
+                  </td>`
+                ).join("")}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  $("profileSections").innerHTML =
+    html ||
+    `<p>No season statistics available.</p>`;
 
   $("browse").classList.add("hidden");
   $("profile").classList.remove("hidden");
@@ -972,11 +1067,15 @@ function render() {
 }
 
 function setCategory() {
-  const options = fields();
+  const columns =
+    categories[$("category").value];
 
   $("sort").replaceChildren(
-    ...options.map(([k, label]) =>
-      new Option(`Sort by ${label}`, k)
+    ...columns.map(([key, label]) =>
+      new Option(
+        `Sort by ${label}`,
+        key
+      )
     )
   );
 
@@ -1006,8 +1105,9 @@ $("back").onclick = () => {
 $("category").onchange = setCategory;
 $("sort").onchange = render;
 
-document.addEventListener("click", e => {
-  const button = e.target.closest("[data-player]");
+document.addEventListener("click", event => {
+  const button =
+    event.target.closest("[data-player]");
 
   if (button) {
     showProfile(button.dataset.player);
@@ -1022,27 +1122,27 @@ async function loadStatistics() {
 
     fillSelect(
       "season",
-      state.totals.map(r => r.season),
+      state.totals.map(row => row.season),
       "All Seasons"
     );
 
     fillSelect(
       "team",
-      state.totals.map(r => r.team),
+      state.totals.map(row => row.team),
       "All Teams"
     );
 
     fillSelect(
       "position",
-      state.totals.flatMap(r =>
-        clean(r.position).split(/[,/]/)
+      state.totals.flatMap(row =>
+        clean(row.position).split(/[,/]/)
       ),
       "All Positions"
     );
 
     $("status").textContent =
       `${state.totals.length} player season records` +
-      ` • Source: Season Totals`;
+      " • Source: Season Totals";
 
   } catch (error) {
     console.error(
@@ -1052,7 +1152,7 @@ async function loadStatistics() {
 
     $("status").textContent =
       "Season totals could not be loaded. " +
-      "Check that the Season Totals sheet is publicly readable.";
+      "Check the published Google Sheets CSV and its column headers.";
 
     $("status").classList.add("error");
   }
