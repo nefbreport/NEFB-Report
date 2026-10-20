@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="NEFB Report player statistics, season leaders and individual game performances across New England high school football.">
+<meta name="description" content="NEFB Report season statistics and player leaderboards across New England high school football.">
 <title>Player Statistics | NEFB Report</title>
 
 <style>
@@ -139,35 +139,6 @@ nav a.active {
   margin-top: 7px;
   color: #777;
   font-size: 13px;
-}
-
-/* TABS */
-
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 25px;
-  border-bottom: 1px solid #ddd;
-}
-
-.tab {
-  border: none;
-  background: transparent;
-  padding: 14px 18px;
-  font-size: 12px;
-  font-weight: 900;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-}
-
-.tab.active {
-  border-bottom-color: #111;
-  color: #111;
-}
-
-.tab:not(.active) {
-  color: #888;
 }
 
 /* FILTERS */
@@ -431,8 +402,6 @@ footer p {
   .leader-card { padding: 16px; }
 
   .leader-value { font-size: 25px; }
-
-  .tab { padding: 12px; font-size: 11px; }
 }
 </style>
 </head>
@@ -468,8 +437,7 @@ footer p {
     <div class="eyebrow">New England High School Football</div>
     <h1>Player Statistics.</h1>
     <p>
-      Explore verified season leaders, player statistics,
-      and individual game performances from across
+      Explore season leaders and player statistics from across
       New England high school football.
     </p>
   </div>
@@ -478,53 +446,39 @@ footer p {
 <!-- MAIN -->
 
 <main class="container">
-
   <div class="section-heading">
-    <h2>Player Statistics</h2>
+    <h2>2026 Season Statistics</h2>
     <p>
-      Only verified game statistics are included.
-      Season totals update automatically as verified
-      performances are added.
+      Explore season totals submitted to NEFB Report.
+      Individual game statistics are not yet available.
     </p>
   </div>
 
   <div id="status" class="status" role="status">
-    Loading player statistics...
+    Loading season statistics...
   </div>
 
-  <div class="tabs">
-    <button class="tab active" id="seasonTab" type="button">
-      Season Totals
-    </button>
-    <button class="tab" id="gameTab" type="button">
-      Individual Games
-    </button>
-  </div>
+  <div id="browse">
+    <div class="filters">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search player or team..."
+        aria-label="Search players or teams"
+      >
 
-  <div class="filters">
-    <input
-      id="search"
-      type="search"
-      placeholder="Search player or team..."
-      aria-label="Search players or teams"
-    >
+      <select id="season" aria-label="Season">
+        <option value="">All Seasons</option>
+      </select>
 
-    <select id="season" aria-label="Season">
-      <option value="">All Seasons</option>
-    </select>
+      <select id="team" aria-label="Team">
+        <option value="">All Teams</option>
+      </select>
 
-    <select id="team" aria-label="Team">
-      <option value="">All Teams</option>
-    </select>
-
-    <select id="position" aria-label="Position">
-      <option value="">All Positions</option>
-    </select>
-  </div>
-
-  <!-- SEASON TOTALS -->
-
-  <section id="seasonView">
+      <select id="position" aria-label="Position">
+        <option value="">All Positions</option>
+      </select>
+    </div>
 
     <div class="filters secondary">
       <select id="category" aria-label="Stat category">
@@ -546,19 +500,7 @@ footer p {
         <tbody id="seasonBody"></tbody>
       </table>
     </div>
-
-  </section>
-
-  <!-- INDIVIDUAL GAMES -->
-
-  <section id="gameView" class="hidden">
-    <div class="table-container">
-      <table>
-        <thead id="gameHead"></thead>
-        <tbody id="gameBody"></tbody>
-      </table>
-    </div>
-  </section>
+  </div>
 
   <!-- PLAYER PROFILE -->
 
@@ -571,22 +513,14 @@ footer p {
     <p id="profileMeta" class="profile-meta"></p>
 
     <h3>Season Statistics</h3>
-    <div class="table-container" style="margin-bottom:28px">
+
+    <div class="table-container">
       <table>
         <thead id="profileSeasonHead"></thead>
         <tbody id="profileSeasonBody"></tbody>
       </table>
     </div>
-
-    <h3>Game-by-Game Performances</h3>
-    <div class="table-container">
-      <table>
-        <thead id="profileHead"></thead>
-        <tbody id="profileBody"></tbody>
-      </table>
-    </div>
   </section>
-
 </main>
 
 <!-- FOOTER -->
@@ -594,12 +528,15 @@ footer p {
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">NEFB REPORT</div>
+
     <p>
       Independent coverage of New England high school football.
     </p>
+
     <p style="margin-top:12px">
-      Statistics are based exclusively on verified game reports.
+      Statistics are published from the NEFB Report Season Totals database.
     </p>
+
     <p style="margin-top:12px">
       © 2026 NEFB Report. All rights reserved.
     </p>
@@ -614,14 +551,12 @@ footer p {
 const SHEET_ID =
   "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
 
-const GAME_TAB = "Player Stats";
+const SHEET_TAB = "Season Totals";
 
 const $ = id => document.getElementById(id);
 
 const state = {
-  games: [],
   totals: [],
-  view: "season",
   profile: null
 };
 
@@ -635,16 +570,19 @@ const categories = {
     ["pass_attempts", "Att"],
     ["interceptions_thrown", "INT"]
   ],
+
   rushing: [
     ["rush_yards", "Rush Yds"],
     ["rush_tds", "Rush TD"],
     ["rush_attempts", "Carries"]
   ],
+
   receiving: [
     ["receiving_yards", "Rec Yds"],
     ["receiving_tds", "Rec TD"],
     ["receptions", "Rec"]
   ],
+
   defense: [
     ["tackles", "Tackles"],
     ["tackles_for_loss", "TFL"],
@@ -654,41 +592,37 @@ const categories = {
     ["forced_fumbles", "FF"],
     ["fumble_recoveries", "FR"]
   ],
+
   kicking: [
     ["field_goals_made", "FG Made"],
     ["extra_points_made", "XP Made"]
   ]
 };
 
-const allStatKeys = [
-  ...new Set(
-    Object.values(categories)
-      .flat()
-      .map(item => item[0])
-  )
-];
+/* HELPERS */
 
-function clean(value) {
-  return String(value ?? "").trim();
+function clean(v) {
+  return String(v ?? "").trim();
 }
 
-function num(value) {
-  const n = Number(clean(value).replace(/,/g, ""));
+function num(v) {
+  const n = Number(clean(v).replace(/,/g, ""));
   return Number.isFinite(n) ? n : 0;
 }
 
-function escapeHTML(value) {
-  return String(value ?? "")
+function fmt(v) {
+  return clean(v) === ""
+    ? "—"
+    : num(v).toLocaleString();
+}
+
+function esc(v) {
+  return String(v ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
-}
-
-function verified(row) {
-  return ["true", "yes", "1", "verified"]
-    .includes(clean(row.verified).toLowerCase());
 }
 
 /* CSV PARSER */
@@ -721,7 +655,9 @@ function parseCSV(text) {
 
       row.push(cell);
 
-      if (row.some(v => v !== "")) rows.push(row);
+      if (row.some(v => v !== "")) {
+        rows.push(row);
+      }
 
       row = [];
       cell = "";
@@ -732,7 +668,9 @@ function parseCSV(text) {
 
   row.push(cell);
 
-  if (row.some(v => v !== "")) rows.push(row);
+  if (row.some(v => v !== "")) {
+    rows.push(row);
+  }
 
   return rows;
 }
@@ -750,15 +688,15 @@ function csvToObjects(csv) {
     Object.fromEntries(
       headers.map((h, i) => [h, row[i] ?? ""])
     )
-  ).filter(row => row.player_name);
+  ).filter(row => clean(row.player_name));
 }
 
-/* LOAD VERIFIED GAME DATA */
+/* FETCH SEASON TOTALS */
 
-async function getSheet(tab) {
+async function getTotals() {
   const url =
     `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
-    `?tqx=out:csv&sheet=${encodeURIComponent(tab)}` +
+    `?tqx=out:csv&sheet=${encodeURIComponent(SHEET_TAB)}` +
     `&t=${Date.now()}`;
 
   const response = await fetch(url, {
@@ -766,14 +704,16 @@ async function getSheet(tab) {
   });
 
   if (!response.ok) {
-    throw new Error("Google Sheets returned " + response.status);
+    throw new Error(
+      "Google Sheets returned " + response.status
+    );
   }
 
   const csv = await response.text();
 
   if (/^\s*</.test(csv)) {
     throw new Error(
-      "The spreadsheet is not publicly readable."
+      "Spreadsheet not publicly readable"
     );
   }
 
@@ -783,66 +723,13 @@ async function getSheet(tab) {
 /* PLAYER IDENTIFICATION */
 
 function playerKey(row) {
-  const id = clean(row.player_id);
-
   return [
     clean(row.season),
-    id || (
+    clean(row.player_id) ||
       clean(row.player_name).toLowerCase() +
       "|" +
       clean(row.team).toLowerCase()
-    )
   ].join("::");
-}
-
-/* BUILD VERIFIED SEASON TOTALS */
-
-function buildTotals(games) {
-  const map = new Map();
-
-  games.forEach(game => {
-    const key = playerKey(game);
-
-    if (!map.has(key)) {
-      const total = {
-        season: game.season,
-        player_id: game.player_id,
-        player_name: game.player_name,
-        team: game.team,
-        association: game.association,
-        state: game.state,
-        graduation_year: game.graduation_year,
-        position: game.position,
-        games_played: 0
-      };
-
-      allStatKeys.forEach(k => total[k] = 0);
-
-      map.set(key, total);
-    }
-
-    const total = map.get(key);
-
-    total.games_played++;
-
-    allStatKeys.forEach(k => {
-      total[k] += num(game[k]);
-    });
-
-    // Fill missing player metadata from later entries.
-    [
-      "position",
-      "graduation_year",
-      "association",
-      "state"
-    ].forEach(k => {
-      if (!total[k] && game[k]) {
-        total[k] = game[k];
-      }
-    });
-  });
-
-  return [...map.values()];
 }
 
 /* FILTERS */
@@ -855,81 +742,97 @@ function fillSelect(id, values, label) {
 
   [...new Set(values.map(clean).filter(Boolean))]
     .sort((a, b) =>
-      a.localeCompare(b, undefined, { numeric: true })
+      a.localeCompare(b, undefined, {
+        numeric: true
+      })
     )
-    .forEach(value =>
-      select.add(new Option(value, value))
+    .forEach(v =>
+      select.add(new Option(v, v))
     );
 
-  if ([...select.options].some(o => o.value === previous)) {
+  if ([...select.options].some(o =>
+    o.value === previous
+  )) {
     select.value = previous;
   }
 }
 
 function filtered(rows) {
-  const query = $("search").value.toLowerCase().trim();
-  const season = $("season").value;
-  const team = $("team").value;
-  const position = $("position").value;
+  const q = $("search").value.toLowerCase().trim();
+  const s = $("season").value;
+  const t = $("team").value;
+  const p = $("position").value;
 
-  return rows.filter(row => {
-    const text =
-      `${row.player_name} ${row.team}`.toLowerCase();
+  return rows.filter(r => {
+    const matchesSearch =
+      !q ||
+      `${r.player_name} ${r.team}`
+        .toLowerCase()
+        .includes(q);
+
+    const matchesSeason =
+      !s || r.season === s;
+
+    const matchesTeam =
+      !t || r.team === t;
+
+    const positions = clean(r.position)
+      .split(/[,/]/)
+      .map(x => x.trim());
+
+    const matchesPosition =
+      !p || positions.includes(p);
 
     return (
-      (!query || text.includes(query)) &&
-      (!season || row.season === season) &&
-      (!team || row.team === team) &&
-      (!position || row.position === position)
+      matchesSearch &&
+      matchesSeason &&
+      matchesTeam &&
+      matchesPosition
     );
   });
 }
 
 /* TABLE HELPERS */
 
-function headerHTML(fields, extras = []) {
+function fields() {
+  return categories[$("category").value];
+}
+
+function headerHTML(columns, extras = []) {
   return "<tr>" +
-    extras.map(label =>
-      `<th>${escapeHTML(label)}</th>`
+    extras.map(v =>
+      `<th>${esc(v)}</th>`
     ).join("") +
-    fields.map(([key, label]) =>
-      `<th class="num">${escapeHTML(label)}</th>`
+    columns.map(([k, label]) =>
+      `<th class="num">${esc(label)}</th>`
     ).join("") +
     "</tr>";
 }
 
-function playerButton(row) {
+function playerButton(r) {
   return `
     <button
       class="player-link"
       type="button"
-      data-player="${escapeHTML(playerKey(row))}"
+      data-player="${esc(playerKey(r))}"
     >
-      ${escapeHTML(row.player_name)}
+      ${esc(r.player_name)}
     </button>
   `;
-}
-
-function formatDate(value) {
-  const s = clean(value);
-
-  if (!s) return "—";
-
-  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
-    const [year, month, day] = s.slice(0, 10).split("-");
-    return `${Number(month)}/${Number(day)}/${year}`;
-  }
-
-  return s;
 }
 
 /* SEASON LEADERBOARDS */
 
 function renderSeason() {
-  const fields = categories[$("category").value];
-  const sortKey = $("sort").value || fields[0][0];
+  const columns = fields();
+  const sortKey = $("sort").value || columns[0][0];
 
+  // Only include players with recorded
+  // statistics in the selected category.
   const rows = filtered(state.totals)
+    .filter(r =>
+      columns.some(([k]) => clean(r[k]) !== "")
+    )
     .sort((a, b) =>
       num(b[sortKey]) - num(a[sortKey]) ||
       clean(a.player_name).localeCompare(
@@ -938,164 +841,114 @@ function renderSeason() {
     );
 
   $("seasonHead").innerHTML =
-    headerHTML(fields, ["#", "Player", "Team", "Pos", "GP"]);
+    headerHTML(columns, [
+      "#",
+      "Player",
+      "Team",
+      "Pos",
+      "GP"
+    ]);
 
   $("seasonBody").innerHTML = rows.length
-    ? rows.map((row, i) => `
+    ? rows.map((r, i) => `
       <tr>
         <td>${i + 1}</td>
-        <td>${playerButton(row)}</td>
-        <td class="team-name">${escapeHTML(row.team)}</td>
-        <td>${escapeHTML(row.position || "—")}</td>
-        <td class="num">${row.games_played}</td>
-        ${fields.map(([key]) =>
-          `<td class="num">${num(row[key]).toLocaleString()}</td>`
+        <td>${playerButton(r)}</td>
+        <td class="team-name">
+          ${esc(r.team || "—")}
+        </td>
+        <td>${esc(r.position || "—")}</td>
+        <td class="num">${fmt(r.games_played)}</td>
+        ${columns.map(([k]) =>
+          `<td class="num">${fmt(r[k])}</td>`
         ).join("")}
       </tr>
     `).join("")
     : `
       <tr>
-        <td class="empty" colspan="12">
-          No verified season statistics available.
+        <td class="empty" colspan="${columns.length + 5}">
+          No season statistics found for these filters.
         </td>
       </tr>
     `;
 
-  $("summary").innerHTML = fields.slice(0, 4)
-    .map(([key, label]) => {
+  $("summary").innerHTML =
+    columns.slice(0, 4).map(([k, label]) => {
       const leader = [...rows]
-        .sort((a, b) => num(b[key]) - num(a[key]))[0];
+        .filter(r => clean(r[k]) !== "")
+        .sort((a, b) =>
+          num(b[k]) - num(a[k])
+        )[0];
 
       return `
         <div class="leader-card">
-          <div class="leader-label">${escapeHTML(label)} Leader</div>
+          <div class="leader-label">
+            ${esc(label)} Leader
+          </div>
           <div class="leader-value">
-            ${leader ? num(leader[key]).toLocaleString() : "—"}
+            ${leader ? fmt(leader[k]) : "—"}
           </div>
           <div class="leader-name">
-            ${leader ? escapeHTML(leader.player_name) : "No data"}
+            ${leader ? esc(leader.player_name) : "No data"}
           </div>
         </div>
       `;
     }).join("");
 }
 
-/* INDIVIDUAL GAME STATISTICS */
-
-function renderGames() {
-  const fields = categories[$("category").value];
-
-  const rows = filtered(state.games)
-    .sort((a, b) =>
-      clean(b.game_date).localeCompare(clean(a.game_date))
-    );
-
-  $("gameHead").innerHTML =
-    headerHTML(fields, [
-      "Date",
-      "Player",
-      "Team",
-      "Opponent"
-    ]);
-
-  $("gameBody").innerHTML = rows.length
-    ? rows.map(row => `
-      <tr>
-        <td>${escapeHTML(formatDate(row.game_date))}</td>
-        <td>${playerButton(row)}</td>
-        <td class="team-name">${escapeHTML(row.team)}</td>
-        <td>${escapeHTML(row.opponent || "—")}</td>
-        ${fields.map(([key]) =>
-          `<td class="num">${num(row[key]).toLocaleString()}</td>`
-        ).join("")}
-      </tr>
-    `).join("")
-    : `
-      <tr>
-        <td class="empty" colspan="12">
-          No verified game performances available.
-        </td>
-      </tr>
-    `;
-}
-
 /* PLAYER PROFILES */
 
 function showProfile(id) {
-  const player =
-    state.totals.find(row => playerKey(row) === id) ||
-    state.games.find(row => playerKey(row) === id);
+  const r = state.totals.find(
+    r => playerKey(r) === id
+  );
 
-  if (!player) return;
+  if (!r) return;
 
   state.profile = id;
 
-  $("profileName").textContent = player.player_name;
+  $("profileName").textContent = r.player_name;
 
   $("profileMeta").textContent = [
-    player.team,
-    player.position,
-    player.graduation_year
-      ? `Class of ${player.graduation_year}`
+    r.team,
+    r.position,
+    r.graduation_year
+      ? `Class of ${r.graduation_year}`
       : "",
-    player.season
-      ? `${player.season} Season`
+    r.season
+      ? `${r.season} Season`
       : ""
   ].filter(Boolean).join(" • ");
 
-  const fields = categories[$("category").value];
+  const allColumns = [
+    ...new Map(
+      Object.values(categories)
+        .flat()
+        .map(pair => [pair[0], pair])
+    ).values()
+  ];
 
-  const total = state.totals.find(row =>
-    playerKey(row) === id
+  const columns = allColumns.filter(
+    ([k]) => clean(r[k]) !== ""
   );
 
   $("profileSeasonHead").innerHTML =
-    headerHTML(fields, ["GP"]);
+    headerHTML(columns, [
+      "Season",
+      "GP"
+    ]);
 
-  $("profileSeasonBody").innerHTML = total
-    ? `
-      <tr>
-        <td>${total.games_played}</td>
-        ${fields.map(([key]) =>
-          `<td class="num">${num(total[key]).toLocaleString()}</td>`
-        ).join("")}
-      </tr>
-    `
-    : `
-      <tr>
-        <td class="empty">No season totals available.</td>
-      </tr>
-    `;
+  $("profileSeasonBody").innerHTML = `
+    <tr>
+      <td>${esc(r.season)}</td>
+      <td class="num">${fmt(r.games_played)}</td>
+      ${columns.map(([k]) =>
+        `<td class="num">${fmt(r[k])}</td>`
+      ).join("")}
+    </tr>
+  `;
 
-  const games = state.games
-    .filter(row => playerKey(row) === id)
-    .sort((a, b) =>
-      clean(b.game_date).localeCompare(clean(a.game_date))
-    );
-
-  $("profileHead").innerHTML =
-    headerHTML(fields, ["Date", "Opponent"]);
-
-  $("profileBody").innerHTML = games.length
-    ? games.map(game => `
-      <tr>
-        <td>${escapeHTML(formatDate(game.game_date))}</td>
-        <td>${escapeHTML(game.opponent || "—")}</td>
-        ${fields.map(([key]) =>
-          `<td class="num">${num(game[key]).toLocaleString()}</td>`
-        ).join("")}
-      </tr>
-    `).join("")
-    : `
-      <tr>
-        <td class="empty" colspan="12">
-          No verified games recorded.
-        </td>
-      </tr>
-    `;
-
-  $("seasonView").classList.add("hidden");
-  $("gameView").classList.add("hidden");
+  $("browse").classList.add("hidden");
   $("profile").classList.remove("hidden");
 
   $("profile").scrollIntoView({
@@ -1104,7 +957,7 @@ function showProfile(id) {
   });
 }
 
-/* PAGE RENDERING */
+/* RENDER */
 
 function render() {
   if (state.profile) {
@@ -1113,53 +966,24 @@ function render() {
   }
 
   $("profile").classList.add("hidden");
-
-  $("seasonView").classList.toggle(
-    "hidden",
-    state.view !== "season"
-  );
-
-  $("gameView").classList.toggle(
-    "hidden",
-    state.view !== "game"
-  );
-
-  $("seasonTab").classList.toggle(
-    "active",
-    state.view === "season"
-  );
-
-  $("gameTab").classList.toggle(
-    "active",
-    state.view === "game"
-  );
+  $("browse").classList.remove("hidden");
 
   renderSeason();
-  renderGames();
 }
 
 function setCategory() {
-  const fields = categories[$("category").value];
+  const options = fields();
 
   $("sort").replaceChildren(
-    ...fields.map(([key, label]) =>
-      new Option(`Sort by ${label}`, key)
+    ...options.map(([k, label]) =>
+      new Option(`Sort by ${label}`, k)
     )
   );
 
   render();
 }
 
-function setView(view) {
-  state.view = view;
-  state.profile = null;
-  render();
-}
-
 /* EVENTS */
-
-$("seasonTab").onclick = () => setView("season");
-$("gameTab").onclick = () => setView("game");
 
 $("back").onclick = () => {
   state.profile = null;
@@ -1182,8 +1006,8 @@ $("back").onclick = () => {
 $("category").onchange = setCategory;
 $("sort").onchange = render;
 
-document.addEventListener("click", event => {
-  const button = event.target.closest("[data-player]");
+document.addEventListener("click", e => {
+  const button = e.target.closest("[data-player]");
 
   if (button) {
     showProfile(button.dataset.player);
@@ -1194,45 +1018,41 @@ document.addEventListener("click", event => {
 
 async function loadStatistics() {
   try {
-    const allGames = await getSheet(GAME_TAB);
-
-    // IMPORTANT:
-    // Unverified entries are excluded from the
-    // website AND all calculated season totals.
-    state.games = allGames.filter(verified);
-
-    state.totals = buildTotals(state.games);
-
-    const all = [...state.totals, ...state.games];
+    state.totals = await getTotals();
 
     fillSelect(
       "season",
-      all.map(row => row.season),
+      state.totals.map(r => r.season),
       "All Seasons"
     );
 
     fillSelect(
       "team",
-      all.map(row => row.team),
+      state.totals.map(r => r.team),
       "All Teams"
     );
 
     fillSelect(
       "position",
-      all.map(row => row.position),
+      state.totals.flatMap(r =>
+        clean(r.position).split(/[,/]/)
+      ),
       "All Positions"
     );
 
     $("status").textContent =
-      `${state.totals.length} players • ` +
-      `${state.games.length} verified game performances`;
+      `${state.totals.length} player season records` +
+      ` • Source: Season Totals`;
 
   } catch (error) {
-    console.error("Statistics loading error:", error);
+    console.error(
+      "Statistics loading error:",
+      error
+    );
 
     $("status").textContent =
-      "Player statistics could not be loaded. " +
-      "Check that the Player Stats tab is publicly readable.";
+      "Season totals could not be loaded. " +
+      "Check that the Season Totals sheet is publicly readable.";
 
     $("status").classList.add("error");
   }
