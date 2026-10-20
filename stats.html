@@ -1,459 +1,1248 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NEFB Report player statistics, season leaders and individual game performances across New England high school football.">
 <title>Player Statistics | NEFB Report</title>
-<meta name="description" content="New England high school football season leaders and individual game statistics from NEFB Report.">
+
 <style>
-:root{color-scheme:dark;--bg:#0b0e14;--panel:#151b25;--panel2:#1b2330;--line:#303a4b;--text:#f6f8fc;--muted:#a7b2c4;--red:#e63742}
-*{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 70% -10%,#243044 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1200px;margin:auto;padding:0 20px}
-.top{border-bottom:1px solid var(--line);background:#0a0d12e8}
-.nav{min-height:75px;display:flex;justify-content:space-between;align-items:center;gap:16px}
-.brand{font-size:29px;font-weight:1000;letter-spacing:-1px}
-.brand span{display:block;font-size:9px;letter-spacing:5px;text-align:center;margin-top:-9px}
-.links{display:flex;gap:22px;color:#d6deea;font-weight:700}
-.links a:hover{color:var(--red)}
-.hero{padding:52px 0 24px}
-.eyebrow{font-size:12px;letter-spacing:3px;font-weight:900;color:var(--red)}
-h1{font-size:clamp(34px,6vw,66px);line-height:1.04;letter-spacing:-2px;margin:10px 0 12px;font-weight:1000}
-h1 em{color:var(--red);font-style:normal}
-.sub{color:var(--muted);max-width:690px;margin:0 0 20px}
-.status{color:var(--muted);font-size:13px;min-height:22px}
-.status.error{color:#ff9c9c}
-.tabs{display:flex;gap:10px;border-bottom:1px solid var(--line);margin:18px 0 22px}
-.tab{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font-weight:900;font-size:16px;padding:14px 18px;cursor:pointer}
-.tab.active{color:#fff;border-color:var(--red)}
-.filters{display:grid;grid-template-columns:2fr repeat(3,minmax(120px,1fr));gap:12px;margin-bottom:18px}
-input,select{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:12px;font:inherit;outline:none}
-input:focus,select:focus{border-color:var(--red)}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.metric{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
-.metric b{font-size:25px;display:block}
-.metric small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
-.tablebox{border:1px solid var(--line);border-radius:12px;overflow:auto;background:var(--panel)}
-table{width:100%;border-collapse:collapse;white-space:nowrap;text-align:left}
-th{background:var(--panel2);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#c3cede;padding:14px 13px;position:sticky;top:0}
-td{padding:13px;border-top:1px solid #2a3442}
-tbody tr:hover{background:#202a39}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.player{border:0;background:none;color:#fff;font:inherit;font-weight:800;cursor:pointer;padding:0;text-align:left}
-.player:hover{color:#ff7077}
-.team{color:var(--muted);font-size:13px}
-.empty{text-align:center;color:var(--muted);padding:36px 12px}
-.hidden{display:none!important}
-.profile{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:12px;margin:20px 0}
-.profile h2{margin:5px 0}
-.back{border:0;background:var(--red);border-radius:7px;color:white;padding:10px 14px;cursor:pointer;font-weight:800}
-.profilemeta{color:var(--muted)}
-.footer{padding:38px 0;color:var(--muted);font-size:12px}
-@media(max-width:760px){
-.links{gap:10px;font-size:12px}
-.filters{grid-template-columns:1fr 1fr}
-.filters input{grid-column:1/-1}
-.cards{grid-template-columns:1fr 1fr}
-th,td{padding:11px 10px}
-.hero{padding-top:34px}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-@media(max-width:440px){
-.links{gap:8px}
-.links a{font-size:11px}
-.brand{font-size:23px}
-.nav{min-height:65px}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f3f3;
+  color: #111;
+}
+
+a { color: inherit; }
+
+/* HEADER */
+
+header {
+  background: #050505;
+  color: white;
+  border-bottom: 1px solid #333;
+}
+
+.topbar {
+  max-width: 1250px;
+  min-height: 92px;
+  margin: auto;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand img {
+  height: 76px;
+  width: 150px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+nav a:hover,
+nav a.active {
+  color: #aeb3b8;
+}
+
+/* HERO */
+
+.hero {
+  background: radial-gradient(
+    circle at 80% 40%,
+    #1d1d1d 0%,
+    #0c0c0c 35%,
+    #050505 70%
+  );
+  color: white;
+  padding: 70px 24px;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.eyebrow {
+  color: #aeb3b8;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+  font-weight: 900;
+}
+
+.hero p {
+  max-width: 700px;
+  color: #b9b9b9;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* MAIN */
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 42px 20px 75px;
+}
+
+.section-heading {
+  border-bottom: 2px solid #111;
+  padding-bottom: 12px;
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  font-size: 23px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.section-heading p {
+  margin-top: 7px;
+  color: #777;
+  font-size: 13px;
+}
+
+/* TABS */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  padding: 14px 18px;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+
+.tab.active {
+  border-bottom-color: #111;
+  color: #111;
+}
+
+.tab:not(.active) {
+  color: #888;
+}
+
+/* FILTERS */
+
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filters.secondary {
+  grid-template-columns: 1fr 1fr;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 12px 13px;
+  background: white;
+  color: #111;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #111;
+}
+
+/* LEADER CARDS */
+
+.leader-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.leader-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 22px;
+}
+
+.leader-label {
+  color: #777;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.leader-value {
+  font-size: 30px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.leader-name {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* TABLES */
+
+.table-container {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+thead {
+  background: #111;
+  color: white;
+}
+
+th {
+  padding: 15px 13px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+td {
+  padding: 14px 13px;
+  border-bottom: 1px solid #eee;
+  font-size: 13px;
+}
+
+tbody tr:hover {
+  background: #f6f6f6;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.player-link {
+  border: none;
+  background: none;
+  font: inherit;
+  color: #111;
+  font-weight: 900;
+  cursor: pointer;
+  text-align: left;
+}
+
+.player-link:hover {
+  text-decoration: underline;
+}
+
+.team-name {
+  color: #666;
+  font-size: 12px;
+}
+
+.empty {
+  padding: 35px;
+  text-align: center;
+  color: #777;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* PLAYER PROFILE */
+
+.profile {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 25px;
+}
+
+.profile h2 {
+  font-size: 30px;
+  font-weight: 900;
+  margin: 20px 0 8px;
+}
+
+.profile-meta {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.profile h3 {
+  font-size: 17px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.back-button {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 12px 17px;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.status {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 18px;
+}
+
+.status.error {
+  color: #b32626;
+}
+
+/* FOOTER */
+
+footer {
+  background: #050505;
+  color: #858585;
+  border-top: 1px solid #222;
+  padding: 45px 24px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.footer-brand {
+  color: white;
+  font-size: 23px;
+  font-weight: 900;
+  margin-bottom: 9px;
+}
+
+footer p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .topbar {
+    min-height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 15px;
+    gap: 10px;
+  }
+
+  .brand img {
+    height: 65px;
+    width: 130px;
+  }
+
+  nav {
+    width: 100%;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  nav a { font-size: 11px; }
+
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filters input {
+    grid-column: 1 / -1;
+  }
+
+  .leader-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 48px 20px; }
+
+  .container { padding: 30px 15px 55px; }
+
+  .leader-card { padding: 16px; }
+
+  .leader-value { font-size: 25px; }
+
+  .tab { padding: 12px; font-size: 11px; }
 }
 </style>
 </head>
+
 <body>
 
-<header class="top">
-<div class="wrap nav">
-<a class="brand" href="index.html">NEFB<span>REPORT</span></a>
-<nav class="links">
-<a href="index.html">HOME</a>
-<a href="rankings.html">RANKINGS</a>
-<a href="games.html">GAMES</a>
-<a href="stats.html" aria-current="page">STATS</a>
-</nav>
-</div>
+<!-- HEADER -->
+
+<header>
+  <div class="topbar">
+    <a class="brand" href="index.html">
+      <img src="nefb-logo.jpg" alt="NEFB Report">
+    </a>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="standings.html">Standings</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="stats.html" class="active">Stats</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="news.html">News</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
 </header>
 
-<main class="wrap">
+<!-- HERO -->
+
 <section class="hero">
-<div class="eyebrow">NEW ENGLAND FOOTBALL REPORT</div>
-<h1>PLAYER <em>STATISTICS</em></h1>
-<p class="sub">Explore season leaders and individual game performances across New England high school football. Statistics update from the NEFB Report spreadsheet.</p>
-<div id="status" class="status" role="status">Loading statistics…</div>
+  <div class="hero-inner">
+    <div class="eyebrow">New England High School Football</div>
+    <h1>Player Statistics.</h1>
+    <p>
+      Explore verified season leaders, player statistics,
+      and individual game performances from across
+      New England high school football.
+    </p>
+  </div>
 </section>
 
-<div class="tabs">
-<button class="tab active" id="seasonTab" type="button">SEASON TOTALS</button>
-<button class="tab" id="gameTab" type="button">GAME STATS</button>
-</div>
+<!-- MAIN -->
 
-<div class="filters">
-<input id="search" placeholder="Search player or team…" aria-label="Search players or teams">
-<select id="season" aria-label="Season"><option value="">All seasons</option></select>
-<select id="team" aria-label="Team"><option value="">All teams</option></select>
-<select id="position" aria-label="Position"><option value="">All positions</option></select>
-</div>
+<main class="container">
 
-<div id="seasonView">
-<div class="filters" style="grid-template-columns:1fr 1fr">
-<select id="category" aria-label="Stat category">
-<option value="passing">Passing</option>
-<option value="rushing" selected>Rushing</option>
-<option value="receiving">Receiving</option>
-<option value="defense">Defense</option>
-<option value="kicking">Kicking</option>
-</select>
-<select id="sort" aria-label="Sort statistic"></select>
-</div>
-<div class="cards" id="summary"></div>
-<div class="tablebox">
-<table><thead id="seasonHead"></thead><tbody id="seasonBody"></tbody></table>
-</div>
-</div>
+  <div class="section-heading">
+    <h2>Player Statistics</h2>
+    <p>
+      Only verified game statistics are included.
+      Season totals update automatically as verified
+      performances are added.
+    </p>
+  </div>
 
-<div id="gameView" class="hidden">
-<div class="tablebox">
-<table><thead id="gameHead"></thead><tbody id="gameBody"></tbody></table>
-</div>
-</div>
+  <div id="status" class="status" role="status">
+    Loading player statistics...
+  </div>
 
-<div id="profile" class="profile hidden">
-<button class="back" id="back" type="button">← Back to statistics</button>
-<h2 id="profileName"></h2>
-<p class="profilemeta" id="profileMeta"></p>
-<h3>Game-by-game performances</h3>
-<div class="tablebox">
-<table><thead id="profileHead"></thead><tbody id="profileBody"></tbody></table>
-</div>
-</div>
+  <div class="tabs">
+    <button class="tab active" id="seasonTab" type="button">
+      Season Totals
+    </button>
+    <button class="tab" id="gameTab" type="button">
+      Individual Games
+    </button>
+  </div>
+
+  <div class="filters">
+    <input
+      id="search"
+      type="search"
+      placeholder="Search player or team..."
+      aria-label="Search players or teams"
+    >
+
+    <select id="season" aria-label="Season">
+      <option value="">All Seasons</option>
+    </select>
+
+    <select id="team" aria-label="Team">
+      <option value="">All Teams</option>
+    </select>
+
+    <select id="position" aria-label="Position">
+      <option value="">All Positions</option>
+    </select>
+  </div>
+
+  <!-- SEASON TOTALS -->
+
+  <section id="seasonView">
+
+    <div class="filters secondary">
+      <select id="category" aria-label="Stat category">
+        <option value="passing">Passing</option>
+        <option value="rushing" selected>Rushing</option>
+        <option value="receiving">Receiving</option>
+        <option value="defense">Defense</option>
+        <option value="kicking">Kicking</option>
+      </select>
+
+      <select id="sort" aria-label="Sort statistic"></select>
+    </div>
+
+    <div class="leader-grid" id="summary"></div>
+
+    <div class="table-container">
+      <table>
+        <thead id="seasonHead"></thead>
+        <tbody id="seasonBody"></tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- INDIVIDUAL GAMES -->
+
+  <section id="gameView" class="hidden">
+    <div class="table-container">
+      <table>
+        <thead id="gameHead"></thead>
+        <tbody id="gameBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PLAYER PROFILE -->
+
+  <section id="profile" class="profile hidden">
+    <button id="back" class="back-button" type="button">
+      ← Back to Statistics
+    </button>
+
+    <h2 id="profileName"></h2>
+    <p id="profileMeta" class="profile-meta"></p>
+
+    <h3>Season Statistics</h3>
+    <div class="table-container" style="margin-bottom:28px">
+      <table>
+        <thead id="profileSeasonHead"></thead>
+        <tbody id="profileSeasonBody"></tbody>
+      </table>
+    </div>
+
+    <h3>Game-by-Game Performances</h3>
+    <div class="table-container">
+      <table>
+        <thead id="profileHead"></thead>
+        <tbody id="profileBody"></tbody>
+      </table>
+    </div>
+  </section>
+
 </main>
 
-<footer class="wrap footer">© NEFB REPORT • Statistics reflect submitted data and may be incomplete. Only verified game entries count toward displayed game logs.</footer>
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">NEFB REPORT</div>
+    <p>
+      Independent coverage of New England high school football.
+    </p>
+    <p style="margin-top:12px">
+      Statistics are based exclusively on verified game reports.
+    </p>
+    <p style="margin-top:12px">
+      © 2026 NEFB Report. All rights reserved.
+    </p>
+  </div>
+</footer>
 
 <script>
-'use strict';
+"use strict";
 
-// Your existing NEFB Report Google Spreadsheet
-const SHEET_ID='1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A';
-const SEASON_TAB='Season Totals';
-const GAME_TAB='Player Stats';
+/* GOOGLE SHEETS CONNECTION */
 
-const $=id=>document.getElementById(id);
-const state={totals:[],games:[],view:'season',profile:null};
+const SHEET_ID =
+  "1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A";
 
-const categories={
- passing:[
- ['pass_yards','Pass Yds'],
- ['pass_tds','Pass TD'],
- ['pass_completions','Comp'],
- ['pass_attempts','Att'],
- ['interceptions_thrown','INT']
- ],
- rushing:[
- ['rush_yards','Rush Yds'],
- ['rush_tds','Rush TD'],
- ['rush_attempts','Carries']
- ],
- receiving:[
- ['receiving_yards','Rec Yds'],
- ['receiving_tds','Rec TD'],
- ['receptions','Rec']
- ],
- defense:[
- ['tackles','Tackles'],
- ['tackles_for_loss','TFL'],
- ['sacks','Sacks'],
- ['interceptions','INT'],
- ['pass_breakups','PBU'],
- ['forced_fumbles','FF'],
- ['fumble_recoveries','FR']
- ],
- kicking:[
- ['field_goals_made','FG Made'],
- ['extra_points_made','XP Made']
- ]
+const GAME_TAB = "Player Stats";
+
+const $ = id => document.getElementById(id);
+
+const state = {
+  games: [],
+  totals: [],
+  view: "season",
+  profile: null
 };
 
-const num=x=>{
- const n=Number(String(x??'').replace(/,/g,''));
- return Number.isFinite(n)?n:0;
+/* STAT CATEGORIES */
+
+const categories = {
+  passing: [
+    ["pass_yards", "Pass Yds"],
+    ["pass_tds", "Pass TD"],
+    ["pass_completions", "Comp"],
+    ["pass_attempts", "Att"],
+    ["interceptions_thrown", "INT"]
+  ],
+  rushing: [
+    ["rush_yards", "Rush Yds"],
+    ["rush_tds", "Rush TD"],
+    ["rush_attempts", "Carries"]
+  ],
+  receiving: [
+    ["receiving_yards", "Rec Yds"],
+    ["receiving_tds", "Rec TD"],
+    ["receptions", "Rec"]
+  ],
+  defense: [
+    ["tackles", "Tackles"],
+    ["tackles_for_loss", "TFL"],
+    ["sacks", "Sacks"],
+    ["interceptions", "INT"],
+    ["pass_breakups", "PBU"],
+    ["forced_fumbles", "FF"],
+    ["fumble_recoveries", "FR"]
+  ],
+  kicking: [
+    ["field_goals_made", "FG Made"],
+    ["extra_points_made", "XP Made"]
+  ]
 };
 
-const clean=x=>String(x??'').trim();
+const allStatKeys = [
+  ...new Set(
+    Object.values(categories)
+      .flat()
+      .map(item => item[0])
+  )
+];
 
-const key=r=>[
- clean(r.season),
- clean(r.player_id)||[
- clean(r.player_name).toLowerCase(),
- clean(r.team).toLowerCase()
- ].join('|')
-].join('::');
-
-const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({
- '&':'&amp;',
- '<':'&lt;',
- '>':'&gt;',
- '"':'&quot;',
- "'":'&#39;'
-}[c]));
-
-function parseCSV(s){
- const out=[];
- let row=[],cell='',quote=false;
- for(let i=0;i<s.length;i++){
-  const c=s[i];
-  if(c==='"'){
-   if(quote&&s[i+1]==='"'){
-    cell+='"';
-    i++;
-   }else quote=!quote;
-  }else if(c===','&&!quote){
-   row.push(cell);
-   cell='';
-  }else if((c==='\n'||c==='\r')&&!quote){
-   if(c==='\r'&&s[i+1]==='\n')i++;
-   row.push(cell);
-   if(row.some(x=>x!==''))out.push(row);
-   row=[];
-   cell='';
-  }else cell+=c;
- }
- row.push(cell);
- if(row.some(x=>x!==''))out.push(row);
- return out;
+function clean(value) {
+  return String(value ?? "").trim();
 }
 
-function toObjects(csv){
- const rows=parseCSV(csv);
- if(!rows.length)return[];
- const heads=rows.shift().map(x=>x.trim().toLowerCase().replace(/\s+/g,'_'));
- return rows.map(c=>Object.fromEntries(
-  heads.map((h,i)=>[h,c[i]??''])
- )).filter(r=>r.player_name);
+function num(value) {
+  const n = Number(clean(value).replace(/,/g, ""));
+  return Number.isFinite(n) ? n : 0;
 }
 
-async function getSheet(tab){
- const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}&t=${Date.now()}`;
- const r=await fetch(url,{cache:'no-store'});
- if(!r.ok)throw Error(`${tab}: HTTP ${r.status}`);
- const content=await r.text();
- if(content.trim().startsWith('<!DOCTYPE')||content.trim().startsWith('<html')){
-  throw Error(`${tab} isn't publicly readable. Set Google Sheet access to Anyone with the link → Viewer.`);
- }
- return toObjects(content);
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
-function verified(r){
- return ['yes','true','1','verified'].includes(clean(r.verified).toLowerCase());
+function verified(row) {
+  return ["true", "yes", "1", "verified"]
+    .includes(clean(row.verified).toLowerCase());
 }
 
-function fill(id,vals,label){
- const el=$(id),old=el.value;
- el.replaceChildren(new Option(label,''));
- [...new Set(vals.map(clean).filter(Boolean))]
- .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}))
- .forEach(v=>el.add(new Option(v,v)));
- el.value=[...el.options].some(o=>o.value===old)?old:'';
+/* CSV PARSER */
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let quoted = false;
+
+  text = String(text || "").replace(/^\uFEFF/, "");
+
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+
+    if (c === '"') {
+      if (quoted && text[i + 1] === '"') {
+        cell += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+    } else if (c === "," && !quoted) {
+      row.push(cell);
+      cell = "";
+    } else if (
+      (c === "\n" || c === "\r") && !quoted
+    ) {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+
+      row.push(cell);
+
+      if (row.some(v => v !== "")) rows.push(row);
+
+      row = [];
+      cell = "";
+    } else {
+      cell += c;
+    }
+  }
+
+  row.push(cell);
+
+  if (row.some(v => v !== "")) rows.push(row);
+
+  return rows;
 }
 
-function filtered(rows){
- const q=$('search').value.toLowerCase().trim();
- const season=$('season').value;
- const team=$('team').value;
- const pos=$('position').value;
- return rows.filter(r=>
-  (!q||`${r.player_name} ${r.team}`.toLowerCase().includes(q))&&
-  (!season||r.season===season)&&
-  (!team||r.team===team)&&
-  (!pos||r.position===pos)
- );
+function csvToObjects(csv) {
+  const rows = parseCSV(csv);
+
+  if (!rows.length) return [];
+
+  const headers = rows.shift().map(h =>
+    clean(h).toLowerCase().replace(/\s+/g, "_")
+  );
+
+  return rows.map(row =>
+    Object.fromEntries(
+      headers.map((h, i) => [h, row[i] ?? ""])
+    )
+  ).filter(row => row.player_name);
 }
 
-function statHeader(fields,extras=[]){
- return '<tr>'+
- extras.map(s=>`<th>${esc(s)}</th>`).join('')+
- fields.map(([k,label])=>`<th class="num">${esc(label)}</th>`).join('')+
- '</tr>';
+/* LOAD VERIFIED GAME DATA */
+
+async function getSheet(tab) {
+  const url =
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq` +
+    `?tqx=out:csv&sheet=${encodeURIComponent(tab)}` +
+    `&t=${Date.now()}`;
+
+  const response = await fetch(url, {
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error("Google Sheets returned " + response.status);
+  }
+
+  const csv = await response.text();
+
+  if (/^\s*</.test(csv)) {
+    throw new Error(
+      "The spreadsheet is not publicly readable."
+    );
+  }
+
+  return csvToObjects(csv);
 }
 
-function fmtDate(s){
- if(!s)return'—';
- const v=String(s);
- if(/^\d{4}-\d\d-\d\d/.test(v)){
-  const [y,m,d]=v.slice(0,10).split('-');
-  return `${Number(m)}/${Number(d)}/${y}`;
- }
- return v;
+/* PLAYER IDENTIFICATION */
+
+function playerKey(row) {
+  const id = clean(row.player_id);
+
+  return [
+    clean(row.season),
+    id || (
+      clean(row.player_name).toLowerCase() +
+      "|" +
+      clean(row.team).toLowerCase()
+    )
+  ].join("::");
 }
 
-function playerButton(r){
- return `<button type="button" class="player" data-key="${esc(key(r))}">${esc(r.player_name)}</button>`;
+/* BUILD VERIFIED SEASON TOTALS */
+
+function buildTotals(games) {
+  const map = new Map();
+
+  games.forEach(game => {
+    const key = playerKey(game);
+
+    if (!map.has(key)) {
+      const total = {
+        season: game.season,
+        player_id: game.player_id,
+        player_name: game.player_name,
+        team: game.team,
+        association: game.association,
+        state: game.state,
+        graduation_year: game.graduation_year,
+        position: game.position,
+        games_played: 0
+      };
+
+      allStatKeys.forEach(k => total[k] = 0);
+
+      map.set(key, total);
+    }
+
+    const total = map.get(key);
+
+    total.games_played++;
+
+    allStatKeys.forEach(k => {
+      total[k] += num(game[k]);
+    });
+
+    // Fill missing player metadata from later entries.
+    [
+      "position",
+      "graduation_year",
+      "association",
+      "state"
+    ].forEach(k => {
+      if (!total[k] && game[k]) {
+        total[k] = game[k];
+      }
+    });
+  });
+
+  return [...map.values()];
 }
 
-function seasonRender(){
- const fields=categories[$('category').value];
- const sortKey=$('sort').value||fields[0][0];
- const rows=filtered(state.totals).sort((a,b)=>
-  num(b[sortKey])-num(a[sortKey])||
-  clean(a.player_name).localeCompare(clean(b.player_name))
- );
+/* FILTERS */
 
- $('seasonHead').innerHTML=statHeader(fields,['#','Player','Team','Pos','GP']);
+function fillSelect(id, values, label) {
+  const select = $(id);
+  const previous = select.value;
 
- $('seasonBody').innerHTML=rows.length?
- rows.map((r,i)=>`<tr>
- <td>${i+1}</td>
- <td>${playerButton(r)}</td>
- <td class="team">${esc(r.team)}</td>
- <td>${esc(r.position)}</td>
- <td class="num">${esc(r.games_played)}</td>
- ${fields.map(([k])=>`<td class="num">${num(r[k]).toLocaleString()}</td>`).join('')}
- </tr>`).join(''):
- '<tr><td class="empty" colspan="12">No matching season totals yet.</td></tr>';
+  select.replaceChildren(new Option(label, ""));
 
- const leaders=fields.slice(0,4);
- $('summary').innerHTML=leaders.map(([k,label])=>{
-  const leader=[...rows].sort((a,b)=>num(b[k])-num(a[k]))[0];
-  return `<div class="metric">
-  <small>${esc(label)} leader</small>
-  <b>${leader?num(leader[k]).toLocaleString():'—'}</b>
-  <small>${leader?esc(leader.player_name):'No data'}</small>
-  </div>`;
- }).join('');
+  [...new Set(values.map(clean).filter(Boolean))]
+    .sort((a, b) =>
+      a.localeCompare(b, undefined, { numeric: true })
+    )
+    .forEach(value =>
+      select.add(new Option(value, value))
+    );
+
+  if ([...select.options].some(o => o.value === previous)) {
+    select.value = previous;
+  }
 }
 
-function gameRender(){
- const rows=filtered(state.games).sort((a,b)=>
-  clean(b.game_date).localeCompare(clean(a.game_date))
- );
- const fields=categories[$('category').value];
+function filtered(rows) {
+  const query = $("search").value.toLowerCase().trim();
+  const season = $("season").value;
+  const team = $("team").value;
+  const position = $("position").value;
 
- $('gameHead').innerHTML=statHeader(fields,['Date','Player','Team','Opponent']);
+  return rows.filter(row => {
+    const text =
+      `${row.player_name} ${row.team}`.toLowerCase();
 
- $('gameBody').innerHTML=rows.length?
- rows.map(r=>`<tr>
- <td>${esc(fmtDate(r.game_date))}</td>
- <td>${playerButton(r)}</td>
- <td class="team">${esc(r.team)}</td>
- <td>${esc(r.opponent)}</td>
- ${fields.map(([k])=>`<td class="num">${num(r[k]).toLocaleString()}</td>`).join('')}
- </tr>`).join(''):
- '<tr><td colspan="12" class="empty">No verified game stats have been added yet. New performances will appear here automatically.</td></tr>';
+    return (
+      (!query || text.includes(query)) &&
+      (!season || row.season === season) &&
+      (!team || row.team === team) &&
+      (!position || row.position === position)
+    );
+  });
 }
 
-function showProfile(id){
- const r=state.totals.find(x=>key(x)===id)||
- state.games.find(x=>key(x)===id);
- if(!r)return;
+/* TABLE HELPERS */
 
- state.profile=id;
- $('profileName').textContent=r.player_name;
- $('profileMeta').textContent=[
-  r.team,
-  r.position,
-  r.graduation_year&&`Class of ${r.graduation_year}`,
-  r.season&&`Season ${r.season}`
- ].filter(Boolean).join(' • ');
-
- const fields=categories[$('category').value];
- const rows=state.games.filter(x=>key(x)===id).sort((a,b)=>
-  clean(b.game_date).localeCompare(clean(a.game_date))
- );
-
- $('profileHead').innerHTML=statHeader(fields,['Date','Opponent']);
- $('profileBody').innerHTML=rows.length?
- rows.map(g=>`<tr>
- <td>${esc(fmtDate(g.game_date))}</td>
- <td>${esc(g.opponent)}</td>
- ${fields.map(([k])=>`<td class="num">${num(g[k]).toLocaleString()}</td>`).join('')}
- </tr>`).join(''):
- '<tr><td class="empty" colspan="12">No verified individual games recorded for this player yet.</td></tr>';
-
- $('seasonView').classList.add('hidden');
- $('gameView').classList.add('hidden');
- $('profile').classList.remove('hidden');
- $('profile').scrollIntoView({behavior:'smooth',block:'start'});
+function headerHTML(fields, extras = []) {
+  return "<tr>" +
+    extras.map(label =>
+      `<th>${escapeHTML(label)}</th>`
+    ).join("") +
+    fields.map(([key, label]) =>
+      `<th class="num">${escapeHTML(label)}</th>`
+    ).join("") +
+    "</tr>";
 }
 
-function render(){
- if(state.profile){
-  showProfile(state.profile);
-  return;
- }
- $('profile').classList.add('hidden');
- $('seasonView').classList.toggle('hidden',state.view!=='season');
- $('gameView').classList.toggle('hidden',state.view!=='game');
- $('seasonTab').classList.toggle('active',state.view==='season');
- $('gameTab').classList.toggle('active',state.view==='game');
- seasonRender();
- gameRender();
+function playerButton(row) {
+  return `
+    <button
+      class="player-link"
+      type="button"
+      data-player="${escapeHTML(playerKey(row))}"
+    >
+      ${escapeHTML(row.player_name)}
+    </button>
+  `;
 }
 
-function setCategory(){
- const fields=categories[$('category').value];
- $('sort').replaceChildren(...fields.map(([k,l])=>new Option(`Sort by ${l}`,k)));
- render();
+function formatDate(value) {
+  const s = clean(value);
+
+  if (!s) return "—";
+
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    const [year, month, day] = s.slice(0, 10).split("-");
+    return `${Number(month)}/${Number(day)}/${year}`;
+  }
+
+  return s;
 }
 
-function setView(v){
- state.view=v;
- state.profile=null;
- render();
+/* SEASON LEADERBOARDS */
+
+function renderSeason() {
+  const fields = categories[$("category").value];
+  const sortKey = $("sort").value || fields[0][0];
+
+  const rows = filtered(state.totals)
+    .sort((a, b) =>
+      num(b[sortKey]) - num(a[sortKey]) ||
+      clean(a.player_name).localeCompare(
+        clean(b.player_name)
+      )
+    );
+
+  $("seasonHead").innerHTML =
+    headerHTML(fields, ["#", "Player", "Team", "Pos", "GP"]);
+
+  $("seasonBody").innerHTML = rows.length
+    ? rows.map((row, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${playerButton(row)}</td>
+        <td class="team-name">${escapeHTML(row.team)}</td>
+        <td>${escapeHTML(row.position || "—")}</td>
+        <td class="num">${row.games_played}</td>
+        ${fields.map(([key]) =>
+          `<td class="num">${num(row[key]).toLocaleString()}</td>`
+        ).join("")}
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td class="empty" colspan="12">
+          No verified season statistics available.
+        </td>
+      </tr>
+    `;
+
+  $("summary").innerHTML = fields.slice(0, 4)
+    .map(([key, label]) => {
+      const leader = [...rows]
+        .sort((a, b) => num(b[key]) - num(a[key]))[0];
+
+      return `
+        <div class="leader-card">
+          <div class="leader-label">${escapeHTML(label)} Leader</div>
+          <div class="leader-value">
+            ${leader ? num(leader[key]).toLocaleString() : "—"}
+          </div>
+          <div class="leader-name">
+            ${leader ? escapeHTML(leader.player_name) : "No data"}
+          </div>
+        </div>
+      `;
+    }).join("");
 }
 
-$('seasonTab').onclick=()=>setView('season');
-$('gameTab').onclick=()=>setView('game');
-$('back').onclick=()=>{
- state.profile=null;
- render();
- window.scrollTo({top:0,behavior:'smooth'});
+/* INDIVIDUAL GAME STATISTICS */
+
+function renderGames() {
+  const fields = categories[$("category").value];
+
+  const rows = filtered(state.games)
+    .sort((a, b) =>
+      clean(b.game_date).localeCompare(clean(a.game_date))
+    );
+
+  $("gameHead").innerHTML =
+    headerHTML(fields, [
+      "Date",
+      "Player",
+      "Team",
+      "Opponent"
+    ]);
+
+  $("gameBody").innerHTML = rows.length
+    ? rows.map(row => `
+      <tr>
+        <td>${escapeHTML(formatDate(row.game_date))}</td>
+        <td>${playerButton(row)}</td>
+        <td class="team-name">${escapeHTML(row.team)}</td>
+        <td>${escapeHTML(row.opponent || "—")}</td>
+        ${fields.map(([key]) =>
+          `<td class="num">${num(row[key]).toLocaleString()}</td>`
+        ).join("")}
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td class="empty" colspan="12">
+          No verified game performances available.
+        </td>
+      </tr>
+    `;
+}
+
+/* PLAYER PROFILES */
+
+function showProfile(id) {
+  const player =
+    state.totals.find(row => playerKey(row) === id) ||
+    state.games.find(row => playerKey(row) === id);
+
+  if (!player) return;
+
+  state.profile = id;
+
+  $("profileName").textContent = player.player_name;
+
+  $("profileMeta").textContent = [
+    player.team,
+    player.position,
+    player.graduation_year
+      ? `Class of ${player.graduation_year}`
+      : "",
+    player.season
+      ? `${player.season} Season`
+      : ""
+  ].filter(Boolean).join(" • ");
+
+  const fields = categories[$("category").value];
+
+  const total = state.totals.find(row =>
+    playerKey(row) === id
+  );
+
+  $("profileSeasonHead").innerHTML =
+    headerHTML(fields, ["GP"]);
+
+  $("profileSeasonBody").innerHTML = total
+    ? `
+      <tr>
+        <td>${total.games_played}</td>
+        ${fields.map(([key]) =>
+          `<td class="num">${num(total[key]).toLocaleString()}</td>`
+        ).join("")}
+      </tr>
+    `
+    : `
+      <tr>
+        <td class="empty">No season totals available.</td>
+      </tr>
+    `;
+
+  const games = state.games
+    .filter(row => playerKey(row) === id)
+    .sort((a, b) =>
+      clean(b.game_date).localeCompare(clean(a.game_date))
+    );
+
+  $("profileHead").innerHTML =
+    headerHTML(fields, ["Date", "Opponent"]);
+
+  $("profileBody").innerHTML = games.length
+    ? games.map(game => `
+      <tr>
+        <td>${escapeHTML(formatDate(game.game_date))}</td>
+        <td>${escapeHTML(game.opponent || "—")}</td>
+        ${fields.map(([key]) =>
+          `<td class="num">${num(game[key]).toLocaleString()}</td>`
+        ).join("")}
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td class="empty" colspan="12">
+          No verified games recorded.
+        </td>
+      </tr>
+    `;
+
+  $("seasonView").classList.add("hidden");
+  $("gameView").classList.add("hidden");
+  $("profile").classList.remove("hidden");
+
+  $("profile").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+/* PAGE RENDERING */
+
+function render() {
+  if (state.profile) {
+    showProfile(state.profile);
+    return;
+  }
+
+  $("profile").classList.add("hidden");
+
+  $("seasonView").classList.toggle(
+    "hidden",
+    state.view !== "season"
+  );
+
+  $("gameView").classList.toggle(
+    "hidden",
+    state.view !== "game"
+  );
+
+  $("seasonTab").classList.toggle(
+    "active",
+    state.view === "season"
+  );
+
+  $("gameTab").classList.toggle(
+    "active",
+    state.view === "game"
+  );
+
+  renderSeason();
+  renderGames();
+}
+
+function setCategory() {
+  const fields = categories[$("category").value];
+
+  $("sort").replaceChildren(
+    ...fields.map(([key, label]) =>
+      new Option(`Sort by ${label}`, key)
+    )
+  );
+
+  render();
+}
+
+function setView(view) {
+  state.view = view;
+  state.profile = null;
+  render();
+}
+
+/* EVENTS */
+
+$("seasonTab").onclick = () => setView("season");
+$("gameTab").onclick = () => setView("game");
+
+$("back").onclick = () => {
+  state.profile = null;
+  render();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 };
 
-['search','season','team','position'].forEach(id=>
- $(id).addEventListener(id==='search'?'input':'change',render)
-);
+["search", "season", "team", "position"]
+  .forEach(id => {
+    $(id).addEventListener(
+      id === "search" ? "input" : "change",
+      render
+    );
+  });
 
-$('category').onchange=setCategory;
-$('sort').onchange=render;
+$("category").onchange = setCategory;
+$("sort").onchange = render;
 
-document.addEventListener('click',e=>{
- const b=e.target.closest('[data-key]');
- if(b)showProfile(b.dataset.key);
+document.addEventListener("click", event => {
+  const button = event.target.closest("[data-player]");
+
+  if (button) {
+    showProfile(button.dataset.player);
+  }
 });
 
-async function load(){
- const result=await Promise.allSettled([
-  getSheet(SEASON_TAB),
-  getSheet(GAME_TAB)
- ]);
+/* INITIAL DATA LOAD */
 
- state.totals=result[0].status==='fulfilled'?result[0].value:[];
- state.games=result[1].status==='fulfilled'?result[1].value.filter(verified):[];
+async function loadStatistics() {
+  try {
+    const allGames = await getSheet(GAME_TAB);
 
- const all=[...state.totals,...state.games];
- fill('season',all.map(r=>r.season),'All seasons');
- fill('team',all.map(r=>r.team),'All teams');
- fill('position',all.map(r=>r.position),'All positions');
+    // IMPORTANT:
+    // Unverified entries are excluded from the
+    // website AND all calculated season totals.
+    state.games = allGames.filter(verified);
 
- if(result.some(x=>x.status==='rejected')){
-  const errs=result.filter(x=>x.status==='rejected').map(x=>x.reason.message);
-  $('status').textContent=`Could not load some statistics: ${errs.join(' | ')}`;
-  $('status').classList.add('error');
- }else{
-  $('status').textContent=`${state.totals.length} player season records • ${state.games.length} verified game performances • Live from Google Sheets`;
- }
- render();
+    state.totals = buildTotals(state.games);
+
+    const all = [...state.totals, ...state.games];
+
+    fillSelect(
+      "season",
+      all.map(row => row.season),
+      "All Seasons"
+    );
+
+    fillSelect(
+      "team",
+      all.map(row => row.team),
+      "All Teams"
+    );
+
+    fillSelect(
+      "position",
+      all.map(row => row.position),
+      "All Positions"
+    );
+
+    $("status").textContent =
+      `${state.totals.length} players • ` +
+      `${state.games.length} verified game performances`;
+
+  } catch (error) {
+    console.error("Statistics loading error:", error);
+
+    $("status").textContent =
+      "Player statistics could not be loaded. " +
+      "Check that the Player Stats tab is publicly readable.";
+
+    $("status").classList.add("error");
+  }
+
+  render();
 }
 
 setCategory();
-load();
+loadStatistics();
 </script>
+
 </body>
 </html>
