@@ -1,0 +1,459 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Player Statistics | NEFB Report</title>
+<meta name="description" content="New England high school football season leaders and individual game statistics from NEFB Report.">
+<style>
+:root{color-scheme:dark;--bg:#0b0e14;--panel:#151b25;--panel2:#1b2330;--line:#303a4b;--text:#f6f8fc;--muted:#a7b2c4;--red:#e63742}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 70% -10%,#243044 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:auto;padding:0 20px}
+.top{border-bottom:1px solid var(--line);background:#0a0d12e8}
+.nav{min-height:75px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{font-size:29px;font-weight:1000;letter-spacing:-1px}
+.brand span{display:block;font-size:9px;letter-spacing:5px;text-align:center;margin-top:-9px}
+.links{display:flex;gap:22px;color:#d6deea;font-weight:700}
+.links a:hover{color:var(--red)}
+.hero{padding:52px 0 24px}
+.eyebrow{font-size:12px;letter-spacing:3px;font-weight:900;color:var(--red)}
+h1{font-size:clamp(34px,6vw,66px);line-height:1.04;letter-spacing:-2px;margin:10px 0 12px;font-weight:1000}
+h1 em{color:var(--red);font-style:normal}
+.sub{color:var(--muted);max-width:690px;margin:0 0 20px}
+.status{color:var(--muted);font-size:13px;min-height:22px}
+.status.error{color:#ff9c9c}
+.tabs{display:flex;gap:10px;border-bottom:1px solid var(--line);margin:18px 0 22px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);font-weight:900;font-size:16px;padding:14px 18px;cursor:pointer}
+.tab.active{color:#fff;border-color:var(--red)}
+.filters{display:grid;grid-template-columns:2fr repeat(3,minmax(120px,1fr));gap:12px;margin-bottom:18px}
+input,select{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:12px;font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--red)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.metric{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.metric b{font-size:25px;display:block}
+.metric small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.tablebox{border:1px solid var(--line);border-radius:12px;overflow:auto;background:var(--panel)}
+table{width:100%;border-collapse:collapse;white-space:nowrap;text-align:left}
+th{background:var(--panel2);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#c3cede;padding:14px 13px;position:sticky;top:0}
+td{padding:13px;border-top:1px solid #2a3442}
+tbody tr:hover{background:#202a39}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.player{border:0;background:none;color:#fff;font:inherit;font-weight:800;cursor:pointer;padding:0;text-align:left}
+.player:hover{color:#ff7077}
+.team{color:var(--muted);font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:36px 12px}
+.hidden{display:none!important}
+.profile{background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:12px;margin:20px 0}
+.profile h2{margin:5px 0}
+.back{border:0;background:var(--red);border-radius:7px;color:white;padding:10px 14px;cursor:pointer;font-weight:800}
+.profilemeta{color:var(--muted)}
+.footer{padding:38px 0;color:var(--muted);font-size:12px}
+@media(max-width:760px){
+.links{gap:10px;font-size:12px}
+.filters{grid-template-columns:1fr 1fr}
+.filters input{grid-column:1/-1}
+.cards{grid-template-columns:1fr 1fr}
+th,td{padding:11px 10px}
+.hero{padding-top:34px}
+}
+@media(max-width:440px){
+.links{gap:8px}
+.links a{font-size:11px}
+.brand{font-size:23px}
+.nav{min-height:65px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+<div class="wrap nav">
+<a class="brand" href="index.html">NEFB<span>REPORT</span></a>
+<nav class="links">
+<a href="index.html">HOME</a>
+<a href="rankings.html">RANKINGS</a>
+<a href="games.html">GAMES</a>
+<a href="stats.html" aria-current="page">STATS</a>
+</nav>
+</div>
+</header>
+
+<main class="wrap">
+<section class="hero">
+<div class="eyebrow">NEW ENGLAND FOOTBALL REPORT</div>
+<h1>PLAYER <em>STATISTICS</em></h1>
+<p class="sub">Explore season leaders and individual game performances across New England high school football. Statistics update from the NEFB Report spreadsheet.</p>
+<div id="status" class="status" role="status">Loading statistics…</div>
+</section>
+
+<div class="tabs">
+<button class="tab active" id="seasonTab" type="button">SEASON TOTALS</button>
+<button class="tab" id="gameTab" type="button">GAME STATS</button>
+</div>
+
+<div class="filters">
+<input id="search" placeholder="Search player or team…" aria-label="Search players or teams">
+<select id="season" aria-label="Season"><option value="">All seasons</option></select>
+<select id="team" aria-label="Team"><option value="">All teams</option></select>
+<select id="position" aria-label="Position"><option value="">All positions</option></select>
+</div>
+
+<div id="seasonView">
+<div class="filters" style="grid-template-columns:1fr 1fr">
+<select id="category" aria-label="Stat category">
+<option value="passing">Passing</option>
+<option value="rushing" selected>Rushing</option>
+<option value="receiving">Receiving</option>
+<option value="defense">Defense</option>
+<option value="kicking">Kicking</option>
+</select>
+<select id="sort" aria-label="Sort statistic"></select>
+</div>
+<div class="cards" id="summary"></div>
+<div class="tablebox">
+<table><thead id="seasonHead"></thead><tbody id="seasonBody"></tbody></table>
+</div>
+</div>
+
+<div id="gameView" class="hidden">
+<div class="tablebox">
+<table><thead id="gameHead"></thead><tbody id="gameBody"></tbody></table>
+</div>
+</div>
+
+<div id="profile" class="profile hidden">
+<button class="back" id="back" type="button">← Back to statistics</button>
+<h2 id="profileName"></h2>
+<p class="profilemeta" id="profileMeta"></p>
+<h3>Game-by-game performances</h3>
+<div class="tablebox">
+<table><thead id="profileHead"></thead><tbody id="profileBody"></tbody></table>
+</div>
+</div>
+</main>
+
+<footer class="wrap footer">© NEFB REPORT • Statistics reflect submitted data and may be incomplete. Only verified game entries count toward displayed game logs.</footer>
+
+<script>
+'use strict';
+
+// Your existing NEFB Report Google Spreadsheet
+const SHEET_ID='1v7z3e5rBkAiZ1T6Ce9NWBBCwVeMHy4ox2HIhh-L_d5A';
+const SEASON_TAB='Season Totals';
+const GAME_TAB='Player Stats';
+
+const $=id=>document.getElementById(id);
+const state={totals:[],games:[],view:'season',profile:null};
+
+const categories={
+ passing:[
+ ['pass_yards','Pass Yds'],
+ ['pass_tds','Pass TD'],
+ ['pass_completions','Comp'],
+ ['pass_attempts','Att'],
+ ['interceptions_thrown','INT']
+ ],
+ rushing:[
+ ['rush_yards','Rush Yds'],
+ ['rush_tds','Rush TD'],
+ ['rush_attempts','Carries']
+ ],
+ receiving:[
+ ['receiving_yards','Rec Yds'],
+ ['receiving_tds','Rec TD'],
+ ['receptions','Rec']
+ ],
+ defense:[
+ ['tackles','Tackles'],
+ ['tackles_for_loss','TFL'],
+ ['sacks','Sacks'],
+ ['interceptions','INT'],
+ ['pass_breakups','PBU'],
+ ['forced_fumbles','FF'],
+ ['fumble_recoveries','FR']
+ ],
+ kicking:[
+ ['field_goals_made','FG Made'],
+ ['extra_points_made','XP Made']
+ ]
+};
+
+const num=x=>{
+ const n=Number(String(x??'').replace(/,/g,''));
+ return Number.isFinite(n)?n:0;
+};
+
+const clean=x=>String(x??'').trim();
+
+const key=r=>[
+ clean(r.season),
+ clean(r.player_id)||[
+ clean(r.player_name).toLowerCase(),
+ clean(r.team).toLowerCase()
+ ].join('|')
+].join('::');
+
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({
+ '&':'&amp;',
+ '<':'&lt;',
+ '>':'&gt;',
+ '"':'&quot;',
+ "'":'&#39;'
+}[c]));
+
+function parseCSV(s){
+ const out=[];
+ let row=[],cell='',quote=false;
+ for(let i=0;i<s.length;i++){
+  const c=s[i];
+  if(c==='"'){
+   if(quote&&s[i+1]==='"'){
+    cell+='"';
+    i++;
+   }else quote=!quote;
+  }else if(c===','&&!quote){
+   row.push(cell);
+   cell='';
+  }else if((c==='\n'||c==='\r')&&!quote){
+   if(c==='\r'&&s[i+1]==='\n')i++;
+   row.push(cell);
+   if(row.some(x=>x!==''))out.push(row);
+   row=[];
+   cell='';
+  }else cell+=c;
+ }
+ row.push(cell);
+ if(row.some(x=>x!==''))out.push(row);
+ return out;
+}
+
+function toObjects(csv){
+ const rows=parseCSV(csv);
+ if(!rows.length)return[];
+ const heads=rows.shift().map(x=>x.trim().toLowerCase().replace(/\s+/g,'_'));
+ return rows.map(c=>Object.fromEntries(
+  heads.map((h,i)=>[h,c[i]??''])
+ )).filter(r=>r.player_name);
+}
+
+async function getSheet(tab){
+ const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}&t=${Date.now()}`;
+ const r=await fetch(url,{cache:'no-store'});
+ if(!r.ok)throw Error(`${tab}: HTTP ${r.status}`);
+ const content=await r.text();
+ if(content.trim().startsWith('<!DOCTYPE')||content.trim().startsWith('<html')){
+  throw Error(`${tab} isn't publicly readable. Set Google Sheet access to Anyone with the link → Viewer.`);
+ }
+ return toObjects(content);
+}
+
+function verified(r){
+ return ['yes','true','1','verified'].includes(clean(r.verified).toLowerCase());
+}
+
+function fill(id,vals,label){
+ const el=$(id),old=el.value;
+ el.replaceChildren(new Option(label,''));
+ [...new Set(vals.map(clean).filter(Boolean))]
+ .sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}))
+ .forEach(v=>el.add(new Option(v,v)));
+ el.value=[...el.options].some(o=>o.value===old)?old:'';
+}
+
+function filtered(rows){
+ const q=$('search').value.toLowerCase().trim();
+ const season=$('season').value;
+ const team=$('team').value;
+ const pos=$('position').value;
+ return rows.filter(r=>
+  (!q||`${r.player_name} ${r.team}`.toLowerCase().includes(q))&&
+  (!season||r.season===season)&&
+  (!team||r.team===team)&&
+  (!pos||r.position===pos)
+ );
+}
+
+function statHeader(fields,extras=[]){
+ return '<tr>'+
+ extras.map(s=>`<th>${esc(s)}</th>`).join('')+
+ fields.map(([k,label])=>`<th class="num">${esc(label)}</th>`).join('')+
+ '</tr>';
+}
+
+function fmtDate(s){
+ if(!s)return'—';
+ const v=String(s);
+ if(/^\d{4}-\d\d-\d\d/.test(v)){
+  const [y,m,d]=v.slice(0,10).split('-');
+  return `${Number(m)}/${Number(d)}/${y}`;
+ }
+ return v;
+}
+
+function playerButton(r){
+ return `<button type="button" class="player" data-key="${esc(key(r))}">${esc(r.player_name)}</button>`;
+}
+
+function seasonRender(){
+ const fields=categories[$('category').value];
+ const sortKey=$('sort').value||fields[0][0];
+ const rows=filtered(state.totals).sort((a,b)=>
+  num(b[sortKey])-num(a[sortKey])||
+  clean(a.player_name).localeCompare(clean(b.player_name))
+ );
+
+ $('seasonHead').innerHTML=statHeader(fields,['#','Player','Team','Pos','GP']);
+
+ $('seasonBody').innerHTML=rows.length?
+ rows.map((r,i)=>`<tr>
+ <td>${i+1}</td>
+ <td>${playerButton(r)}</td>
+ <td class="team">${esc(r.team)}</td>
+ <td>${esc(r.position)}</td>
+ <td class="num">${esc(r.games_played)}</td>
+ ${fields.map(([k])=>`<td class="num">${num(r[k]).toLocaleString()}</td>`).join('')}
+ </tr>`).join(''):
+ '<tr><td class="empty" colspan="12">No matching season totals yet.</td></tr>';
+
+ const leaders=fields.slice(0,4);
+ $('summary').innerHTML=leaders.map(([k,label])=>{
+  const leader=[...rows].sort((a,b)=>num(b[k])-num(a[k]))[0];
+  return `<div class="metric">
+  <small>${esc(label)} leader</small>
+  <b>${leader?num(leader[k]).toLocaleString():'—'}</b>
+  <small>${leader?esc(leader.player_name):'No data'}</small>
+  </div>`;
+ }).join('');
+}
+
+function gameRender(){
+ const rows=filtered(state.games).sort((a,b)=>
+  clean(b.game_date).localeCompare(clean(a.game_date))
+ );
+ const fields=categories[$('category').value];
+
+ $('gameHead').innerHTML=statHeader(fields,['Date','Player','Team','Opponent']);
+
+ $('gameBody').innerHTML=rows.length?
+ rows.map(r=>`<tr>
+ <td>${esc(fmtDate(r.game_date))}</td>
+ <td>${playerButton(r)}</td>
+ <td class="team">${esc(r.team)}</td>
+ <td>${esc(r.opponent)}</td>
+ ${fields.map(([k])=>`<td class="num">${num(r[k]).toLocaleString()}</td>`).join('')}
+ </tr>`).join(''):
+ '<tr><td colspan="12" class="empty">No verified game stats have been added yet. New performances will appear here automatically.</td></tr>';
+}
+
+function showProfile(id){
+ const r=state.totals.find(x=>key(x)===id)||
+ state.games.find(x=>key(x)===id);
+ if(!r)return;
+
+ state.profile=id;
+ $('profileName').textContent=r.player_name;
+ $('profileMeta').textContent=[
+  r.team,
+  r.position,
+  r.graduation_year&&`Class of ${r.graduation_year}`,
+  r.season&&`Season ${r.season}`
+ ].filter(Boolean).join(' • ');
+
+ const fields=categories[$('category').value];
+ const rows=state.games.filter(x=>key(x)===id).sort((a,b)=>
+  clean(b.game_date).localeCompare(clean(a.game_date))
+ );
+
+ $('profileHead').innerHTML=statHeader(fields,['Date','Opponent']);
+ $('profileBody').innerHTML=rows.length?
+ rows.map(g=>`<tr>
+ <td>${esc(fmtDate(g.game_date))}</td>
+ <td>${esc(g.opponent)}</td>
+ ${fields.map(([k])=>`<td class="num">${num(g[k]).toLocaleString()}</td>`).join('')}
+ </tr>`).join(''):
+ '<tr><td class="empty" colspan="12">No verified individual games recorded for this player yet.</td></tr>';
+
+ $('seasonView').classList.add('hidden');
+ $('gameView').classList.add('hidden');
+ $('profile').classList.remove('hidden');
+ $('profile').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function render(){
+ if(state.profile){
+  showProfile(state.profile);
+  return;
+ }
+ $('profile').classList.add('hidden');
+ $('seasonView').classList.toggle('hidden',state.view!=='season');
+ $('gameView').classList.toggle('hidden',state.view!=='game');
+ $('seasonTab').classList.toggle('active',state.view==='season');
+ $('gameTab').classList.toggle('active',state.view==='game');
+ seasonRender();
+ gameRender();
+}
+
+function setCategory(){
+ const fields=categories[$('category').value];
+ $('sort').replaceChildren(...fields.map(([k,l])=>new Option(`Sort by ${l}`,k)));
+ render();
+}
+
+function setView(v){
+ state.view=v;
+ state.profile=null;
+ render();
+}
+
+$('seasonTab').onclick=()=>setView('season');
+$('gameTab').onclick=()=>setView('game');
+$('back').onclick=()=>{
+ state.profile=null;
+ render();
+ window.scrollTo({top:0,behavior:'smooth'});
+};
+
+['search','season','team','position'].forEach(id=>
+ $(id).addEventListener(id==='search'?'input':'change',render)
+);
+
+$('category').onchange=setCategory;
+$('sort').onchange=render;
+
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-key]');
+ if(b)showProfile(b.dataset.key);
+});
+
+async function load(){
+ const result=await Promise.allSettled([
+  getSheet(SEASON_TAB),
+  getSheet(GAME_TAB)
+ ]);
+
+ state.totals=result[0].status==='fulfilled'?result[0].value:[];
+ state.games=result[1].status==='fulfilled'?result[1].value.filter(verified):[];
+
+ const all=[...state.totals,...state.games];
+ fill('season',all.map(r=>r.season),'All seasons');
+ fill('team',all.map(r=>r.team),'All teams');
+ fill('position',all.map(r=>r.position),'All positions');
+
+ if(result.some(x=>x.status==='rejected')){
+  const errs=result.filter(x=>x.status==='rejected').map(x=>x.reason.message);
+  $('status').textContent=`Could not load some statistics: ${errs.join(' | ')}`;
+  $('status').classList.add('error');
+ }else{
+  $('status').textContent=`${state.totals.length} player season records • ${state.games.length} verified game performances • Live from Google Sheets`;
+ }
+ render();
+}
+
+setCategory();
+load();
+</script>
+</body>
+</html>
