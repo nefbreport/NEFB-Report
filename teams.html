@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Explore New England high school football teams, schedules, records and results on NEFB Report.">
+<meta name="description" content="Explore New England high school football teams, schedules, records, results and player statistics on NEFB Report.">
 <title>Teams | NEFB Report</title>
 
 <style>
@@ -235,7 +234,8 @@ nav a:hover {
   line-height: 1.6;
 }
 
-#teamDetail {
+#teamDetail,
+#playerDetail {
   display: none;
 }
 
@@ -371,6 +371,102 @@ nav a:hover {
   text-transform: uppercase;
 }
 
+/* PLAYER STATISTICS */
+
+.player-section {
+  margin: 34px 0;
+}
+
+.player-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.player-tabs button {
+  border: 1px solid #ccc;
+  background: white;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.player-tabs button.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+.player-table-wrap {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.player-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 600px;
+  font-size: 12px;
+}
+
+.player-table th,
+.player-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  white-space: nowrap;
+}
+
+.player-table th {
+  background: #111;
+  color: white;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.player-table a {
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.player-profile {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.player-profile h2 {
+  margin: 0 0 8px;
+  font-size: 27px;
+}
+
+.player-profile h3 {
+  margin-top: 25px;
+}
+
+.player-meta {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+.player-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.player-stat-grid .stat-card {
+  padding: 15px;
+}
+
 footer {
   background: #050505;
   color: #888;
@@ -481,7 +577,7 @@ footer p {
       Find high school and prep football programs across
       Massachusetts, Connecticut, Rhode Island,
       New Hampshire, Maine, Vermont and NEPSAC.
-      Explore team records, schedules and results.
+      Explore team records, schedules, results and player statistics.
     </p>
   </div>
 </section>
@@ -539,9 +635,27 @@ footer p {
 
     <div id="detailStats" class="stats-grid"></div>
 
+    <section class="player-section">
+      <h2 class="results-heading">2026 Player Statistics</h2>
+
+      <div id="playerTabs" class="player-tabs"></div>
+
+      <div id="teamPlayers"></div>
+    </section>
+
     <h2 class="results-heading">Results & Schedule</h2>
 
     <div id="teamResults"></div>
+
+  </div>
+
+  <div id="playerDetail">
+
+    <button class="back-button" id="playerBackButton">
+      ← Back to Team
+    </button>
+
+    <div id="playerProfile"></div>
 
   </div>
 
@@ -557,8 +671,15 @@ footer p {
 
 <script>
 
+/* GOOGLE SHEETS */
+
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=0&single=true&output=csv";
+
+const SEASON_TOTALS_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub?gid=217853799&single=true&output=csv";
+
+const STATS_SEASON = "2026";
 
 const ASSOCIATIONS = [
   "MIAA", "CIAC", "RIIL", "NHIAA",
@@ -567,6 +688,11 @@ const ASSOCIATIONS = [
 
 let allGames = [];
 let teams = [];
+let seasonPlayers = [];
+let currentTeamKey = null;
+let activePlayerTab = "Passing";
+
+/* CSV PARSING */
 
 function parseCSV(text) {
   const rows = [];
@@ -621,9 +747,7 @@ function parseCSV(text) {
 function csvToObjects(text) {
   const rows = parseCSV(text);
 
-  if (rows.length < 2) {
-    return [];
-  }
+  if (rows.length < 2) return [];
 
   const headers = rows[0].map(h => h.trim());
 
@@ -665,6 +789,300 @@ function teamKey(name, association) {
   );
 }
 
+/* PLAYER STATISTICS */
+
+const STAT_CATEGORIES = {
+  Passing: [
+    ["pass_completions", "CMP"],
+    ["pass_attempts", "ATT"],
+    ["pass_yards", "YDS"],
+    ["pass_tds", "TD"],
+    ["interceptions_thrown", "INT"]
+  ],
+  Rushing: [
+    ["rush_attempts", "ATT"],
+    ["rush_yards", "YDS"],
+    ["rush_tds", "TD"]
+  ],
+  Receiving: [
+    ["receptions", "REC"],
+    ["receiving_yards", "YDS"],
+    ["receiving_tds", "TD"]
+  ],
+  Defense: [
+    ["tackles", "TKL"],
+    ["tackles_for_loss", "TFL"],
+    ["sacks", "SACK"],
+    ["interceptions", "INT"],
+    ["pass_breakups", "PBU"],
+    ["forced_fumbles", "FF"],
+    ["fumble_recoveries", "FR"]
+  ],
+  Kicking: [
+    ["field_goals_made", "FG"],
+    ["extra_points_made", "XP"]
+  ]
+};
+
+function formatStat(value) {
+  if (value === "" || value == null) return "—";
+
+  const number = Number(value);
+
+  return Number.isFinite(number)
+    ? number.toLocaleString("en-US")
+    : escapeHTML(value);
+}
+
+function getTeamPlayers(team) {
+  return seasonPlayers.filter(player =>
+    String(player.season) === STATS_SEASON &&
+    teamKey(player.team, player.association) === team.key
+  );
+}
+
+function hasCategoryStats(player, category) {
+  return STAT_CATEGORIES[category].some(([field]) =>
+    player[field] !== "" &&
+    player[field] != null
+  );
+}
+
+function playerIdentifier(player) {
+  if (player.player_id) {
+    return String(player.player_id);
+  }
+
+  return (
+    normalizeTeam(player.team) +
+    "|" +
+    normalizeTeam(player.player_name) +
+    "|" +
+    String(player.season)
+  );
+}
+
+function getPlayer(team, identifier) {
+  return getTeamPlayers(team).find(
+    player => playerIdentifier(player) === identifier
+  );
+}
+
+function renderTeamPlayers(team) {
+  const players = getTeamPlayers(team);
+  const container = document.getElementById("teamPlayers");
+  const tabs = document.getElementById("playerTabs");
+
+  if (!players.length) {
+    tabs.innerHTML = "";
+    container.innerHTML = `
+      <div class="message">
+        No player season statistics are currently available
+        for this team.
+      </div>
+    `;
+    return;
+  }
+
+  const categories = Object.keys(STAT_CATEGORIES);
+
+  tabs.innerHTML = categories.map(category => `
+    <button
+      type="button"
+      class="${category === activePlayerTab ? "active" : ""}"
+      data-category="${escapeHTML(category)}"
+    >
+      ${escapeHTML(category)}
+    </button>
+  `).join("");
+
+  tabs.querySelectorAll("[data-category]").forEach(button => {
+    button.addEventListener("click", () => {
+      activePlayerTab = button.dataset.category;
+      renderTeamPlayers(team);
+    });
+  });
+
+  const filtered = players
+    .filter(player => hasCategoryStats(player, activePlayerTab))
+    .sort((a, b) => {
+      const fields = STAT_CATEGORIES[activePlayerTab];
+
+      const primary = activePlayerTab === "Passing"
+        ? "pass_yards"
+        : activePlayerTab === "Rushing"
+        ? "rush_yards"
+        : activePlayerTab === "Receiving"
+        ? "receiving_yards"
+        : activePlayerTab === "Defense"
+        ? "tackles"
+        : "field_goals_made";
+
+      return Number(b[primary] || 0) - Number(a[primary] || 0);
+    });
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div class="message">
+        No ${escapeHTML(activePlayerTab.toLowerCase())}
+        statistics are available for this team.
+      </div>
+    `;
+    return;
+  }
+
+  const columns = STAT_CATEGORIES[activePlayerTab];
+
+  container.innerHTML = `
+    <div class="player-table-wrap">
+      <table class="player-table">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>POS</th>
+            <th>Class</th>
+            ${columns.map(([, label]) =>
+              `<th>${escapeHTML(label)}</th>`
+            ).join("")}
+          </tr>
+        </thead>
+
+        <tbody>
+          ${filtered.map(player => `
+            <tr>
+              <td>
+                <a href="#"
+                   data-player="${escapeHTML(playerIdentifier(player))}">
+                  ${escapeHTML(player.player_name)}
+                </a>
+              </td>
+              <td>${escapeHTML(player.position || "—")}</td>
+              <td>${escapeHTML(player.graduation_year || "—")}</td>
+
+              ${columns.map(([field]) => `
+                <td>${formatStat(player[field])}</td>
+              `).join("")}
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  container.querySelectorAll("[data-player]").forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      openPlayer(team.key, link.dataset.player);
+    });
+  });
+}
+
+function renderPlayerStatCategory(player, category) {
+  if (!hasCategoryStats(player, category)) return "";
+
+  return `
+    <h3>${escapeHTML(category)}</h3>
+    <div class="player-stat-grid">
+      ${STAT_CATEGORIES[category].map(([field, label]) => `
+        <div class="stat-card">
+          <div class="stat-number">
+            ${formatStat(player[field])}
+          </div>
+          <div class="stat-label">
+            ${escapeHTML(label)}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function openPlayer(teamKeyValue, identifier) {
+  const team = teams.find(item => item.key === teamKeyValue);
+
+  if (!team) return;
+
+  const player = getPlayer(team, identifier);
+
+  if (!player) return;
+
+  currentTeamKey = teamKeyValue;
+
+  document.getElementById("teamDirectory").style.display = "none";
+  document.getElementById("teamDetail").style.display = "none";
+  document.getElementById("playerDetail").style.display = "block";
+
+  document.getElementById("playerProfile").innerHTML = `
+    <div class="player-profile">
+      <h2>${escapeHTML(player.player_name)}</h2>
+
+      <div class="player-meta">
+        ${escapeHTML(player.team)}
+        · ${escapeHTML(player.association)}
+        · ${escapeHTML(player.position || "Position unavailable")}
+        · Class of ${escapeHTML(player.graduation_year || "—")}
+      </div>
+
+      <h3>${escapeHTML(player.season)} Season Statistics</h3>
+
+      ${Object.keys(STAT_CATEGORIES)
+        .map(category => renderPlayerStatCategory(player, category))
+        .join("")}
+    </div>
+  `;
+
+  history.replaceState(
+    null,
+    "",
+    "#player=" +
+    encodeURIComponent(teamKeyValue) +
+    "&id=" +
+    encodeURIComponent(identifier)
+  );
+
+  window.scrollTo(0, 0);
+}
+
+function backFromPlayer() {
+  if (currentTeamKey) {
+    openTeam(currentTeamKey);
+  } else {
+    closeTeam();
+  }
+}
+
+async function loadSeasonTotals() {
+  try {
+    const response = await fetch(
+      SEASON_TOTALS_URL,
+      { cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not load season totals.");
+    }
+
+    const csv = await response.text();
+
+    seasonPlayers = csvToObjects(csv).filter(
+      player => player.player_name && player.team
+    );
+
+    if (currentTeamKey) {
+      const team = teams.find(
+        item => item.key === currentTeamKey
+      );
+
+      if (team) renderTeamPlayers(team);
+    }
+
+  } catch (error) {
+    console.error("Season totals error:", error);
+  }
+}
+
+/* TEAM RECORDS */
+
 function isFinal(game) {
   return String(game["Status"] || "")
     .toLowerCase()
@@ -672,16 +1090,12 @@ function isFinal(game) {
 }
 
 function getScores(game) {
-  if (!isFinal(game)) {
-    return null;
-  }
+  if (!isFinal(game)) return null;
 
   const awayText = String(game["Away Score"] ?? "").trim();
   const homeText = String(game["Home Score"] ?? "").trim();
 
-  if (!awayText || !homeText) {
-    return null;
-  }
+  if (!awayText || !homeText) return null;
 
   const away = Number(awayText);
   const home = Number(homeText);
@@ -825,6 +1239,8 @@ function buildTeams(games) {
   );
 }
 
+/* TEAM DIRECTORY */
+
 function profileURL(team) {
   return (
     "teams.html#team=" +
@@ -852,8 +1268,7 @@ function renderDirectory() {
   });
 
   document.getElementById("teamCount")
-    .textContent =
-      filtered.length + " teams";
+    .textContent = filtered.length + " teams";
 
   const container = document.getElementById("teams");
 
@@ -896,10 +1311,18 @@ function renderDirectory() {
     });
 }
 
+/* TEAM PROFILES */
+
 function openTeam(key) {
   const team = teams.find(item => item.key === key);
 
   if (!team) return;
+
+  currentTeamKey = key;
+  activePlayerTab = "Passing";
+
+  document.getElementById("playerDetail")
+    .style.display = "none";
 
   document.getElementById("teamDirectory")
     .style.display = "none";
@@ -937,6 +1360,7 @@ function openTeam(key) {
       </div>
     `).join("");
 
+  renderTeamPlayers(team);
   renderTeamResults(team);
 
   history.replaceState(
@@ -952,8 +1376,13 @@ function closeTeam() {
   document.getElementById("teamDetail")
     .style.display = "none";
 
+  document.getElementById("playerDetail")
+    .style.display = "none";
+
   document.getElementById("teamDirectory")
     .style.display = "block";
+
+  currentTeamKey = null;
 
   history.replaceState(
     null,
@@ -963,6 +1392,8 @@ function closeTeam() {
 
   window.scrollTo(0, 0);
 }
+
+/* RESULTS AND SCHEDULE */
 
 function renderTeamResults(team) {
   const games = allGames.filter(game => {
@@ -1080,6 +1511,8 @@ function renderTeamResults(team) {
     });
 }
 
+/* INITIAL DATA LOADING */
+
 async function loadTeams() {
   const container = document.getElementById("teams");
 
@@ -1104,12 +1537,27 @@ async function loadTeams() {
 
     renderDirectory();
 
-    if (location.hash.startsWith("#team=")) {
+    await loadSeasonTotals();
+
+    const hash = location.hash;
+
+    if (hash.startsWith("#team=")) {
       const key = decodeURIComponent(
-        location.hash.substring(6)
+        hash.substring(6)
       );
 
       openTeam(key);
+    } else if (hash.startsWith("#player=")) {
+      const params = new URLSearchParams(
+        hash.substring(1)
+      );
+
+      const teamKeyValue = params.get("player");
+      const identifier = params.get("id");
+
+      if (teamKeyValue && identifier) {
+        openPlayer(teamKeyValue, identifier);
+      }
     }
 
   } catch (error) {
@@ -1127,6 +1575,8 @@ async function loadTeams() {
   }
 }
 
+/* EVENT LISTENERS */
+
 document.getElementById("teamSearch")
   .addEventListener("input", renderDirectory);
 
@@ -1135,6 +1585,27 @@ document.getElementById("associationFilter")
 
 document.getElementById("backButton")
   .addEventListener("click", closeTeam);
+
+document.getElementById("playerBackButton")
+  .addEventListener("click", backFromPlayer);
+
+window.addEventListener("hashchange", () => {
+  const hash = location.hash;
+
+  if (hash.startsWith("#team=")) {
+    openTeam(decodeURIComponent(hash.substring(6)));
+  } else if (hash.startsWith("#player=")) {
+    const params = new URLSearchParams(hash.substring(1));
+    const teamKeyValue = params.get("player");
+    const identifier = params.get("id");
+
+    if (teamKeyValue && identifier) {
+      openPlayer(teamKeyValue, identifier);
+    }
+  } else {
+    closeTeam();
+  }
+});
 
 loadTeams();
 
