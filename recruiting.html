@@ -1,323 +1,2461 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="description"
+  content="NEFB Report Recruiting - Explore New England high school football prospects, college commitments, recruiting offers, and player statistics."
+>
 
-  <meta
-    name="description"
-    content="NEFB Report Recruiting - New England high school football recruiting coverage."
-  >
+<title>Recruiting | NEFB Report</title>
 
-  <title>Recruiting | NEFB Report</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  <style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f3f3;
+  color: #111;
+  min-height: 100vh;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+header {
+  background: #050505;
+  border-bottom: 1px solid #333;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050505;
-      color: #ffffff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+.topbar {
+  max-width: 1250px;
+  min-height: 92px;
+  margin: auto;
+  padding: 8px 24px;
 
-    header {
-      background: #050505;
-      border-bottom: 1px solid #333333;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
 
-    .topbar {
-      max-width: 1250px;
-      min-height: 92px;
-      margin: auto;
-      padding: 8px 24px;
+.brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
+.brand img {
+  height: 76px;
+  width: 150px;
+  object-fit: contain;
+  object-position: left center;
+  display: block;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
+nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
 
-    .brand img {
-      height: 76px;
-      width: 150px;
-      object-fit: contain;
-      object-position: left center;
-      display: block;
-    }
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  transition: color .2s;
+}
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+nav a:hover {
+  color: #aeb3b8;
+}
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
+/* HERO */
 
-      font-size: 13px;
-      font-weight: 800;
+.hero {
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      #222 0%,
+      #101010 45%,
+      #050505 100%
+    );
 
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
+  color: white;
+  padding: 65px 24px 70px;
+}
 
-      transition: color 0.2s ease;
-    }
+.hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
 
-    nav a:hover {
-      color: #aeb3b8;
-    }
+.eyebrow {
+  color: #aaa;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
 
-    .coming-soon {
-      flex: 1;
+.hero h1 {
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+.hero p {
+  max-width: 650px;
+  color: #aaa;
+  font-size: 15px;
+  line-height: 1.7;
+}
 
-      text-align: center;
+/* MAIN */
 
-      padding: 80px 24px;
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 35px 20px 80px;
+}
 
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          #1d1d1d 0%,
-          #0c0c0c 38%,
-          #050505 72%
-        );
-    }
+.section-title {
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding-bottom: 13px;
+  border-bottom: 2px solid #111;
+  margin-bottom: 20px;
+}
 
-    .coming-inner {
-      max-width: 750px;
-    }
+.section-subtitle {
+  color: #777;
+  font-size: 13px;
+  margin: -8px 0 22px;
+  line-height: 1.6;
+}
 
-    .eyebrow {
-      color: #aeb3b8;
+/* NAVIGATION TABS */
 
-      font-size: 11px;
-      font-weight: 900;
+.main-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}
 
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
+.main-tab {
+  border: 1px solid #ddd;
+  background: white;
+  padding: 13px 18px;
+  border-radius: 4px;
+  cursor: pointer;
 
-      margin-bottom: 16px;
-    }
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
 
-    h1 {
-      font-size: clamp(52px, 8vw, 88px);
+  transition: all .2s;
+}
 
-      line-height: 0.95;
+.main-tab:hover {
+  background: #eee;
+}
 
-      letter-spacing: -3px;
+.main-tab.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
 
-      margin-bottom: 22px;
-    }
+.content-section {
+  display: none;
+}
 
-    .coming-inner p {
-      max-width: 620px;
+.content-section.active {
+  display: block;
+}
 
-      margin: auto;
+/* FILTERS */
 
-      color: #a9a9a9;
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 
-      font-size: 17px;
-      line-height: 1.6;
-    }
+  background: white;
+  padding: 20px;
 
-    .button {
-      display: inline-block;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 
-      margin-top: 30px;
-      padding: 13px 21px;
+  margin-bottom: 20px;
+}
 
-      background: #ffffff;
-      color: #111111;
+.filters input,
+.filters select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  color: #111;
+  font-size: 13px;
+}
 
-      border-radius: 3px;
+.filters input {
+  flex: 2;
+  min-width: 220px;
+}
 
-      text-decoration: none;
+.filters select {
+  flex: 1;
+  min-width: 150px;
+}
 
-      font-size: 12px;
-      font-weight: 900;
+/* TABLES */
 
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+.table-wrap {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow-x: auto;
+}
 
-      transition: background 0.2s ease;
-    }
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px;
+}
 
-    .button:hover {
-      background: #b8bdc1;
-    }
+.data-table th {
+  background: #111;
+  color: white;
+  text-align: left;
+  padding: 15px 13px;
 
-    footer {
-      background: #050505;
-      color: #777777;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
-      border-top: 1px solid #222222;
+.data-table td {
+  padding: 16px 13px;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+  white-space: nowrap;
+}
 
-      padding: 30px 24px;
+.data-table tbody tr:hover {
+  background: #f8f8f8;
+}
 
-      text-align: center;
+.player-link {
+  color: #111;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-      font-size: 11px;
-    }
+.player-link:hover {
+  text-decoration: underline;
+}
 
-    @media (max-width: 850px) {
+.school-link {
+  color: #555;
+  text-decoration: none;
+}
 
-      .topbar {
-        min-height: auto;
+.school-link:hover {
+  text-decoration: underline;
+}
 
-        padding-top: 12px;
-        padding-bottom: 15px;
+.status {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
 
-        flex-direction: column;
-        align-items: flex-start;
+.status.committed {
+  background: #e1f3e9;
+  color: #167c45;
+}
 
-        gap: 10px;
-      }
+.status.signed {
+  background: #dce9ff;
+  color: #245cb5;
+}
 
-      .brand img {
-        height: 65px;
-        width: 130px;
-      }
+.status.uncommitted {
+  background: #fff0d9;
+  color: #996000;
+}
 
-      nav {
-        width: 100%;
-        gap: 14px;
-        flex-wrap: wrap;
-      }
+.status.unknown {
+  background: #eee;
+  color: #777;
+}
 
-      nav a {
-        font-size: 11px;
-      }
+.result-count {
+  color: #777;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
 
-      h1 {
-        letter-spacing: -2px;
-      }
+/* PROFILE */
 
-    }
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 25px;
+}
 
-  </style>
+.profile-header {
+  background: #111;
+  color: white;
+  border-radius: 6px;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+
+.profile-header h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  margin-bottom: 12px;
+}
+
+.profile-header p {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 35px;
+}
+
+.profile-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.profile-value {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.profile-label {
+  color: #888;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.profile-section {
+  margin-bottom: 35px;
+}
+
+.profile-section h3 {
+  font-size: 22px;
+  text-transform: uppercase;
+  border-bottom: 2px solid #111;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.info-box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 22px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.info-box a {
+  color: #111;
+  font-weight: 800;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.stat-box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 18px;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  color: #777;
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* LEADERBOARDS */
+
+.leaderboard-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.leaderboard-tab {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 11px 15px;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.leaderboard-tab.active {
+  background: #111;
+  color: white;
+}
+
+/* MESSAGES */
+
+.message {
+  padding: 30px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.action-button {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+
+.action-button:hover {
+  background: #333;
+}
+
+footer {
+  background: #050505;
+  color: #777;
+  padding: 35px 24px;
+  text-align: center;
+  font-size: 11px;
+}
+
+/* MOBILE */
+
+@media (max-width: 850px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 20px 18px;
+    gap: 10px;
+  }
+
+  .brand img {
+    height: 65px;
+    width: 130px;
+  }
+
+  nav {
+    gap: 14px;
+  }
+
+  nav a {
+    font-size: 11px;
+  }
+
+  .profile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 25px 15px 60px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .profile-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero {
+    padding: 50px 20px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+}
+</style>
 
 </head>
 
-
 <body>
 
-
 <header>
-
   <div class="topbar">
 
     <a class="brand" href="index.html">
-
-      <img
-        src="nefb-logo.jpg"
-        alt="NEFB Report"
-      >
-
+      <img src="nefb-logo.jpg" alt="NEFB Report">
     </a>
 
-
     <nav>
-
-      <a href="index.html">
-        Home
-      </a>
-
-      <a href="scores.html">
-        Scores
-      </a>
-
-      <a href="standings.html">
-        Standings
-      </a>
-
-      <a href="teams.html">
-        Teams
-      </a>
-
-      <a href="rankings.html">
-        Rankings
-      </a>
-
-      <a href="recruiting.html">
-        Recruiting
-      </a>
-
-      <a href="#">
-        News
-      </a>
-
-      <a href="#">
-        About
-      </a>
-
+      <a href="index.html">Home</a>
+      <a href="scores.html">Scores</a>
+      <a href="standings.html">Standings</a>
+      <a href="teams.html">Teams</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="recruiting.html">Recruiting</a>
+      <a href="#">News</a>
+      <a href="#">About</a>
     </nav>
 
   </div>
-
 </header>
 
-
-
-<main class="coming-soon">
-
-  <div class="coming-inner">
+<section class="hero">
+  <div class="hero-inner">
 
     <div class="eyebrow">
-      NEFB Recruiting
+      NEFB Report Recruiting
     </div>
 
-    <h1>
-      Coming Soon.
-    </h1>
+    <h1>THE NEXT GENERATION.</h1>
 
     <p>
-      New England football recruiting coverage, commitments,
-      prospects and more are coming to NEFB Report.
+      Discover New England high school football prospects,
+      track college commitments, explore recruiting offers,
+      and follow the next generation of college football talent.
     </p>
 
-    <a
-      href="index.html"
-      class="button"
+  </div>
+</section>
+
+<main class="container">
+
+  <div id="mainContent">
+
+    <div class="main-tabs">
+
+      <button
+        class="main-tab active"
+        data-section="players"
+      >
+        Player Database
+      </button>
+
+      <button
+        class="main-tab"
+        data-section="commitments"
+      >
+        College Commitments
+      </button>
+
+      <button
+        class="main-tab"
+        data-section="leaders"
+      >
+        Stat Leaders
+      </button>
+
+    </div>
+
+    <!-- PLAYER DATABASE -->
+
+    <section
+      id="playersSection"
+      class="content-section active"
     >
-      Back to Home
-    </a>
+
+      <h2 class="section-title">
+        New England Player Database
+      </h2>
+
+      <p class="section-subtitle">
+        Search New England high school and prep football players.
+        Select a player to explore their recruiting profile,
+        statistics, college offers, and commitments.
+      </p>
+
+      <div class="filters">
+
+        <input
+          type="search"
+          id="playerSearch"
+          placeholder="Search player or high school..."
+        >
+
+        <select id="stateFilter">
+          <option value="all">All States</option>
+          <option value="MA">Massachusetts</option>
+          <option value="CT">Connecticut</option>
+          <option value="RI">Rhode Island</option>
+          <option value="NH">New Hampshire</option>
+          <option value="ME">Maine</option>
+          <option value="VT">Vermont</option>
+        </select>
+
+        <select id="positionFilter">
+          <option value="all">All Positions</option>
+        </select>
+
+        <select id="classFilter">
+          <option value="all">All Classes</option>
+        </select>
+
+        <select id="statusFilter">
+          <option value="all">All Recruiting Statuses</option>
+          <option value="Not Reported">Not Reported</option>
+          <option value="Uncommitted">Uncommitted</option>
+          <option value="Committed">Committed</option>
+          <option value="Signed">Signed</option>
+        </select>
+
+      </div>
+
+      <div
+        id="playerCount"
+        class="result-count"
+      >
+        Loading players...
+      </div>
+
+      <div id="playerDirectory"></div>
+
+    </section>
+
+    <!-- COMMITMENTS -->
+
+    <section
+      id="commitmentsSection"
+      class="content-section"
+    >
+
+      <h2 class="section-title">
+        College Commitments
+      </h2>
+
+      <p class="section-subtitle">
+        Track New England high school football athletes
+        continuing their careers at the collegiate level.
+      </p>
+
+      <div class="filters">
+
+        <input
+          type="search"
+          id="commitmentSearch"
+          placeholder="Search player, school, or college..."
+        >
+
+        <select id="divisionFilter">
+          <option value="all">All Divisions</option>
+          <option value="FBS">FBS</option>
+          <option value="FCS">FCS</option>
+          <option value="DII">Division II</option>
+          <option value="DIII">Division III</option>
+          <option value="NAIA">NAIA</option>
+        </select>
+
+        <select id="commitmentClassFilter">
+          <option value="all">All Classes</option>
+        </select>
+
+      </div>
+
+      <div
+        id="commitmentCount"
+        class="result-count"
+      ></div>
+
+      <div id="commitmentDirectory"></div>
+
+    </section>
+
+    <!-- STAT LEADERS -->
+
+    <section
+      id="leadersSection"
+      class="content-section"
+    >
+
+      <h2 class="section-title">
+        New England Statistical Leaders
+      </h2>
+
+      <p class="section-subtitle">
+        Explore the top statistical performers
+        across New England high school football.
+      </p>
+
+      <div class="leaderboard-tabs">
+
+        <button
+          class="leaderboard-tab active"
+          data-leader="pass_yards"
+        >
+          Passing
+        </button>
+
+        <button
+          class="leaderboard-tab"
+          data-leader="rush_yards"
+        >
+          Rushing
+        </button>
+
+        <button
+          class="leaderboard-tab"
+          data-leader="receiving_yards"
+        >
+          Receiving
+        </button>
+
+        <button
+          class="leaderboard-tab"
+          data-leader="tackles"
+        >
+          Tackles
+        </button>
+
+        <button
+          class="leaderboard-tab"
+          data-leader="sacks"
+        >
+          Sacks
+        </button>
+
+        <button
+          class="leaderboard-tab"
+          data-leader="interceptions"
+        >
+          Interceptions
+        </button>
+
+      </div>
+
+      <div id="leaderboard"></div>
+
+    </section>
+
+  </div>
+
+  <!-- INDIVIDUAL PLAYER PROFILE -->
+
+  <div
+    id="playerProfile"
+    style="display:none;"
+  >
+
+    <button
+      class="back-button"
+      id="backToRecruiting"
+    >
+      ← Back to Recruiting
+    </button>
+
+    <div id="profileContent"></div>
 
   </div>
 
 </main>
 
-
-
 <footer>
-
   © 2026 NEFB Report. All rights reserved.
-
 </footer>
 
+<script>
+
+/* ==================================================
+   GOOGLE SHEETS
+================================================== */
+
+const SHEET_BASE =
+  "https://docs.google.com/spreadsheets/d/e/" +
+  "2PACX-1vTmxfGq5QWxATSTWk3V0ZZMyukHkw4kBamLh6xOhe4qqKeMi-T_zxNtFHZDPoSv8c-puqUWoW60v2X8/pub";
+
+function sheetURL(gid) {
+  return (
+    SHEET_BASE +
+    "?gid=" + gid +
+    "&single=true&output=csv"
+  );
+}
+
+const RECRUITING_PROFILES_URL =
+  sheetURL("493533704");
+
+const COLLEGE_OFFERS_URL =
+  sheetURL("916128301");
+
+const COLLEGE_COMMITMENTS_URL =
+  sheetURL("122121206");
+
+const SEASON_TOTALS_URL =
+  sheetURL("217853799");
+
+const CURRENT_SEASON = "2026";
+
+/* ==================================================
+   DATA
+================================================== */
+
+let recruitingProfiles = [];
+let collegeOffers = [];
+let collegeCommitments = [];
+let seasonTotals = [];
+
+let allPlayers = [];
+
+let currentSection = "players";
+let currentLeaderboard = "pass_yards";
+let currentPlayerID = null;
+
+/* ==================================================
+   CSV PARSER
+================================================== */
+
+function parseCSV(text) {
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let quoted = false;
+
+  for (let i = 0; i < text.length; i++) {
+
+    const char = text[i];
+
+    if (char === '"') {
+
+      if (quoted && text[i + 1] === '"') {
+        cell += '"';
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+
+    } else if (char === "," && !quoted) {
+
+      row.push(cell);
+      cell = "";
+
+    } else if (
+      (char === "\n" || char === "\r") &&
+      !quoted
+    ) {
+
+      if (
+        char === "\r" &&
+        text[i + 1] === "\n"
+      ) {
+        i++;
+      }
+
+      row.push(cell);
+
+      if (
+        row.some(value =>
+          String(value).trim() !== ""
+        )
+      ) {
+        rows.push(row);
+      }
+
+      row = [];
+      cell = "";
+
+    } else {
+
+      cell += char;
+
+    }
+  }
+
+  if (cell.length || row.length) {
+
+    row.push(cell);
+
+    if (
+      row.some(value =>
+        String(value).trim() !== ""
+      )
+    ) {
+      rows.push(row);
+    }
+  }
+
+  return rows;
+}
+
+function csvToObjects(text) {
+
+  const rows = parseCSV(text);
+
+  if (rows.length < 2) {
+    return [];
+  }
+
+  const headers = rows[0].map(
+    header => header.trim().replace(/^\uFEFF/, "")
+  );
+
+  return rows.slice(1).map(row => {
+
+    const object = {};
+
+    headers.forEach((header, index) => {
+
+      object[header] =
+        String(row[index] ?? "").trim();
+
+    });
+
+    return object;
+
+  });
+}
+
+/* ==================================================
+   UTILITIES
+================================================== */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+function formatNumber(value) {
+
+  const number = Number(value);
+
+  if (
+    value === "" ||
+    value == null ||
+    !Number.isFinite(number)
+  ) {
+    return "—";
+  }
+
+  return number.toLocaleString("en-US");
+}
+
+function normalize(value) {
+
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[.’']/g, "")
+    .replace(/&/g, "and")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+}
+
+function playerFallbackKey(player) {
+
+  return [
+    normalize(player.player_name),
+    normalize(player.team),
+    String(player.graduation_year || "")
+  ].join("|");
+
+}
+
+function getPlayerKey(player) {
+
+  const id = String(player.player_id || "").trim();
+
+  return id
+    ? "id:" + id
+    : "fallback:" + playerFallbackKey(player);
+
+}
+
+function playerURL(player) {
+
+  return (
+    "recruiting.html#player=" +
+    encodeURIComponent(getPlayerKey(player))
+  );
+
+}
+
+function teamURL(player) {
+
+  const association =
+    String(player.association || "")
+      .toUpperCase()
+      .trim();
+
+  const team = normalize(player.team);
+
+  return (
+    "teams.html#team=" +
+    encodeURIComponent(
+      association + "|" + team
+    )
+  );
+
+}
+
+function safeExternalURL(value) {
+
+  try {
+
+    const url = new URL(value);
+
+    if (
+      url.protocol === "https:" ||
+      url.protocol === "http:"
+    ) {
+      return url.href;
+    }
+
+  } catch (error) {}
+
+  return "";
+}
+
+function getStatus(player) {
+
+  const status =
+    String(player.recruiting_status || "").trim();
+
+  if (status) {
+    return status;
+  }
+
+  const commitment = collegeCommitments.find(
+    item =>
+      item.player_id &&
+      item.player_id === player.player_id &&
+      item.college
+  );
+
+  if (commitment) {
+
+    const signing =
+      String(commitment.signing_status || "")
+        .toLowerCase();
+
+    return signing.includes("signed")
+      ? "Signed"
+      : "Committed";
+  }
+
+  return "Not Reported";
+}
+
+function statusClass(status) {
+
+  const value = status.toLowerCase();
+
+  if (value === "signed") return "signed";
+
+  if (value === "committed") return "committed";
+
+  if (value === "uncommitted") {
+    return "uncommitted";
+  }
+
+  return "unknown";
+}
+
+function getPlayerByID(id) {
+
+  return allPlayers.find(
+    player => getPlayerKey(player) === id
+  );
+
+}
+
+function getPlayerByRawID(id) {
+
+  return allPlayers.find(
+    player => player.player_id === id
+  );
+
+}
+
+function getPlayerStats(player) {
+
+  const id = String(player.player_id || "").trim();
+
+  if (id) {
+
+    const match = seasonTotals.find(
+      row =>
+        String(row.player_id || "").trim() === id &&
+        String(row.season || "") === CURRENT_SEASON
+    );
+
+    if (match) return match;
+  }
+
+  return seasonTotals.find(
+    row =>
+      String(row.season || "") === CURRENT_SEASON &&
+      playerFallbackKey(row) === playerFallbackKey(player)
+  ) || null;
+
+}
+
+/* ==================================================
+   BUILD MASTER PLAYER DATABASE
+================================================== */
+
+function buildPlayerDatabase() {
+
+  const map = new Map();
+
+  seasonTotals.forEach(player => {
+
+    if (!player.player_name) return;
+
+    const key = getPlayerKey(player);
+
+    map.set(key, {
+      ...player
+    });
+
+  });
+
+  recruitingProfiles.forEach(profile => {
+
+    if (!profile.player_name) return;
+
+    const key = getPlayerKey(profile);
+
+    if (map.has(key)) {
+
+      const existing = map.get(key);
+
+      const combined = {
+        ...existing
+      };
+
+      Object.entries(profile).forEach(
+        ([field, value]) => {
+
+          if (
+            value !== "" &&
+            value != null
+          ) {
+            combined[field] = value;
+          }
+
+        }
+      );
+
+      map.set(key, combined);
+
+    } else {
+
+      map.set(key, {
+        ...profile
+      });
+
+    }
+
+  });
+
+  allPlayers = Array.from(map.values()).sort(
+    (a, b) =>
+      String(a.player_name).localeCompare(
+        String(b.player_name)
+      )
+  );
+
+}
+
+/* ==================================================
+   FILTER OPTIONS
+================================================== */
+
+function populateFilters() {
+
+  const positions = new Set();
+  const classes = new Set();
+
+  allPlayers.forEach(player => {
+
+    if (player.position) {
+
+      player.position
+        .split(/[,/]/)
+        .map(value => value.trim())
+        .filter(Boolean)
+        .forEach(position => positions.add(position));
+
+    }
+
+    if (player.graduation_year) {
+      classes.add(player.graduation_year);
+    }
+
+  });
+
+  const positionFilter =
+    document.getElementById("positionFilter");
+
+  Array.from(positions)
+    .sort()
+    .forEach(position => {
+
+      positionFilter.innerHTML += `
+        <option value="${escapeHTML(position)}">
+          ${escapeHTML(position)}
+        </option>
+      `;
+
+    });
+
+  const classFilter =
+    document.getElementById("classFilter");
+
+  const commitmentClassFilter =
+    document.getElementById(
+      "commitmentClassFilter"
+    );
+
+  Array.from(classes)
+    .sort()
+    .forEach(year => {
+
+      classFilter.innerHTML += `
+        <option value="${escapeHTML(year)}">
+          ${escapeHTML(year)}
+        </option>
+      `;
+
+      commitmentClassFilter.innerHTML += `
+        <option value="${escapeHTML(year)}">
+          ${escapeHTML(year)}
+        </option>
+      `;
+
+    });
+
+}
+
+/* ==================================================
+   PLAYER DIRECTORY
+================================================== */
+
+function renderPlayers() {
+
+  const search =
+    document.getElementById("playerSearch")
+      .value.toLowerCase().trim();
+
+  const state =
+    document.getElementById("stateFilter").value;
+
+  const position =
+    document.getElementById("positionFilter").value;
+
+  const graduationClass =
+    document.getElementById("classFilter").value;
+
+  const status =
+    document.getElementById("statusFilter").value;
+
+  const filtered = allPlayers.filter(player => {
+
+    const searchable = (
+      String(player.player_name || "") + " " +
+      String(player.team || "")
+    ).toLowerCase();
+
+    const playerPositions =
+      String(player.position || "")
+        .split(/[,/]/)
+        .map(value => value.trim());
+
+    return (
+      searchable.includes(search) &&
+
+      (
+        state === "all" ||
+        player.state === state
+      ) &&
+
+      (
+        position === "all" ||
+        playerPositions.includes(position)
+      ) &&
+
+      (
+        graduationClass === "all" ||
+        player.graduation_year === graduationClass
+      ) &&
+
+      (
+        status === "all" ||
+        getStatus(player).toLowerCase() ===
+        status.toLowerCase()
+      )
+    );
+
+  });
+
+  document.getElementById("playerCount")
+    .textContent =
+      filtered.length + " players";
+
+  const container =
+    document.getElementById("playerDirectory");
+
+  if (!filtered.length) {
+
+    container.innerHTML = `
+      <div class="message">
+        No players found matching your filters.
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="table-wrap">
+
+      <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Position</th>
+            <th>High School</th>
+            <th>State</th>
+            <th>Class</th>
+            <th>Recruiting Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${filtered.map(player => {
+
+            const status = getStatus(player);
+
+            return `
+              <tr>
+
+                <td>
+                  <a
+                    class="player-link"
+                    href="${playerURL(player)}"
+                    data-player="${escapeHTML(getPlayerKey(player))}"
+                  >
+                    ${escapeHTML(player.player_name)}
+                  </a>
+                </td>
+
+                <td>
+                  ${escapeHTML(player.position || "—")}
+                </td>
+
+                <td>
+                  <a
+                    class="school-link"
+                    href="${teamURL(player)}"
+                  >
+                    ${escapeHTML(player.team || "—")}
+                  </a>
+                </td>
+
+                <td>
+                  ${escapeHTML(player.state || "—")}
+                </td>
+
+                <td>
+                  ${escapeHTML(player.graduation_year || "—")}
+                </td>
+
+                <td>
+                  <span class="status ${statusClass(status)}">
+                    ${escapeHTML(status)}
+                  </span>
+                </td>
+
+              </tr>
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+
+  container.querySelectorAll("[data-player]")
+    .forEach(link => {
+
+      link.addEventListener("click", event => {
+
+        event.preventDefault();
+
+        openPlayer(link.dataset.player);
+
+      });
+
+    });
+
+}
+
+/* ==================================================
+   COLLEGE COMMITMENTS
+================================================== */
+
+function renderCommitments() {
+
+  const search =
+    document.getElementById("commitmentSearch")
+      .value.toLowerCase().trim();
+
+  const division =
+    document.getElementById("divisionFilter")
+      .value;
+
+  const graduationClass =
+    document.getElementById(
+      "commitmentClassFilter"
+    ).value;
+
+  const commitments = collegeCommitments
+    .filter(item => item.player_id && item.college)
+    .map(item => {
+
+      const player =
+        getPlayerByRawID(item.player_id);
+
+      return {
+        ...item,
+        player
+      };
+
+    })
+    .filter(item => {
+
+      if (!item.player) return false;
+
+      const searchable = (
+        item.player.player_name + " " +
+        item.player.team + " " +
+        item.college
+      ).toLowerCase();
+
+      return (
+        searchable.includes(search) &&
+
+        (
+          division === "all" ||
+          item.division === division
+        ) &&
+
+        (
+          graduationClass === "all" ||
+          item.player.graduation_year ===
+          graduationClass
+        )
+      );
+
+    });
+
+  document.getElementById("commitmentCount")
+    .textContent =
+      commitments.length + " commitments";
+
+  const container =
+    document.getElementById(
+      "commitmentDirectory"
+    );
+
+  if (!commitments.length) {
+
+    container.innerHTML = `
+      <div class="message">
+        No college commitments are currently available
+        for these filters.
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="table-wrap">
+
+      <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Position</th>
+            <th>High School</th>
+            <th>Class</th>
+            <th>College</th>
+            <th>Division</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${commitments.map(item => {
+
+            const player = item.player;
+
+            return `
+              <tr>
+
+                <td>
+                  <a
+                    class="player-link"
+                    href="${playerURL(player)}"
+                    data-player="${escapeHTML(getPlayerKey(player))}"
+                  >
+                    ${escapeHTML(player.player_name)}
+                  </a>
+                </td>
+
+                <td>
+                  ${escapeHTML(player.position || "—")}
+                </td>
+
+                <td>
+                  ${escapeHTML(player.team || "—")}
+                </td>
+
+                <td>
+                  ${escapeHTML(player.graduation_year || "—")}
+                </td>
+
+                <td>
+                  <strong>
+                    ${escapeHTML(item.college)}
+                  </strong>
+                </td>
+
+                <td>
+                  ${escapeHTML(item.division || "—")}
+                </td>
+
+                <td>
+                  <span class="status committed">
+                    ${escapeHTML(item.signing_status || "Committed")}
+                  </span>
+                </td>
+
+              </tr>
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+
+  container.querySelectorAll("[data-player]")
+    .forEach(link => {
+
+      link.addEventListener("click", event => {
+
+        event.preventDefault();
+
+        openPlayer(link.dataset.player);
+
+      });
+
+    });
+
+}
+
+/* ==================================================
+   STATISTICAL LEADERS
+================================================== */
+
+const LEADERBOARD_LABELS = {
+  pass_yards: "Passing Yards",
+  rush_yards: "Rushing Yards",
+  receiving_yards: "Receiving Yards",
+  tackles: "Tackles",
+  sacks: "Sacks",
+  interceptions: "Interceptions"
+};
+
+function renderLeaderboard() {
+
+  const leaders = seasonTotals
+    .filter(player =>
+      String(player.season) === CURRENT_SEASON &&
+      player.player_name &&
+      player[currentLeaderboard] !== "" &&
+      player[currentLeaderboard] != null
+    )
+    .sort(
+      (a, b) =>
+        Number(b[currentLeaderboard] || 0) -
+        Number(a[currentLeaderboard] || 0)
+    )
+    .slice(0, 50);
+
+  const container =
+    document.getElementById("leaderboard");
+
+  if (!leaders.length) {
+
+    container.innerHTML = `
+      <div class="message">
+        No statistical leaders are available
+        for this category.
+      </div>
+    `;
+
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="table-wrap">
+
+      <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Player</th>
+            <th>School</th>
+            <th>Position</th>
+            <th>${escapeHTML(
+              LEADERBOARD_LABELS[currentLeaderboard]
+            )}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          ${leaders.map((player, index) => {
+
+            const fullPlayer =
+              getPlayerByRawID(player.player_id) ||
+              player;
+
+            return `
+              <tr>
+
+                <td>
+                  <strong>${index + 1}</strong>
+                </td>
+
+                <td>
+                  <a
+                    class="player-link"
+                    href="${playerURL(fullPlayer)}"
+                    data-player="${escapeHTML(
+                      getPlayerKey(fullPlayer)
+                    )}"
+                  >
+                    ${escapeHTML(player.player_name)}
+                  </a>
+                </td>
+
+                <td>
+                  ${escapeHTML(player.team || "—")}
+                </td>
+
+                <td>
+                  ${escapeHTML(player.position || "—")}
+                </td>
+
+                <td>
+                  <strong>
+                    ${formatNumber(
+                      player[currentLeaderboard]
+                    )}
+                  </strong>
+                </td>
+
+              </tr>
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+  `;
+
+  container.querySelectorAll("[data-player]")
+    .forEach(link => {
+
+      link.addEventListener("click", event => {
+
+        event.preventDefault();
+
+        openPlayer(link.dataset.player);
+
+      });
+
+    });
+
+}
+
+/* ==================================================
+   PLAYER PROFILE
+================================================== */
+
+const STAT_CATEGORIES = {
+
+  Passing: [
+    ["pass_completions", "Completions"],
+    ["pass_attempts", "Attempts"],
+    ["pass_yards", "Passing Yards"],
+    ["pass_tds", "Passing TDs"],
+    ["interceptions_thrown", "Interceptions"]
+  ],
+
+  Rushing: [
+    ["rush_attempts", "Attempts"],
+    ["rush_yards", "Rushing Yards"],
+    ["rush_tds", "Rushing TDs"]
+  ],
+
+  Receiving: [
+    ["receptions", "Receptions"],
+    ["receiving_yards", "Receiving Yards"],
+    ["receiving_tds", "Receiving TDs"]
+  ],
+
+  Defense: [
+    ["tackles", "Tackles"],
+    ["tackles_for_loss", "Tackles For Loss"],
+    ["sacks", "Sacks"],
+    ["interceptions", "Interceptions"],
+    ["pass_breakups", "Pass Breakups"],
+    ["forced_fumbles", "Forced Fumbles"],
+    ["fumble_recoveries", "Fumble Recoveries"]
+  ],
+
+  Kicking: [
+    ["field_goals_made", "Field Goals"],
+    ["extra_points_made", "Extra Points"]
+  ]
+
+};
+
+function renderStatCategory(stats, category) {
+
+  const fields = STAT_CATEGORIES[category];
+
+  const hasStats = fields.some(
+    ([field]) =>
+      stats[field] !== "" &&
+      stats[field] != null
+  );
+
+  if (!hasStats) return "";
+
+  return `
+    <div class="profile-section">
+
+      <h3>${escapeHTML(category)}</h3>
+
+      <div class="stat-grid">
+
+        ${fields.map(([field, label]) => `
+          <div class="stat-box">
+
+            <div class="stat-number">
+              ${formatNumber(stats[field])}
+            </div>
+
+            <div class="stat-label">
+              ${escapeHTML(label)}
+            </div>
+
+          </div>
+        `).join("")}
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+function openPlayer(id) {
+
+  const player = getPlayerByID(id);
+
+  if (!player) return;
+
+  currentPlayerID = id;
+
+  document.getElementById("mainContent")
+    .style.display = "none";
+
+  document.getElementById("playerProfile")
+    .style.display = "block";
+
+  const status = getStatus(player);
+
+  const offers = collegeOffers.filter(
+    offer =>
+      offer.player_id &&
+      offer.player_id === player.player_id &&
+      offer.college
+  );
+
+  const commitments = collegeCommitments.filter(
+    commitment =>
+      commitment.player_id &&
+      commitment.player_id === player.player_id &&
+      commitment.college
+  );
+
+  const stats = getPlayerStats(player);
+
+  const highlightURL =
+    safeExternalURL(player.highlight_url);
+
+  const latestCommitment =
+    commitments.length
+      ? commitments[commitments.length - 1]
+      : null;
+
+  const college =
+    latestCommitment?.college ||
+    player.committed_college ||
+    "Not Reported";
+
+  const container =
+    document.getElementById("profileContent");
+
+  container.innerHTML = `
+
+    <div class="profile-header">
+
+      <div class="eyebrow">
+        NEFB Recruiting Profile
+      </div>
+
+      <h2>
+        ${escapeHTML(player.player_name)}
+      </h2>
+
+      <p>
+        ${escapeHTML(player.team || "School unavailable")}
+        · ${escapeHTML(player.association || "—")}
+        · ${escapeHTML(player.position || "—")}
+        · Class of ${escapeHTML(
+          player.graduation_year || "—"
+        )}
+      </p>
+
+    </div>
+
+    <div class="profile-grid">
+
+      <div class="profile-card">
+        <div class="profile-value">
+          ${escapeHTML(player.position || "—")}
+        </div>
+        <div class="profile-label">
+          Position
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-value">
+          ${escapeHTML(player.height || "—")}
+        </div>
+        <div class="profile-label">
+          Height
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-value">
+          ${escapeHTML(player.weight || "—")}
+        </div>
+        <div class="profile-label">
+          Weight
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-value">
+          ${escapeHTML(
+            player.graduation_year || "—"
+          )}
+        </div>
+        <div class="profile-label">
+          Graduation Year
+        </div>
+      </div>
+
+    </div>
+
+    <div class="profile-section">
+
+      <h3>Recruiting Overview</h3>
+
+      <div class="info-box">
+
+        <p>
+          <strong>Recruiting Status:</strong>
+          <span class="status ${statusClass(status)}">
+            ${escapeHTML(status)}
+          </span>
+        </p>
+
+        <p>
+          <strong>College Commitment:</strong>
+          ${escapeHTML(college)}
+        </p>
+
+        <p>
+          <strong>Reported Offers:</strong>
+          ${offers.length}
+        </p>
+
+        <p>
+          <strong>High School:</strong>
+          <a href="${teamURL(player)}">
+            ${escapeHTML(player.team || "—")}
+          </a>
+        </p>
+
+        ${highlightURL ? `
+          <a
+            class="action-button"
+            href="${escapeHTML(highlightURL)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Watch Highlights →
+          </a>
+        ` : ""}
+
+      </div>
+
+    </div>
+
+    <div class="profile-section">
+
+      <h3>College Offers</h3>
+
+      ${offers.length ? `
+
+        <div class="table-wrap">
+
+          <table class="data-table">
+
+            <thead>
+              <tr>
+                <th>College</th>
+                <th>Division</th>
+                <th>Offer Date</th>
+                <th>Verification</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              ${offers.map(offer => `
+                <tr>
+                  <td>
+                    <strong>
+                      ${escapeHTML(offer.college)}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${escapeHTML(offer.division || "—")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(offer.offer_date || "—")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(
+                      offer.verification_status || "Not Reported"
+                    )}
+                  </td>
+                </tr>
+              `).join("")}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      ` : `
+        <div class="message">
+          No college offers have been reported
+          for this player.
+        </div>
+      `}
+
+    </div>
+
+    <div class="profile-section">
+
+      <h3>College Commitment</h3>
+
+      ${commitments.length ? `
+
+        <div class="table-wrap">
+
+          <table class="data-table">
+
+            <thead>
+              <tr>
+                <th>College</th>
+                <th>Division</th>
+                <th>Commitment Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              ${commitments.map(commitment => `
+                <tr>
+                  <td>
+                    <strong>
+                      ${escapeHTML(commitment.college)}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${escapeHTML(
+                      commitment.division || "—"
+                    )}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(
+                      commitment.commitment_date || "—"
+                    )}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(
+                      commitment.signing_status || "Committed"
+                    )}
+                  </td>
+                </tr>
+              `).join("")}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      ` : `
+        <div class="message">
+          No college commitment has been reported
+          for this player.
+        </div>
+      `}
+
+    </div>
+
+    <div class="profile-section">
+
+      <h3>${CURRENT_SEASON} Season Statistics</h3>
+
+      ${stats ? `
+
+        ${Object.keys(STAT_CATEGORIES)
+          .map(category =>
+            renderStatCategory(stats, category)
+          )
+          .join("")}
+
+      ` : `
+        <div class="message">
+          No season statistics are currently available
+          for this player.
+        </div>
+      `}
+
+    </div>
+
+  `;
+
+  history.replaceState(
+    null,
+    "",
+    "#player=" + encodeURIComponent(id)
+  );
+
+  window.scrollTo(0, 0);
+
+}
+
+/* ==================================================
+   PAGE NAVIGATION
+================================================== */
+
+function showSection(section) {
+
+  currentSection = section;
+
+  document.getElementById("mainContent")
+    .style.display = "block";
+
+  document.getElementById("playerProfile")
+    .style.display = "none";
+
+  document.querySelectorAll(".main-tab")
+    .forEach(button => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.section === section
+      );
+
+    });
+
+  document.querySelectorAll(".content-section")
+    .forEach(content => {
+
+      content.classList.toggle(
+        "active",
+        content.id === section + "Section"
+      );
+
+    });
+
+  history.replaceState(
+    null,
+    "",
+    "#section=" + section
+  );
+
+  window.scrollTo(0, 0);
+
+}
+
+function backToRecruiting() {
+
+  currentPlayerID = null;
+
+  showSection(currentSection);
+
+}
+
+/* ==================================================
+   FETCH GOOGLE SHEETS
+================================================== */
+
+async function fetchSheet(url) {
+
+  const response = await fetch(
+    url,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+
+    throw new Error(
+      "Failed to load Google Sheet: " + url
+    );
+
+  }
+
+  const csv = await response.text();
+
+  return csvToObjects(csv);
+
+}
+
+async function loadRecruiting() {
+
+  try {
+
+    const results = await Promise.allSettled([
+
+      fetchSheet(RECRUITING_PROFILES_URL),
+
+      fetchSheet(COLLEGE_OFFERS_URL),
+
+      fetchSheet(COLLEGE_COMMITMENTS_URL),
+
+      fetchSheet(SEASON_TOTALS_URL)
+
+    ]);
+
+    recruitingProfiles =
+      results[0].status === "fulfilled"
+        ? results[0].value
+        : [];
+
+    collegeOffers =
+      results[1].status === "fulfilled"
+        ? results[1].value
+        : [];
+
+    collegeCommitments =
+      results[2].status === "fulfilled"
+        ? results[2].value
+        : [];
+
+    seasonTotals =
+      results[3].status === "fulfilled"
+        ? results[3].value
+        : [];
+
+    results.forEach((result, index) => {
+
+      if (result.status === "rejected") {
+
+        console.error(
+          "Spreadsheet load error " + index,
+          result.reason
+        );
+
+      }
+
+    });
+
+    buildPlayerDatabase();
+
+    populateFilters();
+
+    renderPlayers();
+
+    renderCommitments();
+
+    renderLeaderboard();
+
+    const hash = location.hash;
+
+    if (hash.startsWith("#player=")) {
+
+      const id = decodeURIComponent(
+        hash.substring(8)
+      );
+
+      openPlayer(id);
+
+    } else if (hash.startsWith("#section=")) {
+
+      const section = decodeURIComponent(
+        hash.substring(9)
+      );
+
+      if (
+        ["players", "commitments", "leaders"]
+          .includes(section)
+      ) {
+        showSection(section);
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById("playerDirectory")
+      .innerHTML = `
+        <div class="message">
+          Recruiting data could not be loaded.
+          Please try again later.
+        </div>
+      `;
+
+  }
+
+}
+
+/* ==================================================
+   EVENT LISTENERS
+================================================== */
+
+document.querySelectorAll(".main-tab")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      showSection(button.dataset.section);
+
+    });
+
+  });
+
+[
+  "playerSearch",
+  "stateFilter",
+  "positionFilter",
+  "classFilter",
+  "statusFilter"
+].forEach(id => {
+
+  document.getElementById(id)
+    .addEventListener("input", renderPlayers);
+
+});
+
+[
+  "commitmentSearch",
+  "divisionFilter",
+  "commitmentClassFilter"
+].forEach(id => {
+
+  document.getElementById(id)
+    .addEventListener("input", renderCommitments);
+
+});
+
+document.querySelectorAll(".leaderboard-tab")
+  .forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      currentLeaderboard =
+        button.dataset.leader;
+
+      document.querySelectorAll(
+        ".leaderboard-tab"
+      ).forEach(tab => {
+
+        tab.classList.toggle(
+          "active",
+          tab === button
+        );
+
+      });
+
+      renderLeaderboard();
+
+    });
+
+  });
+
+document.getElementById("backToRecruiting")
+  .addEventListener(
+    "click",
+    backToRecruiting
+  );
+
+window.addEventListener("hashchange", () => {
+
+  const hash = location.hash;
+
+  if (hash.startsWith("#player=")) {
+
+    const id = decodeURIComponent(
+      hash.substring(8)
+    );
+
+    openPlayer(id);
+
+  } else if (hash.startsWith("#section=")) {
+
+    const section = decodeURIComponent(
+      hash.substring(9)
+    );
+
+    if (
+      ["players", "commitments", "leaders"]
+        .includes(section)
+    ) {
+      showSection(section);
+    }
+
+  } else {
+
+    showSection("players");
+
+  }
+
+});
+
+/* START */
+
+loadRecruiting();
+
+</script>
 
 </body>
-
 </html>
