@@ -4,11 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta
-  name="description"
-  content="NEFB Report Recruiting - Explore New England high school football prospects, college commitments, recruiting offers, and player statistics."
->
+<meta name="description" content="NEFB Report Recruiting - Explore New England high school football prospects, college commitments, recruiting offers, and player statistics.">
 
 <title>Recruiting | NEFB Report</title>
 
@@ -36,7 +32,6 @@ header {
   min-height: 92px;
   margin: auto;
   padding: 8px 24px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -81,14 +76,12 @@ nav a:hover {
 /* HERO */
 
 .hero {
-  background:
-    radial-gradient(
-      circle at 50% 25%,
-      #222 0%,
-      #101010 45%,
-      #050505 100%
-    );
-
+  background: radial-gradient(
+    circle at 50% 25%,
+    #222 0%,
+    #101010 45%,
+    #050505 100%
+  );
   color: white;
   padding: 65px 24px 70px;
 }
@@ -146,7 +139,7 @@ nav a:hover {
   line-height: 1.6;
 }
 
-/* NAVIGATION TABS */
+/* NAVIGATION */
 
 .main-tabs {
   display: flex;
@@ -163,11 +156,9 @@ nav a:hover {
   padding: 13px 18px;
   border-radius: 4px;
   cursor: pointer;
-
   font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
-
   transition: all .2s;
 }
 
@@ -195,13 +186,10 @@ nav a:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-
   background: white;
   padding: 20px;
-
   border: 1px solid #ddd;
   border-radius: 6px;
-
   margin-bottom: 20px;
 }
 
@@ -245,7 +233,6 @@ nav a:hover {
   color: white;
   text-align: left;
   padding: 15px 13px;
-
   font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
@@ -283,6 +270,8 @@ nav a:hover {
   text-decoration: underline;
 }
 
+/* RECRUITING STATUS */
+
 .status {
   display: inline-block;
   padding: 6px 9px;
@@ -317,6 +306,46 @@ nav a:hover {
   font-size: 12px;
   font-weight: 800;
   margin-bottom: 15px;
+}
+
+/* OFFER COUNTS */
+
+.offer-count {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.offer-count-primary {
+  color: #111;
+}
+
+.offer-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.offer-summary-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 18px 22px;
+  flex: 1;
+  min-width: 120px;
+}
+
+.offer-summary-number {
+  font-size: 26px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+
+.offer-summary-label {
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #777;
 }
 
 /* PROFILE */
@@ -544,7 +573,6 @@ footer {
   }
 }
 </style>
-
 </head>
 
 <body>
@@ -594,24 +622,15 @@ footer {
 
     <div class="main-tabs">
 
-      <button
-        class="main-tab active"
-        data-section="players"
-      >
+      <button class="main-tab active" data-section="players">
         Player Database
       </button>
 
-      <button
-        class="main-tab"
-        data-section="commitments"
-      >
+      <button class="main-tab" data-section="commitments">
         College Commitments
       </button>
 
-      <button
-        class="main-tab"
-        data-section="leaders"
-      >
+      <button class="main-tab" data-section="leaders">
         Stat Leaders
       </button>
 
@@ -619,10 +638,7 @@ footer {
 
     <!-- PLAYER DATABASE -->
 
-    <section
-      id="playersSection"
-      class="content-section active"
-    >
+    <section id="playersSection" class="content-section active">
 
       <h2 class="section-title">
         New England Player Database
@@ -670,10 +686,7 @@ footer {
 
       </div>
 
-      <div
-        id="playerCount"
-        class="result-count"
-      >
+      <div id="playerCount" class="result-count">
         Loading players...
       </div>
 
@@ -681,12 +694,9 @@ footer {
 
     </section>
 
-    <!-- COMMITMENTS -->
+    <!-- COLLEGE COMMITMENTS -->
 
-    <section
-      id="commitmentsSection"
-      class="content-section"
-    >
+    <section id="commitmentsSection" class="content-section">
 
       <h2 class="section-title">
         College Commitments
@@ -720,10 +730,7 @@ footer {
 
       </div>
 
-      <div
-        id="commitmentCount"
-        class="result-count"
-      ></div>
+      <div id="commitmentCount" class="result-count"></div>
 
       <div id="commitmentDirectory"></div>
 
@@ -731,10 +738,7 @@ footer {
 
     <!-- STAT LEADERS -->
 
-    <section
-      id="leadersSection"
-      class="content-section"
-    >
+    <section id="leadersSection" class="content-section">
 
       <h2 class="section-title">
         New England Statistical Leaders
@@ -747,45 +751,27 @@ footer {
 
       <div class="leaderboard-tabs">
 
-        <button
-          class="leaderboard-tab active"
-          data-leader="pass_yards"
-        >
+        <button class="leaderboard-tab active" data-leader="pass_yards">
           Passing
         </button>
 
-        <button
-          class="leaderboard-tab"
-          data-leader="rush_yards"
-        >
+        <button class="leaderboard-tab" data-leader="rush_yards">
           Rushing
         </button>
 
-        <button
-          class="leaderboard-tab"
-          data-leader="receiving_yards"
-        >
+        <button class="leaderboard-tab" data-leader="receiving_yards">
           Receiving
         </button>
 
-        <button
-          class="leaderboard-tab"
-          data-leader="tackles"
-        >
+        <button class="leaderboard-tab" data-leader="tackles">
           Tackles
         </button>
 
-        <button
-          class="leaderboard-tab"
-          data-leader="sacks"
-        >
+        <button class="leaderboard-tab" data-leader="sacks">
           Sacks
         </button>
 
-        <button
-          class="leaderboard-tab"
-          data-leader="interceptions"
-        >
+        <button class="leaderboard-tab" data-leader="interceptions">
           Interceptions
         </button>
 
@@ -799,15 +785,9 @@ footer {
 
   <!-- INDIVIDUAL PLAYER PROFILE -->
 
-  <div
-    id="playerProfile"
-    style="display:none;"
-  >
+  <div id="playerProfile" style="display:none;">
 
-    <button
-      class="back-button"
-      id="backToRecruiting"
-    >
+    <button class="back-button" id="backToRecruiting">
       ← Back to Recruiting
     </button>
 
@@ -839,17 +819,10 @@ function sheetURL(gid) {
   );
 }
 
-const RECRUITING_PROFILES_URL =
-  sheetURL("493533704");
-
-const COLLEGE_OFFERS_URL =
-  sheetURL("916128301");
-
-const COLLEGE_COMMITMENTS_URL =
-  sheetURL("122121206");
-
-const SEASON_TOTALS_URL =
-  sheetURL("217853799");
+const RECRUITING_PROFILES_URL = sheetURL("493533704");
+const COLLEGE_OFFERS_URL = sheetURL("916128301");
+const COLLEGE_COMMITMENTS_URL = sheetURL("122121206");
+const SEASON_TOTALS_URL = sheetURL("217853799");
 
 const CURRENT_SEASON = "2026";
 
@@ -903,10 +876,7 @@ function parseCSV(text) {
       !quoted
     ) {
 
-      if (
-        char === "\r" &&
-        text[i + 1] === "\n"
-      ) {
+      if (char === "\r" && text[i + 1] === "\n") {
         i++;
       }
 
@@ -963,10 +933,7 @@ function csvToObjects(text) {
     const object = {};
 
     headers.forEach((header, index) => {
-
-      object[header] =
-        String(row[index] ?? "").trim();
-
+      object[header] = String(row[index] ?? "").trim();
     });
 
     return object;
@@ -1056,9 +1023,7 @@ function teamURL(player) {
 
   return (
     "teams.html#team=" +
-    encodeURIComponent(
-      association + "|" + team
-    )
+    encodeURIComponent(association + "|" + team)
   );
 
 }
@@ -1116,12 +1081,8 @@ function statusClass(status) {
   const value = status.toLowerCase();
 
   if (value === "signed") return "signed";
-
   if (value === "committed") return "committed";
-
-  if (value === "uncommitted") {
-    return "uncommitted";
-  }
+  if (value === "uncommitted") return "uncommitted";
 
   return "unknown";
 }
@@ -1162,6 +1123,67 @@ function getPlayerStats(player) {
       String(row.season || "") === CURRENT_SEASON &&
       playerFallbackKey(row) === playerFallbackKey(player)
   ) || null;
+
+}
+
+/* ==================================================
+   NEW: DIVISION I OFFER COUNTS
+
+   Only counts:
+   D1 FBS
+   D1 FCS
+
+   Excludes all other divisions.
+   Prevents duplicate colleges from counting twice.
+================================================== */
+
+function getD1OfferCounts(player) {
+
+  const id = String(player.player_id || "").trim();
+
+  const fbsSchools = new Set();
+  const fcsSchools = new Set();
+
+  if (id) {
+
+    collegeOffers.forEach(offer => {
+
+      const offerPlayerID =
+        String(offer.player_id || "").trim();
+
+      if (offerPlayerID !== id) {
+        return;
+      }
+
+      const college = normalize(offer.college);
+
+      const division =
+        String(offer.division || "")
+          .trim()
+          .toUpperCase()
+          .replace(/\s+/g, " ");
+
+      if (!college) {
+        return;
+      }
+
+      if (division === "D1 FBS") {
+        fbsSchools.add(college);
+      }
+
+      if (division === "D1 FCS") {
+        fcsSchools.add(college);
+      }
+
+    });
+
+  }
+
+  return {
+    fbs: fbsSchools.size,
+    fcs: fcsSchools.size,
+    total: fbsSchools.size + fcsSchools.size
+  };
 
 }
 
@@ -1263,6 +1285,9 @@ function populateFilters() {
   const positionFilter =
     document.getElementById("positionFilter");
 
+  positionFilter.innerHTML =
+    '<option value="all">All Positions</option>';
+
   Array.from(positions)
     .sort()
     .forEach(position => {
@@ -1279,9 +1304,13 @@ function populateFilters() {
     document.getElementById("classFilter");
 
   const commitmentClassFilter =
-    document.getElementById(
-      "commitmentClassFilter"
-    );
+    document.getElementById("commitmentClassFilter");
+
+  classFilter.innerHTML =
+    '<option value="all">All Classes</option>';
+
+  commitmentClassFilter.innerHTML =
+    '<option value="all">All Classes</option>';
 
   Array.from(classes)
     .sort()
@@ -1365,8 +1394,7 @@ function renderPlayers() {
   });
 
   document.getElementById("playerCount")
-    .textContent =
-      filtered.length + " players";
+    .textContent = filtered.length + " players";
 
   const container =
     document.getElementById("playerDirectory");
@@ -1395,6 +1423,9 @@ function renderPlayers() {
             <th>State</th>
             <th>Class</th>
             <th>Recruiting Status</th>
+            <th>D1 Offers</th>
+            <th>FBS</th>
+            <th>FCS</th>
           </tr>
         </thead>
 
@@ -1403,6 +1434,8 @@ function renderPlayers() {
           ${filtered.map(player => {
 
             const status = getStatus(player);
+
+            const d1Offers = getD1OfferCounts(player);
 
             return `
               <tr>
@@ -1444,6 +1477,24 @@ function renderPlayers() {
                   </span>
                 </td>
 
+                <td>
+                  <span class="offer-count offer-count-primary">
+                    ${d1Offers.total}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="offer-count">
+                    ${d1Offers.fbs}
+                  </span>
+                </td>
+
+                <td>
+                  <span class="offer-count">
+                    ${d1Offers.fcs}
+                  </span>
+                </td>
+
               </tr>
             `;
 
@@ -1482,13 +1533,11 @@ function renderCommitments() {
       .value.toLowerCase().trim();
 
   const division =
-    document.getElementById("divisionFilter")
-      .value;
+    document.getElementById("divisionFilter").value;
 
   const graduationClass =
-    document.getElementById(
-      "commitmentClassFilter"
-    ).value;
+    document.getElementById("commitmentClassFilter")
+      .value;
 
   const commitments = collegeCommitments
     .filter(item => item.player_id && item.college)
@@ -1523,8 +1572,7 @@ function renderCommitments() {
 
         (
           graduationClass === "all" ||
-          item.player.graduation_year ===
-          graduationClass
+          item.player.graduation_year === graduationClass
         )
       );
 
@@ -1535,9 +1583,7 @@ function renderCommitments() {
       commitments.length + " commitments";
 
   const container =
-    document.getElementById(
-      "commitmentDirectory"
-    );
+    document.getElementById("commitmentDirectory");
 
   if (!commitments.length) {
 
@@ -1774,7 +1820,7 @@ function renderLeaderboard() {
 }
 
 /* ==================================================
-   PLAYER PROFILE
+   PLAYER PROFILE STAT CATEGORIES
 ================================================== */
 
 const STAT_CATEGORIES = {
@@ -1856,6 +1902,10 @@ function renderStatCategory(stats, category) {
 
 }
 
+/* ==================================================
+   INDIVIDUAL PLAYER PROFILE
+================================================== */
+
 function openPlayer(id) {
 
   const player = getPlayerByID(id);
@@ -1871,6 +1921,10 @@ function openPlayer(id) {
     .style.display = "block";
 
   const status = getStatus(player);
+
+  /* NEW: AUTOMATIC D1 OFFER COUNTS */
+
+  const d1Offers = getD1OfferCounts(player);
 
   const offers = collegeOffers.filter(
     offer =>
@@ -1969,6 +2023,8 @@ function openPlayer(id) {
 
     </div>
 
+    <!-- RECRUITING OVERVIEW -->
+
     <div class="profile-section">
 
       <h3>Recruiting Overview</h3>
@@ -1985,11 +2041,6 @@ function openPlayer(id) {
         <p>
           <strong>College Commitment:</strong>
           ${escapeHTML(college)}
-        </p>
-
-        <p>
-          <strong>Reported Offers:</strong>
-          ${offers.length}
         </p>
 
         <p>
@@ -2014,6 +2065,47 @@ function openPlayer(id) {
 
     </div>
 
+    <!-- NEW: DIVISION I OFFER SUMMARY -->
+
+    <div class="profile-section">
+
+      <h3>Division I Recruiting Offers</h3>
+
+      <div class="offer-summary">
+
+        <div class="offer-summary-card">
+          <div class="offer-summary-number">
+            ${d1Offers.total}
+          </div>
+          <div class="offer-summary-label">
+            Total D1 Offers
+          </div>
+        </div>
+
+        <div class="offer-summary-card">
+          <div class="offer-summary-number">
+            ${d1Offers.fbs}
+          </div>
+          <div class="offer-summary-label">
+            FBS Offers
+          </div>
+        </div>
+
+        <div class="offer-summary-card">
+          <div class="offer-summary-number">
+            ${d1Offers.fcs}
+          </div>
+          <div class="offer-summary-label">
+            FCS Offers
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- COLLEGE OFFERS -->
+
     <div class="profile-section">
 
       <h3>College Offers</h3>
@@ -2037,6 +2129,7 @@ function openPlayer(id) {
 
               ${offers.map(offer => `
                 <tr>
+
                   <td>
                     <strong>
                       ${escapeHTML(offer.college)}
@@ -2056,6 +2149,7 @@ function openPlayer(id) {
                       offer.verification_status || "Not Reported"
                     )}
                   </td>
+
                 </tr>
               `).join("")}
 
@@ -2066,13 +2160,17 @@ function openPlayer(id) {
         </div>
 
       ` : `
+
         <div class="message">
           No college offers have been reported
           for this player.
         </div>
+
       `}
 
     </div>
+
+    <!-- COLLEGE COMMITMENT -->
 
     <div class="profile-section">
 
@@ -2097,6 +2195,7 @@ function openPlayer(id) {
 
               ${commitments.map(commitment => `
                 <tr>
+
                   <td>
                     <strong>
                       ${escapeHTML(commitment.college)}
@@ -2120,6 +2219,7 @@ function openPlayer(id) {
                       commitment.signing_status || "Committed"
                     )}
                   </td>
+
                 </tr>
               `).join("")}
 
@@ -2130,13 +2230,17 @@ function openPlayer(id) {
         </div>
 
       ` : `
+
         <div class="message">
           No college commitment has been reported
           for this player.
         </div>
+
       `}
 
     </div>
+
+    <!-- SEASON STATISTICS -->
 
     <div class="profile-section">
 
@@ -2151,10 +2255,12 @@ function openPlayer(id) {
           .join("")}
 
       ` : `
+
         <div class="message">
           No season statistics are currently available
           for this player.
         </div>
+
       `}
 
     </div>
@@ -2451,7 +2557,9 @@ window.addEventListener("hashchange", () => {
 
 });
 
-/* START */
+/* ==================================================
+   START
+================================================== */
 
 loadRecruiting();
 
